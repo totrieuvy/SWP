@@ -1,4 +1,4 @@
-import Policy from "./page/PolicyPage/Policy";
+import Policy from "./page/policy/Policy";
 
 function App() {
   return (
