@@ -1,9 +1,9 @@
-import Policy from "./page/policy/Policy";
+import Login from "./page/loginPage/Login";
 
 function App() {
   return (
     <div>
-      <Policy />
+      <Login />
     </div>
   );
 }
