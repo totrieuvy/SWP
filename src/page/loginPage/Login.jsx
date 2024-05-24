@@ -1,3 +1,4 @@
+import React from "react";
 import { Button, Form, Input } from "antd";
 import "./Login.scss";
 import { Link } from "react-router-dom";
@@ -34,7 +35,7 @@ function Login() {
             </Form>
             <p className="login__form__left__email">Or login with Google</p>
             <button className="login__form__left__google">
-              <img src="./images/google.png" alt="Google" />
+              <img src="../public/images/google.png" alt="Google" />
               <p>Google</p>
             </button>
           </div>
