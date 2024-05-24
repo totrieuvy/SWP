@@ -1,6 +1,6 @@
 import Login from "./page/loginPage/Login";
 
-function App() {
+function LoginContainer() {
   return (
     <div>
       <Login />
@@ -8,4 +8,4 @@ function App() {
   );
 }
 
-export default App;
+export default LoginContainer;
