@@ -6,6 +6,7 @@ import Policy from "./page/policy/Policy";
 import Login from "./page/loginPage/Login";
 import Register from "./page/registerStaffPage/RegisterStaff";
 import ResetPassword from "./page/resetPasswordPage/ResetPassword";
+import ChangePassword from "./page/changePassword/ChangePassword";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
       <Route path="/Login" element={<Login />} />
       <Route path="/Register" element={<Register />} />
       <Route path="/ResetPassword" element={<ResetPassword />} />
+      <Route path="/ChangePassword" element={<ChangePassword />} />
     </Routes>
   );
 }

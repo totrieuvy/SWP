@@ -3,8 +3,14 @@ import { Button, Form, Input } from "antd";
 import "./Login.scss";
 import { Link } from "react-router-dom";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useForm } from "antd/es/form/Form";
 
 function Login() {
+  const [formVariable] = useForm();
+
+  const handleFinish = (values) => {
+    console.log(values);
+  };
   return (
     <div className="Login">
       <div className="LoginPage">
@@ -17,7 +23,7 @@ function Login() {
           <div className="login__form__left">
             <h3 className="login__form__left__welcome__1">WELCOME BACK </h3>
             <h5 className="login__form__left__welcome__2">Select method to log in</h5>
-            <Form className="login__form__left__form">
+            <Form className="login__form__left__form" form={formVariable} onFinish={handleFinish}>
               <Form.Item name="username">
                 <Input prefix={<UserOutlined />} placeholder="Username" />
               </Form.Item>
