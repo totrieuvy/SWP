@@ -25,7 +25,9 @@ function Login() {
                 <Input prefix={<LockOutlined />} placeholder="Password" type="password" />
               </Form.Item>
 
-              <Link className="login__form__left__forgotpass">Forgot password?</Link>
+              <Link className="login__form__left__forgotpass" to="/ResetPassword">
+                Forgot password?
+              </Link>
 
               <Form.Item>
                 <Button type="primary" className="login__form__left__buttonLogin">
