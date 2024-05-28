@@ -1,4 +1,5 @@
-import "./Policy.scss";
+import "./Policy.css";
+import React from "react";
 function Policy() {
   return (
     <div className="Policy">

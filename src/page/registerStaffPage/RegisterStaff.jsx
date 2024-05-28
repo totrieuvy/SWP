@@ -1,7 +1,7 @@
 import React from "react";
 import { Button, Form, Input } from "antd";
 import { UserOutlined, LockOutlined, MailOutlined, PhoneOutlined } from "@ant-design/icons";
-import "./RegisterStaff.scss";
+import "./RegisterStaff.css";
 
 function Register() {
   return (

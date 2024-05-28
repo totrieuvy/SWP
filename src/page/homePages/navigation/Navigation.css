@@ -1,0 +1,38 @@
+.navigation {
+  border-bottom: 1px solid #ccc;
+  height: 7%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  padding: 10px 0px;
+}
+
+.navigation a {
+  font-size: 18px;
+  text-decoration: none;
+  color: #000;
+  position: relative;
+  padding: 5px 0;
+  transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.navigation a::after {
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 2px;
+  display: block;
+  margin-top: 5px;
+  left: 0;
+  background: gold;
+  transition: width 0.3s ease;
+}
+
+.navigation a:hover {
+  color: gold;
+}
+
+.navigation a:hover::after {
+  width: 100%;
+}

@@ -1,0 +1,38 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px 20px;
+  border-bottom: 1px solid #ccc;
+}
+
+.header .header__logo {
+  width: 5%;
+}
+
+.header .header__title {
+  color: #000;
+}
+
+.header .header__account {
+  display: flex;
+  align-items: center;
+}
+
+.header .header__account .header__account-button {
+  color: #000;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  height: auto;
+}
+
+.header .header__account .header__account-button .header__account-icon {
+  color: #000;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.header .header__account .header__account-button .header__account-text:hover {
+  text-decoration: underline;
+}

@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Form, Input } from "antd";
 import { LockOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import "./ChangePassword.scss";
+import "./ChangePassword.css";
 
 function ChangePassword() {
   return (

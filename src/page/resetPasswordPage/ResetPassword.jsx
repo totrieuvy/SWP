@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Form, Input } from "antd";
 import { MailOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import "./ResetPassword.scss";
+import "./ResetPassword.css";
 
 function ResetPassword() {
   return (
