@@ -1,10 +1,26 @@
 import React from "react";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { MailOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import "./ResetPassword.css";
+import api from "../../config/axios";
 
 function ResetPassword() {
+  const handleFinish = async (values) => {
+    try {
+      const response = await api.post("/account/reset", values);
+      // Xử lý kết quả trả về từ máy chủ, ví dụ:
+      if (response.data.success) {
+        message.success(response.data.message);
+      } else {
+        message.error(response.data.message);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      message.error("Failed to reset password. Please try again later.");
+    }
+  };
+
   return (
     <div className="ResetPassword">
       <div className="ResetPasswordPage">
@@ -21,13 +37,13 @@ function ResetPassword() {
               password
             </h5>
 
-            <Form className="reset__form__left__form">
+            <Form className="reset__form__left__form" onFinish={handleFinish}>
               <Form.Item name="email">
                 <Input prefix={<MailOutlined />} placeholder="Email" />
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" className="reset__form__left__buttonReset">
+                <Button type="primary" className="reset__form__left__buttonReset" htmlType="submit">
                   Reset Password
                 </Button>
               </Form.Item>

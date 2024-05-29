@@ -20,7 +20,7 @@
 }
 
 .sidebar_content {
-  padding-top: 40px;
+  padding-top: 20px;
 }
 
 .sidebar__dropdown {
@@ -54,6 +54,23 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.Admin_profile {
+  a {
+    color: #fff;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    padding: 20px 0px;
+  }
+
+  a:hover {
+    background-color: #fff;
+    color: #448ab7;
+  }
 }
 
 .content {

@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { LogoutOutlined, DownOutlined } from "@ant-design/icons";
 import "./Admin.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Dropdown, Menu } from "antd";
 
 function Admin() {
@@ -32,6 +32,9 @@ function Admin() {
         <div className="sidebar_title">
           <h4>Welcome</h4>
           <LogoutOutlined onClick={handleLogogut} />
+        </div>
+        <div className="Admin_profile">
+          <Link to={"/adminprofile"}>Your profile</Link>
         </div>
         <div className="sidebar_content">
           <Dropdown overlay={menu} className="sidebar__dropdown">
