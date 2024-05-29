@@ -1,0 +1,148 @@
+.Register {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-color: #153448;
+  height: 100vh;
+}
+
+.Register .RegisterPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #fff;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.Register .RegisterPage .register__header {
+  display: flex;
+  align-items: center;
+  padding: 10px 20px;
+  gap: 10px;
+}
+
+.Register .RegisterPage .register__header img {
+  width: 50px;
+}
+
+.Register .RegisterPage .register__header h2 {
+  margin: 0;
+  color: #fff;
+}
+
+.Register .RegisterPage .register__form {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  background-color: #2c3e50;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  margin-top: 20px;
+  width: 900px;
+  min-height: 500px;
+}
+
+.Register .RegisterPage .register__form__left,
+.Register .RegisterPage .register__form__right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px;
+}
+
+.Register .RegisterPage .register__form__left {
+  background-color: #f1e5d2;
+  flex: 1;
+  padding: 20px 40px;
+  display: flex;
+  flex-direction: column;
+}
+
+.Register .RegisterPage .register__form__left__form Input {
+  height: 30px;
+  color: #2c3e50; /* Màu chữ cho ô input */
+}
+
+.Register .RegisterPage .register__form__left__welcome__1 {
+  text-align: left;
+  margin-bottom: 20px;
+  color: #3c3c3c;
+}
+
+.Register .RegisterPage .register__form__left__form {
+  width: 100%;
+}
+
+.Register .RegisterPage .register__form__left__form .ant-input {
+  border-radius: 5px;
+}
+
+.Register .RegisterPage .register__form__left__form .ant-form-item {
+  margin-bottom: 16px;
+}
+
+.Register .RegisterPage .register__form__left .register__form__left__back {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: #3c3c3c;
+  margin-top: 20px;
+}
+
+.Register .RegisterPage .register__form__left .register__form__left__back .ant-btn-link {
+  display: flex;
+  align-items: center;
+  padding: 0;
+}
+
+.Register .RegisterPage .register__form__left .register__form__left__back .ant-btn-link .anticon-arrow-left {
+  margin-right: 8px;
+}
+
+.Register .RegisterPage .register__form__left .register__form__left__back .ant-btn-link a {
+  color: #2c3e50;
+  text-decoration: none;
+}
+
+.Register .RegisterPage .register__form__left .register__form__left__back .ant-btn-link a:hover {
+  text-decoration: underline;
+}
+
+.Register .RegisterPage .register__form__left__buttonRegister {
+  width: 100%;
+  background-color: #1a1f71;
+  border-color: #1a1f71;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Register .RegisterPage .register__form__left__buttonRegister:hover {
+  background-color: #0d2433;
+  border-color: #0d2433;
+  transform: translateY(-2px);
+}
+
+.Register .RegisterPage .register__form__right {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  background-image: url("./images/Login.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.Register .RegisterPage .register__form__right img {
+  display: none;
+}

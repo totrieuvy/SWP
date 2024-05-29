@@ -1,9 +1,48 @@
-import { Button, Form, Input } from "antd";
-import "./Login.scss";
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Button, Form, Input, notification } from "antd";
+import "./Login.css";
+import { Link, useNavigate } from "react-router-dom";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
+import { useForm } from "antd/es/form/Form";
+import api from "../../config/axios";
 
 function Login() {
+  const [formVariable] = useForm();
+  const navigate = useNavigate();
+  const [account, setAccount] = useState();
+
+  const handleFinish = async (values) => {
+    try {
+      const response = await api.post("/account/login", values);
+      let token = response.data.token;
+      let role = response.data.role;
+
+      if (role === "ROLE_ADMIN") {
+        navigate("/admin");
+      } else if (role === "ROLE_MANAGER") {
+        navigate("/manager");
+      } else if (role === "ROLE_STAFF") {
+        navigate("/staff");
+      }
+      localStorage.setItem("token", token);
+    } catch (error) {
+      console.log(error);
+      if (error.response) {
+        const status = error.response.status;
+        if (status === 403) {
+          notification.error({
+            message: "Login failed",
+            description: "Incorrect username or password. Please try again",
+          });
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    document.title = "Login";
+  });
+
   return (
     <div className="Login">
       <div className="LoginPage">
@@ -16,25 +55,43 @@ function Login() {
           <div className="login__form__left">
             <h3 className="login__form__left__welcome__1">WELCOME BACK </h3>
             <h5 className="login__form__left__welcome__2">Select method to log in</h5>
-            <Form className="login__form__left__form">
-              <Form.Item name="username">
+            <Form className="login__form__left__form" form={formVariable} onFinish={handleFinish}>
+              <Form.Item
+                name="username"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input username",
+                  },
+                ]}
+              >
                 <Input prefix={<UserOutlined />} placeholder="Username" />
               </Form.Item>
-              <Form.Item name="password">
+              <Form.Item
+                name="password"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input password",
+                  },
+                ]}
+              >
                 <Input prefix={<LockOutlined />} placeholder="Password" type="password" />
               </Form.Item>
 
-              <Link className="login__form__left__forgotpass">Forgot password?</Link>
+              <Link className="login__form__left__forgotpass" to="/resetPassword">
+                Forgot password?
+              </Link>
 
               <Form.Item>
-                <Button type="primary" className="login__form__left__buttonLogin">
+                <Button type="primary" className="login__form__left__buttonLogin" htmlType="submit">
                   Login
                 </Button>
               </Form.Item>
             </Form>
             <p className="login__form__left__email">Or login with Google</p>
             <button className="login__form__left__google">
-              <img src="./images/google.png" alt="Google" />
+              <img src="../public/images/google.png" alt="Google" />
               <p>Google</p>
             </button>
           </div>
