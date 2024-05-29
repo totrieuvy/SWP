@@ -1,0 +1,49 @@
+.Policy {
+  width: 100%;
+  height: 100vh;
+  background-color: #153448;
+  margin: 0;
+  padding: 0;
+}
+
+.Policy .header__policy {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  gap: 10px;
+}
+
+.Policy .header__policy img {
+  width: 3%;
+}
+
+.Policy .header__policy__logo {
+  color: #fff;
+}
+
+.Policy .title {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 10px;
+}
+
+.Policy .title h2 {
+  color: #fff;
+}
+
+.Policy .content__policy__refund,
+.Policy .content__policy__purchase,
+.Policy .content__policy__guarantee {
+  padding-left: 80px;
+  padding-right: 20px;
+  line-height: 30px;
+  padding-bottom: 18px;
+}
+
+.Policy .content__policy__title {
+  color: #ffd700;
+}
+
+.Policy .content__policy__nd {
+  color: #fff;
+}

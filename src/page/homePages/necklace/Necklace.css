@@ -1,0 +1,21 @@
+.Necklace {
+  background-color: #fff;
+  width: 100%;
+  overflow: hidden;
+}
+
+.necklace img {
+  width: 100%;
+  height: 400px;
+  object-fit: contain;
+}
+
+.Necklace__title {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  color: #003464;
+  font-size: 20px;
+  font-weight: 600;
+  padding-bottom: 200px;
+}
