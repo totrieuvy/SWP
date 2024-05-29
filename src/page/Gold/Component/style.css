@@ -33,7 +33,6 @@ body{
     margin-left: 10%;
     font-size: 2.5vw;
     height: 100%;
-    transform: translateY(-25%);
 }
 #dateNav{
     margin-right: 5vw;
@@ -52,15 +51,20 @@ body{
 }
 #goldTitle p{
     color: white;
+    display: flex;
+    align-items: center;
 }
 #titleName{
     width: 39%;
     padding-left: 5%;
+    margin-right:10%;
 }
 #titleTime{
+    margin-right:5%;
     width: 17%;
 }
 #titleBuy{
+
     width: 17%;
     text-align: center;
 }
@@ -84,6 +88,7 @@ body{
 #typeName, #boardPrice{
     display: flex;
     flex-direction: row;
+    height: 100px;
     justify-content: space-between;
     width: 100%;
 }

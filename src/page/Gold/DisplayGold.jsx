@@ -4,7 +4,7 @@ import "./Component/style.css";
 import GoldBoard from "./Component/GoldBoard";
 function DisplayGold() {
   const [data, setData] = useState(null);
-  const goldAPI = "http://143.198.216.177:8080/Info/GoldPrice";
+  const goldAPI = "http://128.199.78.89:8080/Info/GoldPrice";
   useEffect(() => {
     fetch(goldAPI)
       .then((response) => response.json())
