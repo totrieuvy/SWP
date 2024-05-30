@@ -1,0 +1,27 @@
+.Manager_StaffAccount {
+  background-color: #fff;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+
+  &__sidebar {
+    width: 25%;
+  }
+
+  &__content {
+    width: 75%;
+    background-color: #448ab7;
+    overflow-y: auto;
+
+    &__title {
+      display: flex;
+      justify-content: center;
+      padding: 10px;
+      color: #fff;
+    }
+
+    &__button {
+      margin-left: 10px;
+    }
+  }
+}

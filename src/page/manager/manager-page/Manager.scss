@@ -1,0 +1,16 @@
+.Manager {
+  background-color: #fff;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+
+  &__sidebar {
+    width: 25%;
+  }
+
+  &__content {
+    width: 75%;
+    background-color: #448ab7;
+    overflow-y: auto;
+  }
+}

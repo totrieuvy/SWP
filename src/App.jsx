@@ -16,8 +16,10 @@ import Earring from "./page/homePages/earring/Earring";
 import GoldPage from "./page/homePages/goldPage/GoldPage";
 import GemstonePage from "./page/homePages/gemstonePage/GemstonePage";
 import Staff from "./page/staff/Staff";
-import Manager from "./page/manager/Manager";
-import Admin from "./page/admin/Admin";
+import Manager from "./page/manager/manager-page/Manager";
+import Admin from "./page/admin/admin-page/Admin";
+import AdminAccount from "./page/admin/admin-account/AdminAccount";
+import Manager_StaffAccount from "./page/manager/manager-staffAccount/Manager_StaffAccount";
 
 function App() {
   return (
@@ -40,6 +42,9 @@ function App() {
       <Route path="/staff" element={<Staff />} />
       <Route path="/admin" element={<Admin />} />
       <Route path="/manager" element={<Manager />} />
+      <Route path="/adminprofile" element={<AdminAccount />} />
+      <Route path="/managerprofile" element={<AdminAccount />} />
+      <Route path="/manager-staffaccount" element={<Manager_StaffAccount />} />
     </Routes>
   );
 }

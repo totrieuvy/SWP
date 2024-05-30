@@ -1,0 +1,16 @@
+.Admin {
+  background-color: #fff;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+}
+
+.Admin_sidebar {
+  width: 25%;
+}
+
+.Admin_content {
+  width: 75%;
+  background-color: #448ab7;
+  overflow-y: auto;
+}
