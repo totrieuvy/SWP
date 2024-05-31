@@ -1,0 +1,17 @@
+.navigation{
+    display: flex;
+    gap: 2%;
+    border: 0;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+#logo{
+    height: 120%;
+    margin-right: 0;
+    margin-left: 1.5%;
+}
+#title{
+    font-size: 1.25em;
+    margin-left: 0;
+    padding-left: 0;
+}
