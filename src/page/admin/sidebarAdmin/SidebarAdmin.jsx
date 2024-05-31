@@ -4,11 +4,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button, Dropdown, Menu } from "antd";
 import { LogoutOutlined, DownOutlined } from "@ant-design/icons";
 import { jwtDecode } from "jwt-decode";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../../../redux/features/counterSlice";
 
 function SidebarAdmin() {
   const navigate = useNavigate();
-  const [username, setUsername] = useState("");
-
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
   const menu = (
     <Menu>
       <Menu.Item key="1" onClick={() => navigate("/view-account/staff")}>
@@ -22,24 +24,14 @@ function SidebarAdmin() {
 
   const handleLogout = () => {
     localStorage.clear();
+    dispatch(logout());
     navigate("/login");
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      const decodeToken = jwtDecode(token);
-      console.log(decodeToken);
-      const username = decodeToken.sub;
-      console.log(username);
-      setUsername(username);
-    }
-  }, []);
 
   return (
     <div className="sidebar">
       <div className="sidebar_title">
-        <h4>Welcome {username}</h4>
+        <h4>Welcome {user.username}</h4>
         <LogoutOutlined onClick={handleLogout} />
       </div>
       <div className="Admin_profile">

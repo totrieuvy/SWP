@@ -1,6 +1,6 @@
 import React from "react";
 import DisplayGold from "./page/Gold/DisplayGold";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Policy from "./page/policy/Policy";
 import Login from "./page/loginPage/Login";
 import Register from "./page/registerStaffPage/RegisterStaff";
@@ -20,6 +20,21 @@ import Manager from "./page/manager/manager-page/Manager";
 import Admin from "./page/admin/admin-page/Admin";
 import AdminAccount from "./page/admin/admin-account/AdminAccount";
 import Manager_StaffAccount from "./page/manager/manager-staffAccount/Manager_StaffAccount";
+import Manager_ViewProduct from "./page/manager/manager-viewProduct/Manager-ViewProduct";
+import SidebarManager from "./page/manager/sidebarManager/SidebarManager";
+import { useSelector } from "react-redux";
+import { selectUser } from "./redux/features/counterSlice";
+
+const PrivateProute = ({ children }) => {
+  const user = useSelector(selectUser);
+  console.log(user);
+  if (user == null && user?.role != "ROLE_ADMIN") {
+    alert("m ko co quyen vao day");
+    return <Navigate to="/login" />;
+  } else {
+    return children;
+  }
+};
 
 function App() {
   return (
@@ -40,11 +55,20 @@ function App() {
       <Route path="/gold" element={<GoldPage />} />
       <Route path="/gemstone" element={<GemstonePage />} />
       <Route path="/staff" element={<Staff />} />
-      <Route path="/admin" element={<Admin />} />
+      <Route
+        path="/admin"
+        element={
+          <PrivateProute>
+            <Admin />
+          </PrivateProute>
+        }
+      />
       <Route path="/manager" element={<Manager />} />
       <Route path="/adminprofile" element={<AdminAccount />} />
       <Route path="/managerprofile" element={<AdminAccount />} />
       <Route path="/manager-staffaccount" element={<Manager_StaffAccount />} />
+      <Route path="/manager-viewProduct" element={<Manager_ViewProduct />} />
+      <Route path="/sidebarmanager" element={<SidebarManager />} />
     </Routes>
   );
 }

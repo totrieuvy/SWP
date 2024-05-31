@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, notification } from "antd";
 import { MailOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import "./ResetPassword.css";
@@ -13,6 +13,13 @@ function ResetPassword() {
     try {
       const response = await api.post("/account/reset", values);
       console.log(response);
+
+      if (response.status === 200) {
+        notification.success({
+          message: "Gửi mail thành công",
+          description: "Hãy check mail của bạn",
+        });
+      }
     } catch (error) {
       console.log(error);
     }

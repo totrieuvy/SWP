@@ -20,12 +20,17 @@ function SidebarManager() {
       </div>
       <div className="viewProfile">
         <Button className="viewProfileBtn" onClick={() => navigate("/managerprofile")}>
-          View Profile
+          Thông tin cá nhân
         </Button>
       </div>
       <div className="sidebar_content">
         <Button className="viewAccount" onClick={() => navigate("/manager-staffaccount")}>
-          View Account Staff
+          Xem tài khoản nhân viên
+        </Button>
+      </div>
+      <div className="sidebar_product">
+        <Button className="viewProduct" onClick={() => navigate("/manager-viewProduct")}>
+          Xem danh sách sản phẩm
         </Button>
       </div>
     </div>
