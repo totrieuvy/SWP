@@ -5,18 +5,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { useForm } from "antd/es/form/Form";
 import api from "../../config/axios";
+import { useDispatch } from "react-redux";
+import { login } from "../../redux/features/counterSlice";
 
 function Login() {
   const [formVariable] = useForm();
   const navigate = useNavigate();
   const [account, setAccount] = useState();
-
+  const dispatch = useDispatch();
   const handleFinish = async (values) => {
     try {
       const response = await api.post("/account/login", values);
       let token = response.data.token;
       let role = response.data.role;
-
+      localStorage.setItem("token", token);
+      console.log(response.data);
+      dispatch(login(response.data));
       if (role === "ROLE_ADMIN") {
         navigate("/admin");
       } else if (role === "ROLE_MANAGER") {
@@ -24,7 +28,6 @@ function Login() {
       } else if (role === "ROLE_STAFF") {
         navigate("/staff");
       }
-      localStorage.setItem("token", token);
     } catch (error) {
       console.log(error);
       if (error.response) {
