@@ -24,6 +24,7 @@ import Manager_ViewProduct from "./page/manager/manager-viewProduct/Manager-View
 import SidebarManager from "./page/manager/sidebarManager/SidebarManager";
 import { useSelector } from "react-redux";
 import { selectUser } from "./redux/features/counterSlice";
+import ProductList from "./page/productList/ProductList";
 
 const PrivateProute = ({ children }) => {
   const user = useSelector(selectUser);
@@ -55,6 +56,7 @@ function App() {
       <Route path="/gold" element={<GoldPage />} />
       <Route path="/gemstone" element={<GemstonePage />} />
       <Route path="/staff" element={<Staff />} />
+      <Route path="/productList" element={<ProductList />} />
       <Route
         path="/admin"
         element={
