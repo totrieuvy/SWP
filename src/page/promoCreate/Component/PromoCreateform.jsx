@@ -11,45 +11,57 @@ import {
   TreeSelect,
 } from "antd";
 import api from "../../../config/axios";
+const options = [];
 const category = api.get("/category/readAll").then((response) => {
-  console.log(response.data);
+  var data = response.data;
+  data.forEach((item) => {
+    let newOption = {
+      label: item.name,
+      vallue: item.name,
+      children: new Array(20).fill(null).map((_, index) => ({
+        label: `Number ${index}`,
+        value: index,
+      })),
+    };
+    options.push(newOption);
+  });
 });
 
-const options = [
-  {
-    label: "Light",
-    value: "light",
-    children: new Array(20).fill(null).map((_, index) => ({
-      label: `Number ${index}`,
-      value: index,
-    })),
-  },
-  {
-    label: "Bamboo",
-    value: "bamboo",
-    children: [
-      {
-        label: "Little",
-        value: "little",
-        children: [
-          {
-            label: "Toy Fish",
-            value: "fish",
-            disableCheckbox: true,
-          },
-          {
-            label: "Toy Cards",
-            value: "cards",
-          },
-          {
-            label: "Toy Bird",
-            value: "bird",
-          },
-        ],
-      },
-    ],
-  },
-];
+// //const options = [
+//   {
+//     label: "Light",
+//     value: "light",
+//     children: new Array(20).fill(null).map((_, index) => ({
+//       label: `Number ${index}`,
+//       value: index,
+//     })),
+//   },
+//   {
+//     label: "Bamboo",
+//     value: "bamboo",
+//     children: [
+//       {
+//         label: "Little",
+//         value: "little",
+//         children: [
+//           {
+//             label: "Toy Fish",
+//             value: "fish",
+//             disableCheckbox: true,
+//           },
+//           {
+//             label: "Toy Cards",
+//             value: "cards",
+//           },
+//           {
+//             label: "Toy Bird",
+//             value: "bird",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ];
 const { RangePicker } = DatePicker;
 const formItemLayout = {
   labelCol: {
