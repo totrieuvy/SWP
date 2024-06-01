@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { Button, Dropdown, Menu, notification } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../../redux/features/counterSlice";
-import "./SidebarManager.scss";
+import "./SidebarStaff.scss";
 
-function SidebarManager() {
+function SidebarStaff() {
   const navigate = useNavigate();
   const dispatcher = useDispatch();
   const user = useSelector(selectUser);
@@ -33,25 +33,25 @@ function SidebarManager() {
   );
 
   return (
-    <div className="sidebar">
-      <div className="sidebar_title">
+    <div className="sidebar__staff">
+      <div className="sidebar__staff__title">
         <h4>Welcome {user.username}</h4>
         <LogoutOutlined onClick={handleLogout} />
       </div>
-      <div className="viewProfile">
+      <div className="sidebar__staff__viewProfile">
         <Dropdown overlay={profileMenu} trigger={["hover"]}>
           <Button className="viewProfileBtn">
             Tài khoản của bạn <DownOutlined />
           </Button>
         </Dropdown>
       </div>
-      <div className="sidebar_content">
-        <Button className="viewAccount" onClick={() => navigate("/manager-staffaccount")}>
-          Xem tài khoản nhân viên
+      <div className="sidebar__staff__product">
+        <Button className="viewProduct" onClick={() => navigate("/manager-viewproduct")}>
+          Xem danh sách sản phẩm
         </Button>
       </div>
     </div>
   );
 }
 
-export default SidebarManager;
+export default SidebarStaff;

@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./SidebarAdmin.css";
 import { Link, useNavigate } from "react-router-dom";
-import { Button, Dropdown, Menu } from "antd";
+import { Button, Dropdown, Menu, notification } from "antd";
 import { LogoutOutlined, DownOutlined } from "@ant-design/icons";
-import { jwtDecode } from "jwt-decode";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../../redux/features/counterSlice";
 
@@ -11,13 +10,25 @@ function SidebarAdmin() {
   const navigate = useNavigate();
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
-  const menu = (
+
+  const accountMenu = (
     <Menu>
-      <Menu.Item key="1" onClick={() => navigate("/view-account/staff")}>
-        View Account Staff
+      <Menu.Item key="1" onClick={() => navigate("/personalinfo")}>
+        Thông tin cá nhân
       </Menu.Item>
-      <Menu.Item key="2" onClick={() => navigate("/view-account/manager")}>
-        View Account Manager
+      <Menu.Item key="2" onClick={() => navigate("/changepasswordadmin")}>
+        Đổi mật khẩu
+      </Menu.Item>
+    </Menu>
+  );
+
+  const viewAccountMenu = (
+    <Menu>
+      <Menu.Item key="1" onClick={() => navigate("/viewstaffofadmin")}>
+        Danh sách nhân viên
+      </Menu.Item>
+      <Menu.Item key="2" onClick={() => navigate("/viewmanagerofadmin")}>
+        Danh sách quản lí
       </Menu.Item>
     </Menu>
   );
@@ -25,6 +36,10 @@ function SidebarAdmin() {
   const handleLogout = () => {
     localStorage.clear();
     dispatch(logout());
+    notification.success({
+      message: "Thành công",
+      description: "Đăng xuất thành công",
+    });
     navigate("/login");
   };
 
@@ -35,12 +50,16 @@ function SidebarAdmin() {
         <LogoutOutlined onClick={handleLogout} />
       </div>
       <div className="Admin_profile">
-        <Link to={"/adminprofile"}>Your profile</Link>
+        <Dropdown overlay={accountMenu} className="sidebar__dropdown">
+          <Button className="viewAccount">
+            Tài khoản của bạn <DownOutlined />
+          </Button>
+        </Dropdown>
       </div>
       <div className="sidebar_content">
-        <Dropdown overlay={menu} className="sidebar__dropdown">
+        <Dropdown overlay={viewAccountMenu} className="sidebar__dropdown">
           <Button className="viewAccount">
-            View Account <DownOutlined />
+            Quản lí tài khoản <DownOutlined />
           </Button>
         </Dropdown>
       </div>

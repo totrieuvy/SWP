@@ -15,21 +15,40 @@ import Anklet from "./page/homePages/anklet/Anklet";
 import Earring from "./page/homePages/earring/Earring";
 import GoldPage from "./page/homePages/goldPage/GoldPage";
 import GemstonePage from "./page/homePages/gemstonePage/GemstonePage";
-import Staff from "./page/staff/Staff";
+import Staff from "./page/staff/staff-page/Staff";
 import Manager from "./page/manager/manager-page/Manager";
 import Admin from "./page/admin/admin-page/Admin";
 import AdminAccount from "./page/admin/admin-account/AdminAccount";
 import Manager_StaffAccount from "./page/manager/manager-staffAccount/Manager_StaffAccount";
-import Manager_ViewProduct from "./page/manager/manager-viewProduct/Manager-ViewProduct";
 import SidebarManager from "./page/manager/sidebarManager/SidebarManager";
 import { useSelector } from "react-redux";
 import { selectUser } from "./redux/features/counterSlice";
+import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaff";
+import { notification } from "antd";
+import AdmiAccountManager from "./page/admin/admin-account-manager/AdmiAccountManager";
+import ChangePasswordAdmin from "./page/admin/changepasswordadmin/ChangePasswordAdmin";
+import ChangePasswordManager from "./page/manager/changepasswordmanager/ChangePasswordManager";
 
 const PrivateProute = ({ children }) => {
   const user = useSelector(selectUser);
   console.log(user);
   if (user == null && user?.role != "ROLE_ADMIN") {
-    alert("m ko co quyen vao day");
+    notification.error({
+      message: "Truy cập thất bại",
+      description: "Bạn không có quyền truy cập vào đây",
+    });
+    return <Navigate to="/login" />;
+  } else if (user == null && user?.role != "ROLE_MANAGER") {
+    notification.error({
+      message: "Truy cập thất bại",
+      description: "Bạn không có quyền truy cập vào đây",
+    });
+    return <Navigate to="/login" />;
+  } else if (user == null && user?.role != "ROLE_STAFF") {
+    notification.error({
+      message: "Truy cập thất bại",
+      description: "Bạn không có quyền truy cập vào đây",
+    });
     return <Navigate to="/login" />;
   } else {
     return children;
@@ -54,7 +73,15 @@ function App() {
       <Route path="/earring" element={<Earring />} />
       <Route path="/gold" element={<GoldPage />} />
       <Route path="/gemstone" element={<GemstonePage />} />
-      <Route path="/staff" element={<Staff />} />
+      <Route path="/adminprofile" element={<AdminAccount />} />
+      <Route path="/viewstaffofadmin" element={<AdminAccountStaff />} />
+      <Route path="/managerprofile" element={<AdminAccount />} />
+      <Route path="/viewmanagerofadmin" element={<AdmiAccountManager />} />
+      <Route path="/changepasswordadmin" element={<ChangePasswordAdmin />} />
+      <Route path="/manager-staffaccount" element={<Manager_StaffAccount />} />
+      <Route path="/sidebarmanager" element={<SidebarManager />} />
+      <Route path="/changepasswordmanager" element={<ChangePasswordManager />} />
+
       <Route
         path="/admin"
         element={
@@ -63,12 +90,22 @@ function App() {
           </PrivateProute>
         }
       />
-      <Route path="/manager" element={<Manager />} />
-      <Route path="/adminprofile" element={<AdminAccount />} />
-      <Route path="/managerprofile" element={<AdminAccount />} />
-      <Route path="/manager-staffaccount" element={<Manager_StaffAccount />} />
-      <Route path="/manager-viewProduct" element={<Manager_ViewProduct />} />
-      <Route path="/sidebarmanager" element={<SidebarManager />} />
+      <Route
+        path="/manager"
+        element={
+          <PrivateProute>
+            <Manager />
+          </PrivateProute>
+        }
+      />
+      <Route
+        path="/staff"
+        element={
+          <PrivateProute>
+            <Staff />
+          </PrivateProute>
+        }
+      />
     </Routes>
   );
 }
