@@ -6,11 +6,11 @@
 }
 
 .Admin_sidebar {
-  width: 25%;
+  width: 20%;
 }
 
 .Admin_content {
-  width: 75%;
+  width: 80%;
   background-color: #448ab7;
   overflow-y: auto;
 }
