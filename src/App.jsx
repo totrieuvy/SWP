@@ -20,14 +20,14 @@ import Manager from "./page/manager/manager-page/Manager";
 import Admin from "./page/admin/admin-page/Admin";
 import AdminAccount from "./page/admin/admin-account/AdminAccount";
 import Manager_StaffAccount from "./page/manager/manager-staffAccount/Manager_StaffAccount";
-import SidebarManager from "./page/manager/sidebarManager/SidebarManager";
 import { useSelector } from "react-redux";
 import { selectUser } from "./redux/features/counterSlice";
 import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaff";
 import { notification } from "antd";
-import AdmiAccountManager from "./page/admin/admin-account-manager/AdmiAccountManager";
+import AdminAccountManager from "./page/admin/admin-account-manager/AdminAccountManager";
 import ChangePasswordAdmin from "./page/admin/changepasswordadmin/ChangePasswordAdmin";
 import ChangePasswordManager from "./page/manager/changepasswordmanager/ChangePasswordManager";
+import ManagerProfile from "./page/manager/manager-profile/ManagerProfile";
 
 const PrivateProute = ({ children }) => {
   const user = useSelector(selectUser);
@@ -73,14 +73,14 @@ function App() {
       <Route path="/earring" element={<Earring />} />
       <Route path="/gold" element={<GoldPage />} />
       <Route path="/gemstone" element={<GemstonePage />} />
-      <Route path="/adminprofile" element={<AdminAccount />} />
-      <Route path="/viewstaffofadmin" element={<AdminAccountStaff />} />
-      <Route path="/managerprofile" element={<AdminAccount />} />
-      <Route path="/viewmanagerofadmin" element={<AdmiAccountManager />} />
-      <Route path="/changepasswordadmin" element={<ChangePasswordAdmin />} />
-      <Route path="/manager-staffaccount" element={<Manager_StaffAccount />} />
-      <Route path="/sidebarmanager" element={<SidebarManager />} />
-      <Route path="/changepasswordmanager" element={<ChangePasswordManager />} />
+      <Route path="/admin/profile" element={<AdminAccount />} />
+      <Route path="/admin/view/staff" element={<AdminAccountStaff />} />
+      <Route path="/admin/view/manager" element={<AdminAccountManager />} />
+      <Route path="/admin/changepassword" element={<ChangePasswordAdmin />} />
+
+      <Route path="/manager/profile" element={<ManagerProfile />} />
+      <Route path="/manager/view/staff" element={<Manager_StaffAccount />} />
+      <Route path="/manager/changepassword" element={<ChangePasswordManager />} />
 
       <Route
         path="/admin"

@@ -13,10 +13,10 @@ function SidebarAdmin() {
 
   const accountMenu = (
     <Menu>
-      <Menu.Item key="1" onClick={() => navigate("/personalinfo")}>
+      <Menu.Item key="1" onClick={() => navigate("/admin/profile")}>
         Thông tin cá nhân
       </Menu.Item>
-      <Menu.Item key="2" onClick={() => navigate("/changepasswordadmin")}>
+      <Menu.Item key="2" onClick={() => navigate("/admin/changepassword")}>
         Đổi mật khẩu
       </Menu.Item>
     </Menu>
@@ -24,10 +24,10 @@ function SidebarAdmin() {
 
   const viewAccountMenu = (
     <Menu>
-      <Menu.Item key="1" onClick={() => navigate("/viewstaffofadmin")}>
+      <Menu.Item key="1" onClick={() => navigate("/admin/view/staff")}>
         Danh sách nhân viên
       </Menu.Item>
-      <Menu.Item key="2" onClick={() => navigate("/viewmanagerofadmin")}>
+      <Menu.Item key="2" onClick={() => navigate("/admin/view/manager")}>
         Danh sách quản lí
       </Menu.Item>
     </Menu>

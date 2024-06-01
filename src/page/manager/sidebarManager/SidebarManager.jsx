@@ -23,10 +23,10 @@ function SidebarManager() {
 
   const profileMenu = (
     <Menu>
-      <Menu.Item key="1" onClick={() => navigate("/managerprofile")}>
+      <Menu.Item key="1" onClick={() => navigate("/manager/profile")}>
         Thông tin cá nhân
       </Menu.Item>
-      <Menu.Item key="2" onClick={() => navigate("/changepasswordmanager")}>
+      <Menu.Item key="2" onClick={() => navigate("/manager/changepassword")}>
         Đổi mật khẩu
       </Menu.Item>
     </Menu>
@@ -46,7 +46,7 @@ function SidebarManager() {
         </Dropdown>
       </div>
       <div className="sidebar_content">
-        <Button className="viewAccount" onClick={() => navigate("/manager-staffaccount")}>
+        <Button className="viewAccount" onClick={() => navigate("/manager/view/staff")}>
           Xem tài khoản nhân viên
         </Button>
       </div>
