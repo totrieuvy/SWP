@@ -60,10 +60,10 @@
   font-size: 20px;
   padding: 4px 15px;
   border-radius: 4px;
-  transition: background-color 0.3s ease, color 0.3s ease; 
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .Admin_profile a:hover {
   background-color: #fff;
-  color: #153448; 
+  color: #153448;
 }

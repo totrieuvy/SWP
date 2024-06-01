@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input, notification } from "antd";
 import "./Login.css";
 import { Link, useNavigate } from "react-router-dom";
@@ -11,7 +11,6 @@ import { login } from "../../redux/features/counterSlice";
 function Login() {
   const [formVariable] = useForm();
   const navigate = useNavigate();
-  const [account, setAccount] = useState();
   const dispatch = useDispatch();
   const handleFinish = async (values) => {
     try {
@@ -19,13 +18,26 @@ function Login() {
       let token = response.data.token;
       let role = response.data.role;
       localStorage.setItem("token", token);
+      console.log(response);
       console.log(response.data);
       dispatch(login(response.data));
       if (role === "ROLE_ADMIN") {
+        notification.success({
+          message: "Thành công",
+          description: "Đăng nhập thành công",
+        });
         navigate("/admin");
       } else if (role === "ROLE_MANAGER") {
+        notification.success({
+          message: "Thành công",
+          description: "Đăng nhập thành công",
+        });
         navigate("/manager");
       } else if (role === "ROLE_STAFF") {
+        notification.success({
+          message: "Thành công",
+          description: "Đăng nhập thành công",
+        });
         navigate("/staff");
       }
     } catch (error) {
@@ -34,8 +46,8 @@ function Login() {
         const status = error.response.status;
         if (status === 403) {
           notification.error({
-            message: "Login failed",
-            description: "Incorrect username or password. Please try again",
+            message: "Đăng nhập thất bại",
+            description: "Sai tên đăng nhập hoặc mật khẩu. Hãy thử lại!",
           });
         }
       }

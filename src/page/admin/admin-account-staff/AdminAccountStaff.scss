@@ -1,27 +1,23 @@
-.Manager_ViewProduct {
+.AdminAccountStaff {
   background-color: #fff;
   width: 100%;
   height: 100vh;
   display: flex;
 
-  &_sidebar {
+  &__sidebar {
     width: 20%;
   }
 
-  &_content {
+  &__content {
     width: 80%;
     background-color: #448ab7;
     overflow-y: auto;
 
-    &_listProduct {
+    &__title {
       display: flex;
       justify-content: center;
       padding: 10px;
       color: #fff;
-    }
-
-    &_button {
-      margin-left: 10px;
     }
   }
 }
