@@ -30,6 +30,7 @@ import ChangePasswordManager from "./page/manager/changepasswordmanager/ChangePa
 import ManagerProfile from "./page/manager/manager-profile/ManagerProfile";
 import ProductList from "./page/productList/ProductList";
 import CreateProduct from "./page/promoCreate/CreateProduct";
+import ListCustomer from "./page/listCustomer/ListCustomer";
 
 const PrivateProute = ({ children }) => {
   const user = useSelector(selectUser);
@@ -81,6 +82,7 @@ function App() {
       <Route path="/admin/changepassword" element={<ChangePasswordAdmin />} />
       <Route path="/manager/profile" element={<ManagerProfile />} />
       <Route path="/manager/view/staff" element={<Manager_StaffAccount />} />
+      <Route path="/customer/view" element={<ListCustomer />} />
       <Route
         path="/manager/changepassword"
         element={<ChangePasswordManager />}
