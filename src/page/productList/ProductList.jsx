@@ -13,7 +13,7 @@ function ProductList() {
       <div id="sideBoardDivider">
         <SideBar />
         <ProductBoard />
-      </div>z
+      </div>
     </>
   );
 }

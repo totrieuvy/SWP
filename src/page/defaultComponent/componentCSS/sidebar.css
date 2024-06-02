@@ -1,0 +1,21 @@
+.sideBar{
+    align-items: center;
+    padding-top: 2.5%;
+    border-top: 1px solid rgb(139, 97, 81);
+}
+.sideBar Button{
+    text-align: center;
+    width: 80%;
+    margin-top: 2.5vh;
+    background-color: #dfd0b8;
+}
+.sideBar hr{
+    height:2px;
+    border-width:0;
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: #dfd0b8;
+    background-color:#dfd0b8;
+}

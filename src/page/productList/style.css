@@ -1,0 +1,26 @@
+.listNavigation{
+    background: #948979;
+    width: 100vw;
+    height: 5vh;
+    
+}
+.sideBar{
+    background: #948979;
+    display: flex;
+    flex-direction: column;
+    height: 95vh;
+    width: 7.5vw;
+    border-top-right-radius: 50px;
+    margin-right: 2.5vw;
+    box-shadow: 22px 27px 29px 2px rgba(0,0,0,0.31);
+}
+.productList{
+    margin-top: 2vw;
+    background-color: #d9d9d9;
+    width: 90vw;
+}
+#sideBoardDivider{
+    display: flex;
+    flex-direction: row;
+    height: 95vh;
+}
