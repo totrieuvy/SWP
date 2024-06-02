@@ -1,5 +1,5 @@
-import NavBar from "../defaultComponent/navBar";
-import SideBar from "../defaultComponent/sideBar";
+import NavBar from "../../defaultComponent/navBar";
+import SideBar from "../../defaultComponent/sideBar";
 import React from "react";
 import CustomerBoard from "./Component/CustomerBoard";
 import "./Component/style.css";

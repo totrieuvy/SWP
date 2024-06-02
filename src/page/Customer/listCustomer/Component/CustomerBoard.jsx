@@ -1,7 +1,7 @@
 import { Table, Button, Space } from "antd";
-import api from "../../../config/axios";
+import api from "../../../../config/axios";
 import React, { useEffect, useState } from "react";
-
+import { useNavigate } from "react-router-dom";
 function CustomerBoard() {
   const [data, setData] = useState([]);
 
@@ -17,8 +17,14 @@ function CustomerBoard() {
 
     fetchData();
   }, []); // Empty dependency array ensures this effect runs only once on component mount
+
+  const navigate = useNavigate();
+
   const handleUpdate = (record) => {
-    // Implement update logic here
+    navigate("/customer/update", {
+      state: record,
+    });
+
     console.log("Update record:", record);
   };
 
