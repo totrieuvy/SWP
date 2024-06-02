@@ -1,0 +1,26 @@
+#Container{
+    display: flex;
+    flex-direction: row;
+}
+#Container table{
+    margin-top: 5vh;
+}
+#table{
+    margin-top: 10%;
+}
+#CustomerContainer{
+    display: flex;
+    flex-direction: column;
+    padding-left: 5%;
+    width: 90vw;
+
+}
+#CustomerTitle{
+    text-align: center;
+    color: white;
+    margin-top:50px;
+    font-size: 1.5em;
+}
+.ant-pagination-item-link{
+    color: white !important;
+}

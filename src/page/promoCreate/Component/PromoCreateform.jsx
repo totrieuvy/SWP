@@ -27,41 +27,6 @@ const category = api.get("/category/readAll").then((response) => {
   });
 });
 
-// //const options = [
-//   {
-//     label: "Light",
-//     value: "light",
-//     children: new Array(20).fill(null).map((_, index) => ({
-//       label: `Number ${index}`,
-//       value: index,
-//     })),
-//   },
-//   {
-//     label: "Bamboo",
-//     value: "bamboo",
-//     children: [
-//       {
-//         label: "Little",
-//         value: "little",
-//         children: [
-//           {
-//             label: "Toy Fish",
-//             value: "fish",
-//             disableCheckbox: true,
-//           },
-//           {
-//             label: "Toy Cards",
-//             value: "cards",
-//           },
-//           {
-//             label: "Toy Bird",
-//             value: "bird",
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ];
 const { RangePicker } = DatePicker;
 const formItemLayout = {
   labelCol: {
