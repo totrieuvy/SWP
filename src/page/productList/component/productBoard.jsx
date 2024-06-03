@@ -1,189 +1,22 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Space, Table, Tag } from "antd";
+import api from "../../../config/axios";
 
 function ProductBoard() {
-  const data = [
-    {
-      name: "Gold Ring",
-      cost: 200,
-      status: "for sale",
-      metalType: "gold",
-      description: "A beautiful gold ring with a diamond.",
-      gemstoneType: "diamond",
-      manufacturer: "Luxury Jewels",
-      imageURL: "http://example.com/gold-ring.jpg",
-      carat: 0.5,
-      chi: 1.5,
-    },
-    {
-      name: "Silver Necklace",
-      cost: 150,
-      status: "sold out",
-      metalType: "silver",
-      description: "Elegant silver necklace with an emerald.",
-      gemstoneType: "emerald",
-      manufacturer: "Elegant Designs",
-      imageURL: "http://example.com/silver-necklace.jpg",
-      carat: 0.7,
-      chi: 1.2,
-    },
-    {
-      name: "Gold Earrings",
-      cost: 300,
-      status: "for sale",
-      metalType: "gold",
-      description: "Stylish gold earrings with diamonds.",
-      gemstoneType: "diamond",
-      manufacturer: "Goldsmith Co.",
-      imageURL: "http://example.com/gold-earrings.jpg",
-      carat: 1.0,
-      chi: 2.0,
-    },
-    {
-      name: "Silver Bracelet",
-      cost: 100,
-      status: "for sale",
-      metalType: "silver",
-      description: "Simple silver bracelet with emerald accents.",
-      gemstoneType: "emerald",
-      manufacturer: "Silver Works",
-      imageURL: "http://example.com/silver-bracelet.jpg",
-      carat: 0.3,
-      chi: 0.8,
-    },
-    {
-      name: "Gold Pendant",
-      cost: 250,
-      status: "sold out",
-      metalType: "gold",
-      description: "Gold pendant featuring a central diamond.",
-      gemstoneType: "diamond",
-      manufacturer: "Glamour Jewelry",
-      imageURL: "http://example.com/gold-pendant.jpg",
-      carat: 0.9,
-      chi: 1.7,
-    },
-    {
-      name: "Silver Ring",
-      cost: 120,
-      status: "for sale",
-      metalType: "silver",
-      description: "Delicate silver ring with a small emerald.",
-      gemstoneType: "emerald",
-      manufacturer: "Fine Jewelry",
-      imageURL: "http://example.com/silver-ring.jpg",
-      carat: 0.4,
-      chi: 0.9,
-    },
-    {
-      name: "Gold Bracelet",
-      cost: 280,
-      status: "for sale",
-      metalType: "gold",
-      description: "Elegant gold bracelet with diamond accents.",
-      gemstoneType: "diamond",
-      manufacturer: "Luxury Jewels",
-      imageURL: "http://example.com/gold-bracelet.jpg",
-      carat: 1.1,
-      chi: 2.5,
-    },
-    {
-      name: "Silver Pendant",
-      cost: 140,
-      status: "sold out",
-      metalType: "silver",
-      description: "Silver pendant featuring a small emerald.",
-      gemstoneType: "emerald",
-      manufacturer: "Elegant Designs",
-      imageURL: "http://example.com/silver-pendant.jpg",
-      carat: 0.5,
-      chi: 1.0,
-    },
-    {
-      name: "Gold Necklace",
-      cost: 350,
-      status: "for sale",
-      metalType: "gold",
-      description: "Luxurious gold necklace with a diamond centerpiece.",
-      gemstoneType: "diamond",
-      manufacturer: "Goldsmith Co.",
-      imageURL: "http://example.com/gold-necklace.jpg",
-      carat: 1.3,
-      chi: 3.0,
-    },
-    {
-      name: "Silver Earrings",
-      cost: 180,
-      status: "for sale",
-      metalType: "silver",
-      description: "Charming silver earrings with emerald drops.",
-      gemstoneType: "emerald",
-      manufacturer: "Silver Works",
-      imageURL: "http://example.com/silver-earrings.jpg",
-      carat: 0.6,
-      chi: 1.4,
-    },
-    {
-      name: "Gold Ring with Emerald",
-      cost: 220,
-      status: "sold out",
-      metalType: "gold",
-      description: "Elegant gold ring with an emerald stone.",
-      gemstoneType: "emerald",
-      manufacturer: "Glamour Jewelry",
-      imageURL: "http://example.com/gold-ring-emerald.jpg",
-      carat: 0.8,
-      chi: 1.6,
-    },
-    {
-      name: "Silver Bracelet with Diamonds",
-      cost: 200,
-      status: "for sale",
-      metalType: "silver",
-      description: "Elegant silver bracelet with diamond accents.",
-      gemstoneType: "diamond",
-      manufacturer: "Fine Jewelry",
-      imageURL: "http://example.com/silver-bracelet-diamonds.jpg",
-      carat: 0.7,
-      chi: 1.3,
-    },
-    {
-      name: "Gold Pendant with Emerald",
-      cost: 260,
-      status: "sold out",
-      metalType: "gold",
-      description: "Gold pendant with a central emerald.",
-      gemstoneType: "emerald",
-      manufacturer: "Luxury Jewels",
-      imageURL: "http://example.com/gold-pendant-emerald.jpg",
-      carat: 1.0,
-      chi: 1.9,
-    },
-    {
-      name: "Silver Ring with Diamond",
-      cost: 130,
-      status: "for sale",
-      metalType: "silver",
-      description: "Stylish silver ring with a diamond stone.",
-      gemstoneType: "diamond",
-      manufacturer: "Elegant Designs",
-      imageURL: "http://example.com/silver-ring-diamond.jpg",
-      carat: 0.6,
-      chi: 1.0,
-    },
-    {
-      name: "Gold Earrings with Emerald",
-      cost: 290,
-      status: "for sale",
-      metalType: "gold",
-      description: "Elegant gold earrings with emerald stones.",
-      gemstoneType: "emerald",
-      manufacturer: "Goldsmith Co.",
-      imageURL: "http://example.com/gold-earrings-emerald.jpg",
-      carat: 1.2,
-      chi: 2.3,
-    },
-  ];
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("productsell/read");
+        setData(response.data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array ensures this effect runs only once on component mount
 
   const columns = [
     {
@@ -203,14 +36,15 @@ function ProductBoard() {
       dataIndex: "status",
       key: "status",
       render: (status) => {
-        let color = status === "sold out" ? "volcano" : "geekblue";
+        let color = status ? "geekblue" : "volcano";
+        let text = status ? "IN STOCK" : "OUT OF STOCK";
         return (
-          <Tag color={color} key={status}>
-            {status.toUpperCase()}
+          <Tag color={color} key={text}>
+            {text}
           </Tag>
         );
       },
-      sorter: (a, b) => a.status.localeCompare(b.status),
+      sorter: (a, b) => (a.status === b.status ? 0 : a.status ? -1 : 1),
     },
     {
       title: "Loại",
