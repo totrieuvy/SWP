@@ -32,6 +32,7 @@ import ProductList from "./page/productList/ProductList";
 import CreateProduct from "./page/promoCreate/CreateProduct";
 import ListCustomer from "./page/Customer/listCustomer/ListCustomer";
 import UpdateCustomer from "./page/Customer/updateCustomer/UpdateCustomer";
+import QR from "./page/QRCodeScan/QR";
 
 const PrivateProute = ({ children }) => {
   const user = useSelector(selectUser);
@@ -85,6 +86,8 @@ function App() {
       <Route path="/manager/view/staff" element={<Manager_StaffAccount />} />
       <Route path="/customer/view" element={<ListCustomer />} />
       <Route path="/customer/update" element={<UpdateCustomer />} />
+      <Route path="/test/QR" element={<QR />} />
+
       <Route
         path="/manager/changepassword"
         element={<ChangePasswordManager />}
