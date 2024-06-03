@@ -30,6 +30,7 @@ import ChangePasswordManager from "./page/manager/changepasswordmanager/ChangePa
 import ManagerProfile from "./page/manager/manager-profile/ManagerProfile";
 import ProductList from "./page/productList/ProductList";
 import CreateProduct from "./page/promoCreate/CreateProduct";
+import Manager_ViewCustomer from "./page/manager/manager-customerAccount/Manager_ViewCustomer";
 
 const PrivateProute = ({ children }) => {
   const user = useSelector(selectUser);
@@ -75,16 +76,14 @@ function App() {
       <Route path="/earring" element={<Earring />} />
       <Route path="/gold" element={<GoldPage />} />
       <Route path="/gemstone" element={<GemstonePage />} />
-      <Route path="/admin/profile" element={<AdminAccount />} />
+      <Route path="/admin/profile/:id" element={<AdminAccount />} />
       <Route path="/admin/view/staff" element={<AdminAccountStaff />} />
       <Route path="/admin/view/manager" element={<AdminAccountManager />} />
       <Route path="/admin/changepassword" element={<ChangePasswordAdmin />} />
-      <Route path="/manager/profile" element={<ManagerProfile />} />
+      <Route path="/manager/profile/:id" element={<ManagerProfile />} />
       <Route path="/manager/view/staff" element={<Manager_StaffAccount />} />
-      <Route
-        path="/manager/changepassword"
-        element={<ChangePasswordManager />}
-      />
+      <Route path="/manager/changepassword" element={<ChangePasswordManager />} />
+      <Route path="/manager/view/customer" element={<Manager_ViewCustomer />} />
       <Route path="/staff" element={<Staff />} />
       <Route path="/product/list" element={<ProductList />} />
       <Route path="/promo/create" element={<CreateProduct />} />

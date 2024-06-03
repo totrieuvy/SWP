@@ -1,8 +1,16 @@
 import React, { useEffect } from "react";
 import "./AdminAccount.scss";
 import SidebarAdmin from "../sidebarAdmin/SidebarAdmin";
+import api from "../../../config/axios";
+import { useParams } from "react-router-dom";
 function AdminAccount() {
+  const { id } = useParams;
+  const fetchProfileAdmin = async () => {
+    const response = await api.get("/account/getbyid");
+    console.log(response);
+  };
   useEffect(() => {
+    fetchProfileAdmin();
     document.title = "Tài khoản admin";
   }, []);
   return (

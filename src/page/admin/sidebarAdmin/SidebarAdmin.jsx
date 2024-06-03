@@ -13,12 +13,13 @@ function SidebarAdmin() {
 
   const accountMenu = (
     <Menu>
-      <Menu.Item key="1" onClick={() => navigate("/admin/profile")}>
-        Thông tin cá nhân
-      </Menu.Item>
-      <Menu.Item key="2" onClick={() => navigate("/admin/changepassword")}>
-        Đổi mật khẩu
-      </Menu.Item>
+      <Link to={`/admin/profile/${user.id}`}>
+        <Menu.Item>Thông tin cá nhân</Menu.Item>
+      </Link>
+
+      <Link to="/admin/changepassword">
+        <Menu.Item>Đổi mật khẩu</Menu.Item>
+      </Link>
     </Menu>
   );
 

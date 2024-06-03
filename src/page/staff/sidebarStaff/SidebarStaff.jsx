@@ -1,6 +1,6 @@
 import React from "react";
 import { LogoutOutlined, DownOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Dropdown, Menu, notification } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../../redux/features/counterSlice";
@@ -45,10 +45,10 @@ function SidebarStaff() {
           </Button>
         </Dropdown>
       </div>
-      <div className="sidebar__staff__product">
-        <Button className="viewProduct" onClick={() => navigate("/manager-viewproduct")}>
-          Xem danh sách sản phẩm
-        </Button>
+      <div className="sidebar__staff__customer">
+        <Link to="/staff/view/customer">
+          <Button className="viewStaff">Xem tài khoản khách hảng</Button>
+        </Link>
       </div>
     </div>
   );
