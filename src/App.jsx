@@ -33,6 +33,8 @@ import CreateProduct from "./page/promoCreate/CreateProduct";
 import ListCustomer from "./page/Customer/listCustomer/ListCustomer";
 import UpdateCustomer from "./page/Customer/updateCustomer/UpdateCustomer";
 import QR from "./page/QRCodeScan/QR";
+import Dashboard from "./page/dashboard/Dashboard";
+import Category from "./Category";
 
 const PrivateProute = ({ children }) => {
   const user = useSelector(selectUser);
@@ -88,13 +90,15 @@ function App() {
       <Route path="/customer/update" element={<UpdateCustomer />} />
       <Route path="/test/QR" element={<QR />} />
 
-      <Route
-        path="/manager/changepassword"
-        element={<ChangePasswordManager />}
-      />
+      <Route path="/manager/changepassword" element={<ChangePasswordManager />} />
       <Route path="/staff" element={<Staff />} />
       <Route path="/product/list" element={<ProductList />} />
       <Route path="/promo/create" element={<CreateProduct />} />
+
+      <Route path="/dashboard" element={<Dashboard />}>
+        <Route path="category" element={<Category />} />
+        <Route path="product" element={<Category />} />
+      </Route>
       <Route
         path="/admin"
         element={

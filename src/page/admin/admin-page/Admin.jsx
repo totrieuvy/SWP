@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import "./Admin.css";
 import SidebarAdmin from "../sidebarAdmin/SidebarAdmin";
+import Dashboard from "../../dashboard/Dashboard";
 
 function Admin() {
   useEffect(() => {
@@ -10,7 +11,8 @@ function Admin() {
   return (
     <div className="Admin">
       <div className="Admin_sidebar">
-        <SidebarAdmin />
+        {/* <SidebarAdmin /> */}
+        <Dashboard />
       </div>
 
       <div className="Admin_content"></div>
