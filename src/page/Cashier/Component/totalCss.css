@@ -1,0 +1,54 @@
+.total{
+    height: 100%;
+    color: #9b9ca2;
+}
+.total hr{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+.subTotal, .discount, .totalAmount{
+    height: 15%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+}
+.discount{
+    height: 15%;
+}
+.totalAmount{
+    height: 25% !important;
+}
+.selectPayment{
+    height: 25%;
+    display: flex;
+    padding-left: 7.5%;
+    margin-top: 5%;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+.totalTitle{
+    font-size: 2em;
+}
+.selectPayment div{
+    border: none !important;
+    box-shadow: none !important;
+    
+}
+.ant-space-item{
+    margin-bottom: 20px !important;
+}
+#buttonContainer{
+    width: 100%;
+    height:  10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#buttonContainer .ant-btn{
+    width: 80%;
+    height: 100%;
+}

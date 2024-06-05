@@ -34,7 +34,8 @@ const Dashboard = () => {
   const [items, setItems] = useState([]);
   const [key, setKey] = useState();
   const location = useLocation();
-  const currentURI = location.pathname.split("/")[location.pathname.split("/").length - 1];
+  const currentURI =
+    location.pathname.split("/")[location.pathname.split("/").length - 1];
   const role = "admin";
 
   const dataOpen = JSON.parse(localStorage.getItem("keys")) ?? [];
@@ -127,7 +128,11 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+      >
         <Menu
           theme="dark"
           defaultSelectedKeys={["profile"]}
@@ -140,8 +145,13 @@ const Dashboard = () => {
             item.children ? (
               <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
                 {item.children.map((subItem) => (
-                  <Menu.Item key={subItem.key} onClick={(e) => handleSelectKey(e.keyPath[1])}>
-                    <Link to={`/dashboard/${subItem.key}`}>{subItem.label}</Link>
+                  <Menu.Item
+                    key={subItem.key}
+                    onClick={(e) => handleSelectKey(e.keyPath[1])}
+                  >
+                    <Link to={`/dashboard/${subItem.key}`}>
+                      {subItem.label}
+                    </Link>
                   </Menu.Item>
                 ))}
               </Menu.SubMenu>
@@ -157,10 +167,14 @@ const Dashboard = () => {
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <header></header>
         </Header>
-        <Content style={{ margin: "0 16px", display: "flex", flexDirection: "column" }}>
+        <Content
+          style={{ margin: "0 16px", display: "flex", flexDirection: "column" }}
+        >
           <Breadcrumb>
             {location.pathname.split("/").map((path, index, array) => (
-              <Breadcrumb.Item key={path}>{index === 0 ? path : <Link to={`/${path}`}>{path}</Link>}</Breadcrumb.Item>
+              <Breadcrumb.Item key={path}>
+                {index === 0 ? path : <Link to={`/${path}`}>{path}</Link>}
+              </Breadcrumb.Item>
             ))}
           </Breadcrumb>
           <div
@@ -176,9 +190,9 @@ const Dashboard = () => {
             <Outlet style={{ flexGrow: 1 }} />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center", backgroundColor: "#E3F2EE" }}>
-          DATSAN79 ©{new Date().getFullYear()} Created by DEMI
-        </Footer>
+        <Footer
+          style={{ textAlign: "center", backgroundColor: "#E3F2EE" }}
+        ></Footer>
       </Layout>
     </Layout>
   );
