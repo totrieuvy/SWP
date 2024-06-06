@@ -36,6 +36,7 @@ import QR from "./page/QRCodeScan/QR";
 import Dashboard from "./page/dashboard/Dashboard";
 import Category from "./Category";
 import DisplayOrder from "./page/Cashier/DisplayOrder";
+import MainCreateOrder from "./page/saleCreateOrder/MainCreateOrder";
 
 const PrivateProute = ({ children }) => {
   const user = useSelector(selectUser);
@@ -108,7 +109,9 @@ function App() {
         <Route path="view" element={<DisplayOrder />} />
         <Route path="product" element={<Category />} />
       </Route>
-
+      <Route path="/sale" element={<Dashboard />}>
+        <Route path="create-order" element={<MainCreateOrder />} />
+      </Route>
       <Route
         path="/admin"
         element={
