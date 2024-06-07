@@ -1,12 +1,42 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./AdminAccountStaff.scss";
-import SidebarAdmin from "../sidebarAdmin/SidebarAdmin";
 import api from "../../../config/axios";
+import { Button, Table } from "antd";
+// import { selectUser } from "redux/features/counterSlice";
 
 function AdminAccountStaff() {
+  const [dataSource, setDataSource] = useState([]);
+  const columns = [
+    {
+      title: "Tên",
+      dataIndex: "ausername",
+      key: "ausername",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+    },
+    {
+      title: "Lương",
+      dataIndex: "salary",
+      key: "salary",
+    },
+    {
+      title: "Ngày bắt đầu",
+      dataIndex: "startDate",
+      key: "startDate",
+    },
+  ];
   const fetchListOfStaffofAdmin = async () => {
-    const response = await api.get("/staff/read");
+    const response = await api.get("/api/staff");
     console.log(response.data);
+    setDataSource(response.data);
   };
 
   useEffect(() => {
@@ -15,14 +45,8 @@ function AdminAccountStaff() {
   }, []);
   return (
     <div className="AdminAccountStaff">
-      <div className="AdminAccountStaff__sidebar">
-        <SidebarAdmin />
-      </div>
-      <div className="AdminAccountStaff__content">
-        <div className="AdminAccountStaff__content__title">
-          <h2>Thông tin của staff</h2>
-        </div>
-      </div>
+      <Button type="primary">Add new staff</Button>
+      <Table dataSource={dataSource} columns={columns} />
     </div>
   );
 }

@@ -5,14 +5,16 @@ import {
   UserOutlined,
   BarChartOutlined,
   CheckCircleOutlined,
-  TeamOutlined,
   AppstoreAddOutlined,
+  LogoutOutlined,
 } from "@ant-design/icons";
-import { Avatar, Breadcrumb, Layout, Menu, Space, theme } from "antd";
+import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Footer } from "antd/es/layout/layout";
-import { Link, Outlet, useLocation } from "react-router-dom";
+import { Link, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { login, selectUser } from "../../redux/features/counterSlice";
+import { logout, selectUser } from "../../redux/features/counterSlice";
+import "./Dashboard.scss";
+import React from "react";
 
 const { Header, Content, Sider } = Layout;
 
@@ -34,81 +36,66 @@ const Dashboard = () => {
   const [items, setItems] = useState([]);
   const [key, setKey] = useState();
   const location = useLocation();
-  const currentURI = location.pathname.split("/")[location.pathname.split("/").length - 1];
+  const currentURI = location.pathname.split("/").slice(-1)[0];
   const role = "admin";
+  const dispatcher = useDispatch();
 
   const dataOpen = JSON.parse(localStorage.getItem("keys")) ?? [];
 
   const [openKeys, setOpenKeys] = useState(dataOpen);
 
   const user = useSelector(selectUser);
+  const navigation = useNavigate();
+  const handleLogout = () => {
+    localStorage.clear();
+    dispatcher(logout());
+    navigation("/login");
+  };
 
   useEffect(() => {
-    if (user.role === "owner") {
+    if (user.role === "ROLE_STAFF") {
       setItems([
-        getItem("Category", "category"),
-        getItem("Hồ sơ", "profile", <ProfileOutlined />),
+        getItem("Hồ sơ", "staff/profile", <ProfileOutlined />),
+        getItem("Thể loại", "staff/category", <ProfileOutlined />),
+        getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
+        getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
         getItem("Quản lý Clubs", "club", <HeartOutlined />, [
           getItem("Club 1", "club1"),
           getItem("Club 2", "club2"),
           getItem("Club 3", "club3"),
           getItem("All Promotion", "all-promotion"),
         ]),
-        getItem("Quản lý Staffs", "staffs", <UserOutlined />, [
-          getItem("Club 1", "staff-club-1"),
-          getItem("Club 2", "staff-club-2"),
-          getItem("Club 3", "staff-club-3"),
-          getItem("All Staffs", "all-staffs"),
-        ]),
-        getItem("Thống kê", "statistics", <BarChartOutlined />, [
-          getItem("Club 1", "stats-club-1"),
-          getItem("Club 2", "stats-club-2"),
-          getItem("Club 3", "stats-club-3"),
-          getItem("All Clubs", "all-clubs"),
-        ]),
       ]);
     }
-    if (user.role === "ROLE_ADMIN") {
+    if (user.role === "ROLE_MANAGER") {
       setItems([
-        getItem("Category", "category"),
-        getItem("Hồ sơ", "profile", <ProfileOutlined />),
-        getItem("Club", "clubs", <HeartOutlined />, [
-          getItem("Time Slot", "time-slot"),
-          getItem("Promotion", "promotion"),
-        ]),
-        getItem("Booking", "booking", <CheckCircleOutlined />, [
-          getItem("Court ID 1", "court-1"),
-          getItem("Court ID 2", "court-2"),
-        ]),
+        getItem("Hồ sơ", `manager/profile/${user.id}`, <ProfileOutlined />),
+        getItem("Thể loại", "manager/category"),
+        getItem("Sản phẩm", "manager/product", <HeartOutlined />),
+        getItem("Danh sách nhân viên", "manager/staff", <CheckCircleOutlined />),
+        getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
       ]);
     }
 
-    if (user.role === "ROLE_MANAGER") {
+    if (user.role === "ROLE_ADMIN") {
       setItems([
-        getItem("Product", "product", <AppstoreAddOutlined />),
-        getItem("Category", "category", <AppstoreAddOutlined />),
-        getItem("Hồ sơ", "profile", <ProfileOutlined />),
-        getItem("Quản lý Clubs", "clubs", <HeartOutlined />, [
-          getItem("Club 1", "club1"),
-          getItem("Club 2", "club2"),
-          getItem("Club 3", "club3"),
-          getItem("All Promotion", "all-promotion"),
-        ]),
-        getItem("Quản lý Accounts", "accounts", <TeamOutlined />, [
-          getItem("Club 1", "account-club-1"),
-          getItem("Club 2", "account-club-2"),
-          getItem("Club 3", "account-club-3"),
-          getItem("All Staffs", "all-staffs"),
+        getItem("Hồ sơ", "admin/profile", <ProfileOutlined />),
+        getItem("Sản phẩm", "admin/product", <AppstoreAddOutlined />),
+        getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
+        getItem("Quản lý nhân sự", "personnel", <HeartOutlined />, [
+          getItem("Quản lí", "admin/manager"),
+          getItem("Nhân viên", "admin/staff"),
         ]),
         getItem("Thống kê", "statistics", <BarChartOutlined />, [
-          getItem("Club 1", "stats-club-1"),
+          getItem("Doanh thu", "stats-club-1"),
           getItem("Club 2", "stats-club-2"),
           getItem("Club 3", "stats-club-3"),
           getItem("All Clubs", "all-clubs"),
         ]),
+        getItem("Đổi mật khẩu", "admin/changepassword", <ProfileOutlined />),
       ]);
     }
-  }, []);
+  }, [user.role]);
 
   const handleSubMenuOpen = (keyMenuItem) => {
     setOpenKeys(keyMenuItem);
@@ -132,7 +119,7 @@ const Dashboard = () => {
           theme="dark"
           defaultSelectedKeys={["profile"]}
           mode="inline"
-          selectedKeys={currentURI}
+          selectedKeys={[currentURI]}
           openKeys={openKeys}
           onOpenChange={handleSubMenuOpen}
         >
@@ -141,16 +128,17 @@ const Dashboard = () => {
               <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
                 {item.children.map((subItem) => (
                   <Menu.Item key={subItem.key} onClick={(e) => handleSelectKey(e.keyPath[1])}>
-                    <Link to={`/dashboard/${subItem.key}`}>{subItem.label}</Link>
+                    <Link to={`/${subItem.key}`}>{subItem.label}</Link>
                   </Menu.Item>
                 ))}
               </Menu.SubMenu>
             ) : (
               <Menu.Item key={item.key} icon={item.icon}>
-                <Link to={`/dashboard/${item.key}`}>{item.label}</Link>
+                <Link to={`/${item.key}`}>{item.label}</Link>
               </Menu.Item>
             )
           )}
+          <LogoutOutlined onClick={handleLogout} className="Dashbroad__Logout" />
         </Menu>
       </Sider>
       <Layout>
@@ -159,8 +147,21 @@ const Dashboard = () => {
         </Header>
         <Content style={{ margin: "0 16px", display: "flex", flexDirection: "column" }}>
           <Breadcrumb>
-            {location.pathname.split("/").map((path, index, array) => (
-              <Breadcrumb.Item key={path}>{index === 0 ? path : <Link to={`/${path}`}>{path}</Link>}</Breadcrumb.Item>
+            {location.pathname.split("/").map((path, index) => (
+              <Breadcrumb.Item key={path}>
+                {index === 0 ? (
+                  path
+                ) : (
+                  <Link
+                    to={`/${location.pathname
+                      .split("/")
+                      .slice(0, index + 1)
+                      .join("/")}`}
+                  >
+                    {path}
+                  </Link>
+                )}
+              </Breadcrumb.Item>
             ))}
           </Breadcrumb>
           <div

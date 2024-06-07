@@ -1,43 +1,52 @@
 import React, { useEffect, useState } from "react";
 import SidebarManager from "../sidebarManager/SidebarManager";
 import "./Manager_StaffAccount.scss";
-import { Button, Modal } from "antd";
+import { Button, Modal, Table } from "antd";
 import api from "../../../config/axios";
 function Manager_StaffAccount() {
-  const [visible, setVisible] = useState(false);
+  const [dataSource, setDataSource] = useState([]);
+  const columns = [
+    {
+      title: "Tên",
+      dataIndex: "ausername",
+      key: "ausername",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Số điện thoại",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+    },
+    {
+      title: "Lương (tính theo đô)",
+      dataIndex: "salary",
+      key: "salary",
+    },
+    {
+      title: "Ngày bắt đầu",
+      dataIndex: "startDate",
+      key: "startDate",
+    },
+  ];
 
-  const handleOpenModal = () => {
-    setVisible(true);
+  const fetchListStaff = async () => {
+    const response = await api.get("/api/staff");
+    console.log(response.data);
+    setDataSource(response.data);
   };
 
-  const handleCloseModal = () => {
-    setVisible(false);
-  };
-
-  const fetchAllStaffList = async () => {
-    const response = await api.get("/staff/read");
-    console.log(response);
-  };
   useEffect(() => {
-    fetchAllStaffList();
+    document.title = "Danh sách nhân viên";
+    fetchListStaff();
   }, []);
 
   return (
     <div className="Manager_StaffAccount">
-      <div className="Manager_StaffAccount__sidebar">
-        <SidebarManager />
-      </div>
-      <div className="Manager_StaffAccount__content">
-        <h2 className="Manager_StaffAccount__content__title">Thông tin của staff</h2>
-        <Button className="Manager_StaffAccount__content__button" type="primary" onClick={handleOpenModal}>
-          Add staff
-        </Button>
-        <Modal title="Add new staff" open={visible} onCancel={handleCloseModal}>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-          <p>Some contents...</p>
-        </Modal>
-      </div>
+      <Table dataSource={dataSource} columns={columns} />
     </div>
   );
 }

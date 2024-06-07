@@ -1,23 +1,15 @@
-import React, { useEffect } from "react";
-import SidebarAdmin from "../sidebarAdmin/SidebarAdmin";
-import "./ChangePasswordAdmin.scss";
-import { Form, Input, Button } from "antd";
+import { Button, Form, Input } from "antd";
 import { useForm } from "antd/es/form/Form";
+import React from "react";
 
-function ChangePasswordAdmin() {
+function ManagerChangePassword() {
   const [formVariable] = useForm();
-
-  useEffect(() => {
-    document.title = "Đổi mật khẩu";
-  }, []);
-
-  const onFinish = (values) => {
+  const handleFinish = (values) => {
     console.log(values);
   };
-
   return (
-    <div className="ChangePasswordAdmin">
-      <Form form={formVariable} labelCol={{ span: 24 }} onFinish={onFinish}>
+    <div className="ManagerChangePassword">
+      <Form form={formVariable} labelCol={{ span: 24 }} onFinish={handleFinish}>
         <Form.Item
           label="Nhập mật khẩu cũ:"
           name="oldPassword"
@@ -72,4 +64,4 @@ function ChangePasswordAdmin() {
   );
 }
 
-export default ChangePasswordAdmin;
+export default ManagerChangePassword;
