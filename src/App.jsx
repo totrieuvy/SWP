@@ -41,6 +41,7 @@ import StaffCategory from "./page/staff/staff-category/StaffCategory";
 import StaffProduct from "./page/staff/staff-product/StaffProduct";
 import StaffChangePassword from "./page/staff/staff-changepassword/StaffChangePassword";
 
+
 const PrivateProute = ({ role }) => {
   console.log(role);
   const user = useSelector(selectUser);
@@ -113,6 +114,7 @@ function App() {
           <Route path="changepassword" element={<StaffChangePassword />} />
         </Route>
       </Route>
+
     </Routes>
   );
 }

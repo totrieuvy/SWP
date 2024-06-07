@@ -37,6 +37,7 @@ const Dashboard = () => {
   const [key, setKey] = useState();
   const location = useLocation();
   const currentURI = location.pathname.split("/").slice(-1)[0];
+
   const role = "admin";
   const dispatcher = useDispatch();
 
@@ -114,7 +115,11 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+      <Sider
+        collapsible
+        collapsed={collapsed}
+        onCollapse={(value) => setCollapsed(value)}
+      >
         <Menu
           theme="dark"
           defaultSelectedKeys={["profile"]}
@@ -129,6 +134,7 @@ const Dashboard = () => {
                 {item.children.map((subItem) => (
                   <Menu.Item key={subItem.key} onClick={(e) => handleSelectKey(e.keyPath[1])}>
                     <Link to={`/${subItem.key}`}>{subItem.label}</Link>
+
                   </Menu.Item>
                 ))}
               </Menu.SubMenu>
@@ -145,7 +151,9 @@ const Dashboard = () => {
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <header></header>
         </Header>
-        <Content style={{ margin: "0 16px", display: "flex", flexDirection: "column" }}>
+        <Content
+          style={{ margin: "0 16px", display: "flex", flexDirection: "column" }}
+        >
           <Breadcrumb>
             {location.pathname.split("/").map((path, index) => (
               <Breadcrumb.Item key={path}>
@@ -161,6 +169,7 @@ const Dashboard = () => {
                     {path}
                   </Link>
                 )}
+
               </Breadcrumb.Item>
             ))}
           </Breadcrumb>
@@ -177,9 +186,9 @@ const Dashboard = () => {
             <Outlet style={{ flexGrow: 1 }} />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center", backgroundColor: "#E3F2EE" }}>
-          DATSAN79 ©{new Date().getFullYear()} Created by DEMI
-        </Footer>
+        <Footer
+          style={{ textAlign: "center", backgroundColor: "#E3F2EE" }}
+        ></Footer>
       </Layout>
     </Layout>
   );
