@@ -1,6 +1,6 @@
 import React from "react";
 import DisplayGold from "./page/Gold/DisplayGold";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Outlet, Route, Routes, useLocation } from "react-router-dom";
 import Policy from "./page/policy/Policy";
 import Login from "./page/loginPage/Login";
 import Register from "./page/registerStaffPage/RegisterStaff";
@@ -16,9 +16,6 @@ import Earring from "./page/homePages/earring/Earring";
 import GoldPage from "./page/homePages/goldPage/GoldPage";
 import GemstonePage from "./page/homePages/gemstonePage/GemstonePage";
 import Staff from "./page/staff/staff-page/Staff";
-import Manager from "./page/manager/manager-page/Manager";
-import Admin from "./page/admin/admin-page/Admin";
-import AdminAccount from "./page/admin/admin-account/AdminAccount";
 import Manager_StaffAccount from "./page/manager/manager-staffAccount/Manager_StaffAccount";
 import { useSelector } from "react-redux";
 import { selectUser } from "./redux/features/counterSlice";
@@ -26,7 +23,6 @@ import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaf
 import { notification } from "antd";
 import AdminAccountManager from "./page/admin/admin-account-manager/AdminAccountManager";
 import ChangePasswordAdmin from "./page/admin/changepasswordadmin/ChangePasswordAdmin";
-import ChangePasswordManager from "./page/manager/changepasswordmanager/ChangePasswordManager";
 import ManagerProfile from "./page/manager/manager-profile/ManagerProfile";
 import ProductList from "./page/productList/ProductList";
 import CreateProduct from "./page/promoCreate/CreateProduct";
@@ -34,33 +30,30 @@ import ListCustomer from "./page/Customer/listCustomer/ListCustomer";
 import UpdateCustomer from "./page/Customer/updateCustomer/UpdateCustomer";
 import QR from "./page/QRCodeScan/QR";
 import Dashboard from "./page/dashboard/Dashboard";
-import Category from "./Category";
-import DisplayOrder from "./page/Cashier/DisplayOrder";
-import MainCreateOrder from "./page/saleCreateOrder/MainCreateOrder";
+import AdminProfile from "./page/admin/admin-profile/AdminProfile";
+import AdminProduct from "./page/admin/admin-product/AdminProduct";
+import AdminCategory from "./page/admin/category/AdminCategory";
+import ManagerCategory from "./page/manager/category/ManagerCategory";
+import ManagerChangePassword from "./page/manager/changepassword/ManagerChangePassword";
+import ManagerProduct from "./page/manager/product/ManagerProduct";
+import StaffProfile from "./page/staff/staff-profile/StaffProfile";
+import StaffCategory from "./page/staff/staff-category/StaffCategory";
+import StaffProduct from "./page/staff/staff-product/StaffProduct";
+import StaffChangePassword from "./page/staff/staff-changepassword/StaffChangePassword";
 
-const PrivateProute = ({ children }) => {
+
+const PrivateProute = ({ role }) => {
+  console.log(role);
   const user = useSelector(selectUser);
   console.log(user);
-  if (user == null && user?.role != "ROLE_ADMIN") {
-    notification.error({
-      message: "Truy cập thất bại",
-      description: "Bạn không có quyền truy cập vào đây",
-    });
-    return <Navigate to="/login" />;
-  } else if (user == null && user?.role != "ROLE_MANAGER") {
-    notification.error({
-      message: "Truy cập thất bại",
-      description: "Bạn không có quyền truy cập vào đây",
-    });
-    return <Navigate to="/login" />;
-  } else if (user == null && user?.role != "ROLE_STAFF") {
-    notification.error({
-      message: "Truy cập thất bại",
-      description: "Bạn không có quyền truy cập vào đây",
-    });
-    return <Navigate to="/login" />;
+  if (role === user.role) {
+    return <Outlet />;
   } else {
-    return children;
+    notification.error({
+      message: "Truy cập thất bại",
+      description: "Bạn không có quyền truy cập vào đây",
+    });
+    return <Navigate to="/login" />;
   }
 };
 
@@ -82,60 +75,46 @@ function App() {
       <Route path="/earring" element={<Earring />} />
       <Route path="/gold" element={<GoldPage />} />
       <Route path="/gemstone" element={<GemstonePage />} />
-      <Route path="/admin/profile" element={<AdminAccount />} />
-      <Route path="/admin/view/staff" element={<AdminAccountStaff />} />
-      <Route path="/admin/view/manager" element={<AdminAccountManager />} />
-      <Route path="/admin/changepassword" element={<ChangePasswordAdmin />} />
-      <Route path="/manager/profile" element={<ManagerProfile />} />
-      <Route path="/manager/view/staff" element={<Manager_StaffAccount />} />
       <Route path="/customer/view" element={<ListCustomer />} />
       <Route path="/customer/update" element={<UpdateCustomer />} />
       <Route path="/test/QR" element={<QR />} />
 
-      <Route
-        path="/manager/changepassword"
-        element={<ChangePasswordManager />}
-      />
       <Route path="/staff" element={<Staff />} />
       <Route path="/product/list" element={<ProductList />} />
       <Route path="/promo/create" element={<CreateProduct />} />
 
-      <Route path="/dashboard" element={<Dashboard />}>
-        <Route path="category" element={<Category />} />
-        <Route path="product" element={<Category />} />
+      <Route path="manager" element={<PrivateProute role="ROLE_MANAGER" />}>
+        <Route path="" element={<Dashboard />}>
+          <Route path="profile/:id" element={<ManagerProfile />} />
+          <Route path="staff" element={<Manager_StaffAccount />} />
+          <Route path="category" element={<ManagerCategory />} />
+          <Route path="changepassword" element={<ManagerChangePassword />} />
+          <Route path="product" element={<ManagerProduct />} />
+          <Route path="staff" element={<Manager_StaffAccount />} />
+        </Route>
       </Route>
 
-      <Route path="/order" element={<Dashboard />}>
-        <Route path="view" element={<DisplayOrder />} />
-        <Route path="product" element={<Category />} />
+      <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>
+        <Route path="" element={<Dashboard />}>
+          <Route path="profile" element={<AdminProfile />} />
+          <Route path="product" element={<AdminProduct />} />
+          <Route path="category" element={<AdminCategory />} />
+          <Route path="staff" element={<AdminAccountStaff />} />
+          <Route path="changepassword" element={<ChangePasswordAdmin />} />
+          <Route path="manager" element={<AdminAccountManager />} />
+        </Route>
       </Route>
-      <Route path="/sale" element={<Dashboard />}>
-        <Route path="create-order" element={<MainCreateOrder />} />
+
+      <Route path="staff" element={<PrivateProute role={"ROLE_STAFF"} />}>
+        <Route path="" element={<Dashboard />}>
+          <Route path="profile" element={<StaffProfile />} />
+          <Route path="category" element={<StaffCategory />} />
+          <Route path="changepassword" element={<StaffCategory />} />
+          <Route path="product" element={<StaffProduct />} />
+          <Route path="changepassword" element={<StaffChangePassword />} />
+        </Route>
       </Route>
-      <Route
-        path="/admin"
-        element={
-          <PrivateProute>
-            <Admin />
-          </PrivateProute>
-        }
-      />
-      <Route
-        path="/manager"
-        element={
-          <PrivateProute>
-            <Manager />
-          </PrivateProute>
-        }
-      />
-      <Route
-        path="/staff"
-        element={
-          <PrivateProute>
-            <Staff />
-          </PrivateProute>
-        }
-      />
+
     </Routes>
   );
 }

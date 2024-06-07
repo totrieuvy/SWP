@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import "./Admin.css";
 import SidebarAdmin from "../sidebarAdmin/SidebarAdmin";
 import Dashboard from "../../dashboard/Dashboard";
+import { Outlet } from "react-router-dom";
 
 function Admin() {
   useEffect(() => {
@@ -15,7 +16,9 @@ function Admin() {
         <Dashboard />
       </div>
 
-      <div className="Admin_content"></div>
+      <div className="Admin_content">
+        <Outlet />
+      </div>
     </div>
   );
 }

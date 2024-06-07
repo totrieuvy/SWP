@@ -135,7 +135,7 @@ function Login() {
                   },
                 ]}
               >
-                <Input prefix={<LockOutlined />} placeholder="Password" type="password" />
+                <Input.Password prefix={<LockOutlined />} placeholder="Password" type="password" />
               </Form.Item>
 
               <Link className="login__form__left__forgotpass" to="/resetPassword">

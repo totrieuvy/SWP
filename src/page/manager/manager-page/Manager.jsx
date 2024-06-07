@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import SidebarManager from "../sidebarManager/SidebarManager";
 import "./Manager.scss";
 import Dashboard from "../../dashboard/Dashboard";
+import { Outlet } from "react-router-dom";
 
 function Manager() {
   useEffect(() => {
@@ -13,7 +14,9 @@ function Manager() {
         {/* <SidebarManager /> */}
         <Dashboard />
       </div>
-      <div className="Manager__content"></div>
+      <div className="Manager__content">
+        <Outlet />
+      </div>
     </div>
   );
 }
