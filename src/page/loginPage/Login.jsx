@@ -16,7 +16,7 @@ function Login() {
   const dispatch = useDispatch();
   const handleFinish = async (values) => {
     try {
-      const response = await api.post("/account/login", values);
+      const response = await api.post("/api/account/login", values);
       let token = response.data.token;
       let role = response.data.role;
       localStorage.setItem("token", token);
@@ -67,7 +67,7 @@ function Login() {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         console.log(credential);
 
-        const response = await api.post("/account/loginGG", {
+        const response = await api.post("/api/account/loginGG", {
           token: result.user.accessToken,
         });
         console.log(response);

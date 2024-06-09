@@ -29,9 +29,10 @@ function AdminAccountManager() {
   const [dataSource, setDataSource] = useState([]);
 
   const fetchListOfManager = async () => {
-    const responnse = await api.get("/api/manager");
-    console.log(responnse.data);
-    setDataSource(responnse.data);
+    const response = await api.get("/api/manager");
+    console.log(response.data);
+    const responseWithStatusTrue = response.data.filter((item) => item.status === 1);
+    setDataSource(responseWithStatusTrue);
   };
   useEffect(() => {
     fetchListOfManager();
@@ -109,7 +110,7 @@ function AdminAccountManager() {
           <Form.Item
             label={"Vai trò"}
             name={"role"}
-            initialValue={"ROLE_MANAGER"} 
+            initialValue={"ROLE_MANAGER"}
             rules={[
               {
                 required: true,

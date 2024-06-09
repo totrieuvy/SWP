@@ -13,7 +13,6 @@ function Navigation() {
       <Link to="/earring">Bông tai</Link>
       <Link to="/gold">Vàng</Link>
       <Link to="/gemstone">Đá quý</Link>
-      <Link to="/promotion">Tích điểm/ Khuyến mãi</Link>
     </nav>
   );
 }

@@ -11,7 +11,7 @@ function ResetPassword() {
   const handleFinish = async (values) => {
     console.log(values);
     try {
-      const response = await api.post("/account/reset", values);
+      const response = await api.post("/api/account/reset", values);
       console.log(response);
 
       if (response.status === 200) {

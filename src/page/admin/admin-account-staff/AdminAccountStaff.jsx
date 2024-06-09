@@ -34,9 +34,10 @@ function AdminAccountStaff() {
     },
   ];
   const fetchListOfStaffofAdmin = async () => {
-    const response = await api.get("/api/staff");
+    const response = await api.get("/api/staff/readall");
     console.log(response.data);
-    setDataSource(response.data);
+    const responseWithStatusTrue = response.data.filter((item) => item.status === 1);
+    setDataSource(responseWithStatusTrue);
   };
 
   useEffect(() => {
