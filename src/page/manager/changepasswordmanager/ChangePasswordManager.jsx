@@ -12,7 +12,7 @@ function ChangePasswordManager() {
   }, []);
 
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    console.log(values);
   };
 
   return (

@@ -16,7 +16,7 @@ function ProductBoard() {
     };
 
     fetchData();
-  }, []); // Empty dependency array ensures this effect runs only once on component mount
+  }, []); 
 
   const columns = [
     {

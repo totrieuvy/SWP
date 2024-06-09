@@ -8,6 +8,7 @@ function DiamondProduct() {
           <img src="./images/DiamondProduct.png" alt="Diamond" />
         </div>
         <h2 className="DiamondProduct__advertise__text">Trang sức Kim cương</h2>
+        <div className="DiamondProduct__product"></div>
       </div>
     </div>
   );

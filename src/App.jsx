@@ -100,7 +100,7 @@ function App() {
 
       <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>
         <Route path="" element={<Dashboard />}>
-          <Route path="profile" element={<AdminProfile />} />
+          <Route path="profile/:id" element={<AdminProfile />} />
           <Route path="product" element={<AdminProduct />} />
           <Route path="category" element={<AdminCategory />} />
           <Route path="staff" element={<AdminAccountStaff />} />

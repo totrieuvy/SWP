@@ -67,7 +67,7 @@ function Login() {
         const credential = GoogleAuthProvider.credentialFromResult(result);
         console.log(credential);
 
-        const response = await api.post("/account/loginGG", {
+        const response = await api.post("/api/account/loginGG", {
           token: result.user.accessToken,
         });
         console.log(response);
