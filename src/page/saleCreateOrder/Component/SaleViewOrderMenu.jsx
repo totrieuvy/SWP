@@ -1,4 +1,4 @@
-import { Table, Image, QRCode, Input, Button } from "antd";
+import { Table, Image, QRCode, Input, Button, Form } from "antd";
 import React, { useEffect, useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import api from "../../../config/axios";
@@ -79,13 +79,24 @@ function SaleViewOrderMenu({ currentOrder }) {
   return (
     <div className="SaleOrderMenu">
       <div className="SaleSelectCustomer">
-        <Input
-          size="large"
-          placeholder="Nhập email"
-          value={email}
-          onChange={handleInputChange}
-          prefix={<UserOutlined />}
-        />
+        <Form>
+          <Form.Item
+            rules={[
+              {
+                required: true,
+                message: "Hãy nhập email",
+              },
+            ]}
+          >
+            <Input
+              size="large"
+              placeholder="Nhập email"
+              value={email}
+              onChange={handleInputChange}
+              prefix={<UserOutlined />}
+            />
+          </Form.Item>
+        </Form>
       </div>
       <div className="SaleOrderTable">
         <Table

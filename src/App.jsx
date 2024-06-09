@@ -40,7 +40,9 @@ import StaffProfile from "./page/staff/staff-profile/StaffProfile";
 import StaffCategory from "./page/staff/staff-category/StaffCategory";
 import StaffProduct from "./page/staff/staff-product/StaffProduct";
 import StaffChangePassword from "./page/staff/staff-changepassword/StaffChangePassword";
-
+import CreateProductSell from "./page/createProductSell/CreateProductSell";
+import MainCreateOrder from "./page/saleCreateOrder/MainCreateOrder";
+import DisplayOrder from "./page/Cashier/DisplayOrder";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -89,7 +91,7 @@ function App() {
           <Route path="staff" element={<Manager_StaffAccount />} />
           <Route path="category" element={<ManagerCategory />} />
           <Route path="changepassword" element={<ManagerChangePassword />} />
-          <Route path="product" element={<ManagerProduct />} />
+          <Route path="product" element={<CreateProductSell />} />
           <Route path="staff" element={<Manager_StaffAccount />} />
         </Route>
       </Route>
@@ -109,12 +111,13 @@ function App() {
         <Route path="" element={<Dashboard />}>
           <Route path="profile" element={<StaffProfile />} />
           <Route path="category" element={<StaffCategory />} />
+          <Route path="create" element={<MainCreateOrder />} />
+          <Route path="confirm-order" element={<DisplayOrder />} />
           <Route path="changepassword" element={<StaffCategory />} />
           <Route path="product" element={<StaffProduct />} />
           <Route path="changepassword" element={<StaffChangePassword />} />
         </Route>
       </Route>
-
     </Routes>
   );
 }

@@ -14,7 +14,7 @@ function SaleProductMenu({ category, setOrder }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`api/productsell`);
+        const response = await api.get(`api/productsell/readall`);
         const fetchedData = response.data;
         setData(fetchedData);
 
@@ -55,7 +55,7 @@ function SaleProductMenu({ category, setOrder }) {
           onAddToOrder={handleAddToOrder}
           image={
             filteredData.image
-              ? filteredData.image[0]
+              ? filteredData.image
               : "https://bestfriends.org/sites/default/files/styles/hero_mobile/public/hero-dash/Asana3808_Dashboard_Standard.jpg?h=ebad9ecf&itok=cWevo33k"
           } // provide default image URL
         />
