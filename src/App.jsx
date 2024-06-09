@@ -43,6 +43,7 @@ import StaffChangePassword from "./page/staff/staff-changepassword/StaffChangePa
 import CreateProductSell from "./page/createProductSell/CreateProductSell";
 import MainCreateOrder from "./page/saleCreateOrder/MainCreateOrder";
 import DisplayOrder from "./page/Cashier/DisplayOrder";
+import VNPay from "./page/VNPAY/VNPay";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -84,6 +85,7 @@ function App() {
       <Route path="/staff" element={<Staff />} />
       <Route path="/product/list" element={<ProductList />} />
       <Route path="/promo/create" element={<CreateProduct />} />
+      <Route path="/vnpay" element={<VNPay />} />
 
       <Route path="manager" element={<PrivateProute role="ROLE_MANAGER" />}>
         <Route path="" element={<Dashboard />}>
