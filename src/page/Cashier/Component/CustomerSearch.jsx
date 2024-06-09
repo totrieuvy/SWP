@@ -59,6 +59,7 @@ function CustomerSearch({ childToParent }) {
         allowClear
         size="large"
         onSearch={onSearch}
+        style={{ borderWidth: "2px" }}
       />
       <section id="getOrderField">
         <Button type="primary" onClick={startScan}>
