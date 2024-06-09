@@ -16,7 +16,7 @@ function Login() {
   const dispatch = useDispatch();
   const handleFinish = async (values) => {
     try {
-      const response = await api.post("/account/login", values);
+      const response = await api.post("/api/account/login", values);
       let token = response.data.token;
       let role = response.data.role;
       localStorage.setItem("token", token);
@@ -113,8 +113,14 @@ function Login() {
         <div className="login__form">
           <div className="login__form__left">
             <h3 className="login__form__left__welcome__1">WELCOME BACK </h3>
-            <h5 className="login__form__left__welcome__2">Select method to log in</h5>
-            <Form className="login__form__left__form" form={formVariable} onFinish={handleFinish}>
+            <h5 className="login__form__left__welcome__2">
+              Select method to log in
+            </h5>
+            <Form
+              className="login__form__left__form"
+              form={formVariable}
+              onFinish={handleFinish}
+            >
               <Form.Item
                 name="username"
                 rules={[
@@ -135,21 +141,35 @@ function Login() {
                   },
                 ]}
               >
-                <Input.Password prefix={<LockOutlined />} placeholder="Password" type="password" />
+                <Input.Password
+                  prefix={<LockOutlined />}
+                  placeholder="Password"
+                  type="password"
+                />
               </Form.Item>
 
-              <Link className="login__form__left__forgotpass" to="/resetPassword">
+              <Link
+                className="login__form__left__forgotpass"
+                to="/resetPassword"
+              >
                 Forgot password?
               </Link>
 
               <Form.Item>
-                <Button type="primary" className="login__form__left__buttonLogin" htmlType="submit">
+                <Button
+                  type="primary"
+                  className="login__form__left__buttonLogin"
+                  htmlType="submit"
+                >
                   Login
                 </Button>
               </Form.Item>
             </Form>
             <p className="login__form__left__email">Or login with Google</p>
-            <button className="login__form__left__google" onClick={handleLoginGoogle}>
+            <button
+              className="login__form__left__google"
+              onClick={handleLoginGoogle}
+            >
               <img src="/images/google.png" alt="Google" />
               <p>Google</p>
             </button>
