@@ -2,8 +2,8 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: 0.25fr 1fr;
-    grid-column-gap: 10px;
-    grid-row-gap: 10px;
+    grid-column-gap: 25px;
+    grid-row-gap: 25px;
     height: 100%;
     width: 100%;
     }
@@ -24,16 +24,18 @@
         align-items: center;
         width: 100%;
         padding-left: 2.5%;
-        box-shadow: 12px 10px 42px -28px rgba(64,62,41,1);
 }
 .total {
         grid-area: 1 / 3 / 3 / 4; 
-        box-shadow: 12px 10px 42px -28px rgba(64,62,41,1);
     }
+
 .bill {
         grid-area: 2 / 1 / 3 / 3; 
-        box-shadow: 12px 10px 42px -28px rgba(64,62,41,1);
     }
+.search, .total, .bill{
+    border: 2px solid #a0a0a0;
+    border-radius: 10px;
+}
 #getOrderField{
     width: 75%;
     height: 100%;
