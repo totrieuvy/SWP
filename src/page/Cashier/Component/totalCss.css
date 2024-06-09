@@ -12,10 +12,14 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
+    padding-left: 10%;
+    padding-right: 10%;
+
 }
 .discount{
     height: 15%;
+    font-size: 0.75em !important;
 }
 .totalAmount{
     height: 25% !important;
@@ -32,6 +36,9 @@
 
 .totalTitle{
     font-size: 2em;
+}
+.subTotal{
+    font-size: 0.75em !important;
 }
 .selectPayment div{
     border: none !important;

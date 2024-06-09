@@ -8,7 +8,7 @@ function ProductBoard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/api/productsell");
+        const response = await api.get("/api/productsell/read");
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
