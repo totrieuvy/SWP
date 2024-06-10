@@ -6,12 +6,9 @@ import {
   Button,
   Select,
   Upload,
-  Switch,
   message,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import axios from "axios";
-import CreateProduct from "../promoCreate/CreateProduct";
 import api from "../../config/axios";
 
 const { Option } = Select;
@@ -19,29 +16,33 @@ const { Option } = Select;
 const CreateProductSell = () => {
   const [imageFile, setImageFile] = useState(null);
   const [category, setCategory] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await api.get(`category/readAll`);
         setCategory(response.data);
       } catch (error) {
-        console.error("Error fetching the order", error);
+        console.error("Error fetching the categories", error);
       }
     };
 
     fetchData();
   }, []);
+
   const handleFileChange = ({ file }) => {
     setImageFile(file);
   };
 
   const onFinish = (values) => {
     const formData = new FormData();
-    formData.append("image", imageFile);
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
     Object.keys(values).forEach((key) => formData.append(key, values[key]));
 
     api
-      .post("/api/productsell/create", formData, {
+      .post("/api/productSell/create", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -62,9 +63,7 @@ const CreateProductSell = () => {
       <Form.Item name="pdescription" label="Product Description">
         <Input.TextArea />
       </Form.Item>
-      <Form.Item name="productCost" label="Product Cost">
-        <InputNumber min={0} />
-      </Form.Item>
+
       <Form.Item
         name="productCode"
         label="Product Code"
@@ -102,9 +101,6 @@ const CreateProductSell = () => {
             </Option>
           ))}
         </Select>
-      </Form.Item>
-      <Form.Item name="pstatus" label="Status" valuePropName="checked">
-        <Switch defaultChecked />
       </Form.Item>
       <Form.Item label="Image">
         <Upload beforeUpload={() => false} onChange={handleFileChange}>

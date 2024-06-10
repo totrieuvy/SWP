@@ -1,30 +1,40 @@
 import React, { useState } from "react";
 import "./totalCss.css";
 import { Button, Radio, Space } from "antd";
-
-const options = [
-  {
-    label: "Apple",
-    value: "Apple",
-  },
-  {
-    label: "Pear",
-    value: "Pear",
-  },
-  {
-    label: "Orange",
-    value: "Orange",
-  },
-];
+import api from "../../../config/axios";
 
 function Total() {
-  const [value, setValue] = useState("Apple");
+  const [payMethod, setPayMethod] = useState("");
+  const [amount, setAmount] = useState("100000");
+  const [orderInfo, setOrderInfo] = useState("Thanh toán hóa đơn");
 
   const onChange = ({ target: { value } }) => {
-    console.log("checked", value);
-    setValue(value);
+    setPayMethod(value);
   };
 
+  const handlePayment = async (e) => {
+    if (payMethod == "vnpay") {
+      e.preventDefault();
+
+      try {
+        const response = await api.post(`/vnpay/submitOrder`, null, {
+          params: {
+            amount,
+            orderInfo,
+          },
+        });
+
+        if (response.request.responseURL) {
+          window.location.href = response.data;
+        } else {
+          alert("Failed to create order");
+        }
+      } catch (error) {
+        console.error("Error creating order:", error);
+        alert("Error creating order");
+      }
+    }
+  };
   return (
     <div className="total">
       <section className="subTotal">
@@ -44,15 +54,15 @@ function Total() {
       <hr />
       <section className="selectPayment">
         <p>Chọn phương thức thanh toán</p>
-        <Radio.Group onChange={onChange} value={value}>
+        <Radio.Group onChange={onChange} value={payMethod}>
           <Space direction="vertical">
-            <Radio.Button value={1}>VNPAY</Radio.Button>
-            <Radio.Button value={2}>Tiền mặt</Radio.Button>
+            <Radio.Button value="vnpay">VNPAY</Radio.Button>
+            <Radio.Button value="cash">Tiền mặt</Radio.Button>
           </Space>
         </Radio.Group>
       </section>
       <section id="buttonContainer">
-        <Button size="large" type="primary">
+        <Button size="large" type="primary" onClick={handlePayment}>
           Thanh toán
         </Button>
       </section>

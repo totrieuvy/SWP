@@ -8,7 +8,7 @@ function ProductBoard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("/api/productsell/read");
+        const response = await api.get("/api/productSell/readall");
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -16,7 +16,7 @@ function ProductBoard() {
     };
 
     fetchData();
-  }, []); 
+  }, []);
 
   const columns = [
     {
@@ -71,8 +71,8 @@ function ProductBoard() {
     },
     {
       title: "Ảnh",
-      dataIndex: "imageURL",
-      key: "imageURL",
+      dataIndex: "image",
+      key: "image",
       render: (imageURL) => (
         <img src={imageURL} alt="product" style={{ width: 50 }} />
       ),

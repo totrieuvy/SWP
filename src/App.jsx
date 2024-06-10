@@ -112,6 +112,8 @@ function App() {
       <Route path="staff" element={<PrivateProute role={"ROLE_STAFF"} />}>
         <Route path="" element={<Dashboard />}>
           <Route path="profile" element={<StaffProfile />} />
+          <Route path="/ordersuccess" component={OrderSuccess} />
+          <Route path="/orderfail" component={OrderFail} />
           <Route path="category" element={<StaffCategory />} />
           <Route path="create" element={<MainCreateOrder />} />
           <Route path="confirm-order" element={<DisplayOrder />} />
