@@ -8,6 +8,8 @@ import {
   Select,
   Space,
 } from "antd";
+import api from "../../../../config/axios";
+import { useLocation, useNavigate } from "react-router-dom";
 const { Option } = Select;
 const formItemLayout = {
   labelCol: {
@@ -30,19 +32,31 @@ const formItemLayout = {
 
 function CustomerUpdateForm({ cid, email, phoneNumber, pointAmount, status }) {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { record } = location.state || {};
 
   // Set initial value on mount
   useEffect(() => {
     form.setFieldsValue({
-      cid,
+      pk_CustomerID: cid,
       email,
       phoneNumber,
       pointAmount,
       status,
     });
   }, [form, cid, email, phoneNumber, pointAmount, status]);
-  const onFinish = (values) => {
-    console.log("Received values:", values);
+  const onFinish = async (value) => {
+    try {
+      const response = await api.put(
+        "/customer/update-customer-details",
+        value
+      );
+      console.log("Response:", response.data);
+      navigate(-1);
+    } catch (error) {
+      console.error("Error:", error);
+    }
   };
 
   return (
@@ -56,14 +70,8 @@ function CustomerUpdateForm({ cid, email, phoneNumber, pointAmount, status }) {
           maxWidth: 600,
         }}
       >
-        <Form.Item
-          name="cid"
-          label="Customer ID"
-          rules={[
-            { required: true, message: "Please input your customer ID!" },
-          ]}
-        >
-          <Input />
+        <Form.Item name="pk_CustomerID" label="Customer ID">
+          <Input disabled />
         </Form.Item>
         <Form.Item
           name="email"

@@ -6,9 +6,7 @@ import "./Component/style.css";
 function ListCustomer() {
   return (
     <>
-      <NavBar />
       <div id="Container">
-        <SideBar />
         <CustomerBoard />
       </div>
     </>

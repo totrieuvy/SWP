@@ -9,11 +9,9 @@ function UpdateCustomer() {
 
   return (
     <>
-      <NavBar />
       <div id="CustomerUpdateContainer">
-        <SideBar />
         <CustomerUpdateForm
-          cid={data.id}
+          cid={data.pk_CustomerID}
           email={data.email}
           phoneNumber={data.phoneNumber}
           pointAmount={data.pointAmount}

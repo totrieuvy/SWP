@@ -80,6 +80,8 @@ const Dashboard = () => {
         getItem("Hồ sơ", `manager/profile/${user.id}`, <ProfileOutlined />),
         getItem("Thể loại", "manager/category", <ProfileOutlined />),
         getItem("Sản phẩm", "manager/product", <HeartOutlined />),
+        getItem("Khách hàng", "manager/customer/view", <ProfileOutlined />),
+
         getItem(
           "Danh sách nhân viên",
           "manager/staff",

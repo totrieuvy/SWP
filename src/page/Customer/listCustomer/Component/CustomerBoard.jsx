@@ -9,6 +9,7 @@ function CustomerBoard() {
     const fetchData = async () => {
       try {
         const response = await api.get("customer/list-all");
+        console.log(response.data);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -21,7 +22,7 @@ function CustomerBoard() {
   const navigate = useNavigate();
 
   const handleUpdate = (record) => {
-    navigate("/customer/update", {
+    navigate("/manager/customer/update", {
       state: record,
     });
 
@@ -35,8 +36,8 @@ function CustomerBoard() {
   const columns = [
     {
       title: "ID",
-      dataIndex: "id",
-      key: "id",
+      dataIndex: "pk_CustomerID",
+      key: "pk_CustomerID",
       ellipsis: true,
     },
     {

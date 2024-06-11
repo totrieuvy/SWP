@@ -44,6 +44,8 @@ import CreateProductSell from "./page/createProductSell/CreateProductSell";
 import MainCreateOrder from "./page/saleCreateOrder/MainCreateOrder";
 import DisplayOrder from "./page/Cashier/DisplayOrder";
 import VNPay from "./page/VNPAY/VNPay";
+import OrderSuccess from "./page/defaultComponent/OrderSuccess";
+import OrderFail from "./page/defaultComponent/OrderFail";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -92,6 +94,8 @@ function App() {
           <Route path="profile/:id" element={<ManagerProfile />} />
           <Route path="staff" element={<Manager_StaffAccount />} />
           <Route path="category" element={<ManagerCategory />} />
+          <Route path="customer/view" element={<ListCustomer />} />
+          <Route path="customer/update" element={<UpdateCustomer />} />
           <Route path="changepassword" element={<ManagerChangePassword />} />
           <Route path="product" element={<CreateProductSell />} />
           <Route path="staff" element={<Manager_StaffAccount />} />
@@ -103,7 +107,6 @@ function App() {
           <Route path="profile/:id" element={<AdminProfile />} />
           <Route path="product" element={<AdminProduct />} />
           <Route path="category" element={<AdminCategory />} />
-          <Route path="staff" element={<AdminAccountStaff />} />
           <Route path="changepassword" element={<ChangePasswordAdmin />} />
           <Route path="manager" element={<AdminAccountManager />} />
         </Route>
@@ -112,8 +115,8 @@ function App() {
       <Route path="staff" element={<PrivateProute role={"ROLE_STAFF"} />}>
         <Route path="" element={<Dashboard />}>
           <Route path="profile" element={<StaffProfile />} />
-          <Route path="/ordersuccess" component={OrderSuccess} />
-          <Route path="/orderfail" component={OrderFail} />
+          <Route path="ordersuccess" element={<OrderSuccess />} />
+          <Route path="orderfail" element={<OrderFail />} />
           <Route path="category" element={<StaffCategory />} />
           <Route path="create" element={<MainCreateOrder />} />
           <Route path="confirm-order" element={<DisplayOrder />} />

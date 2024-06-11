@@ -86,9 +86,7 @@ const CreateProductSell = () => {
       <Form.Item name="carat" label="Carat">
         <InputNumber min={0} />
       </Form.Item>
-      <Form.Item name="cost" label="Cost">
-        <InputNumber min={0} />
-      </Form.Item>
+
       <Form.Item
         name="category_id"
         label="Category"
