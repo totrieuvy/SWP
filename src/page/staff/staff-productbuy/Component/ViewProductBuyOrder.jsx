@@ -7,6 +7,19 @@ function ViewProductBuyOrder({ data }) {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      render: (text, record, index) => index + 1,
+    },
+    {
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+      render: (text, record) => (
+        <img
+          src={`${record.image}`}
+          alt="product"
+          style={{ width: 100, height: 100 }}
+        />
+      ),
     },
     {
       title: "Category",
@@ -32,13 +45,17 @@ function ViewProductBuyOrder({ data }) {
       title: "Calculated Price",
       dataIndex: "calculatedPrice",
       key: "calculatedPrice",
-      render: (text, record) => `$${record.calculatedPrice.toFixed(2)}`,
+      render: (text, record) => `$${(record.calculatedPrice || 0).toFixed(2)}`,
     },
   ];
 
   return (
     <div className="ViewProductBuyOrder">
-      <Table dataSource={data} columns={columns} rowKey="id" />
+      <Table
+        dataSource={data}
+        columns={columns}
+        rowKey={(record, index) => index}
+      />
     </div>
   );
 }
