@@ -7,8 +7,12 @@ import { Link } from "react-router-dom";
 function Header() {
   return (
     <header className="header">
-      <img src="./images/Logo.png" alt="Logo" className="header__logo" />
-      <h2 className="header__title">JEWELRYMS</h2>
+      <Link to={"/"}>
+        <img src="./images/Logo.png" alt="Logo" className="header__logo" />
+      </Link>
+      <Link to={"/"}>
+        <h2 className="header__title">JEWELRYMS</h2>
+      </Link>
       <div className="header__account">
         <Button type="link" className="header__account-button">
           <UserOutlined className="header__account-icon" />
