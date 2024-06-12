@@ -50,7 +50,7 @@ const columns = [
     key: "description",
   },
 ];
-function Order({ orderID }) {
+function Order({ orderID, setOrder }) {
   // Destructuring props to get orderID
   const [data, setData] = useState([]); // Initial state as an empty array to hold product list
 
@@ -59,6 +59,7 @@ function Order({ orderID }) {
       try {
         const response = await api.get(`/api/order/get-order/${orderID}`);
         setData(response.data);
+        setOrder(response.data);
       } catch (error) {
         console.error("Error fetching the order", error);
       }

@@ -1,17 +1,59 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./totalCss.css";
 import { Button, Radio, Space } from "antd";
 import api from "../../../config/axios";
 
-function Total() {
+function Total({ order, id }) {
   const [payMethod, setPayMethod] = useState("");
-  const [amount, setAmount] = useState("100000");
-  const [orderInfo, setOrderInfo] = useState("Thanh toán hóa đơn");
+  const [subTotal, setSubTotal] = useState("0");
+  const [discount, setDiscount] = useState("0");
+
+  const [total, setTotal] = useState("0");
+
+  const [orderInfo, setOrderInfo] = useState(`Thanh toán hóa đơn`);
 
   const onChange = ({ target: { value } }) => {
     setPayMethod(value);
   };
+  const transformData = (inputArray) => {
+    return inputArray.flatMap((item) => {
+      if (item.promotion_id.length === 0) {
+        return {
+          productSell_ID: item.productID,
+          promotion_ID: 0,
+          quantity: item.quantity,
+        };
+      } else {
+        return item.promotion_id.map((promo) => ({
+          productSell_ID: item.productID,
+          promotion_ID: parseInt(promo),
+          quantity: item.quantity,
+        }));
+      }
+    });
+  };
 
+  const fetchTotal = async () => {
+    var result = transformData(order);
+    try {
+      const response = await api.post("/api/order/OrderTotal", result);
+
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await fetchTotal();
+      setDiscount(result.discount_Price);
+      setSubTotal(result.subTotal);
+      setTotal(result.total);
+      setOrderInfo(`Thanh toan ${id}`);
+      console.log(id);
+    };
+    fetchData();
+  }, [order]);
   const handlePayment = async (e) => {
     if (payMethod == "vnpay") {
       e.preventDefault();
@@ -19,8 +61,8 @@ function Total() {
       try {
         const response = await api.post(`/vnpay/submitOrder`, null, {
           params: {
-            amount,
-            orderInfo,
+            amount: parseInt(total) * 100,
+            orderInfo: orderInfo,
           },
         });
 
@@ -39,17 +81,17 @@ function Total() {
     <div className="total">
       <section className="subTotal">
         <p className="totalTitle">Tổng phụ</p>
-        <p className="totalTitle subTotalValue">1.000.000đ</p>
+        <p className="totalTitle subTotalValue">{subTotal}đ</p>
       </section>
       <hr />
       <section className="discount">
         <p className="totalTitle">Giảm giá</p>
-        <p className="totalTitle subTotalValue">500.000đ</p>
+        <p className="totalTitle subTotalValue">{discount}đ</p>
       </section>
       <hr />
       <section className="totalAmount">
         <p className="totalTitle">Tổng giá</p>
-        <p className="totalTitle subTotalValue">1.500.000đ</p>
+        <p className="totalTitle subTotalValue">{total}đ</p>
       </section>
       <hr />
       <section className="selectPayment">

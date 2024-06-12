@@ -12,7 +12,7 @@ function ChooseCategory({ setCategory }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`category/readAll`);
+        const response = await api.get(`api/category/readall`);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching the order", error);

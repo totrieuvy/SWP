@@ -28,10 +28,19 @@ function CustomerBoard() {
 
     console.log("Update record:", record);
   };
-
-  const handleDelete = (record) => {
-    // Implement delete logic here
-    console.log("Delete record:", record);
+  const handleDelete = async (record) => {
+    try {
+      const response = await api.patch(
+        "customer/delete-status",
+        { pk_CustomerID: record.pk_CustomerID }, // Send data as JSON
+        { headers: { "Content-Type": "application/json" } } // Set headers
+      );
+      console.log(response.data);
+      const reload = await api.get("customer/list-all");
+      setData(reload.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
   const columns = [
     {
