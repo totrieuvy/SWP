@@ -1,18 +1,54 @@
 import React, { useEffect, useState } from "react";
-import { Button, Popconfirm, Space, Table, Tag, notification } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Popconfirm,
+  Select,
+  Table,
+  Tag,
+  Upload,
+  message,
+  notification,
+} from "antd";
 import api from "../../../config/axios";
+import { UploadOutlined } from "@ant-design/icons";
 
+import "./ManagerProduct.css";
+import { useForm } from "antd/es/form/Form";
+
+const { Option } = Select;
 function ManagerProduct() {
-  const [data, setData] = useState([]);
+  const [data, setData] = React.useState([]);
+  const [visible, setVisible] = useState(false);
+  const [formVariable] = useForm();
+  const [category, setCategory] = useState([]);
+  const [imageFile, setImageFile] = useState(null);
 
   useEffect(() => {
     document.title = "Danh sách sản phẩm";
     const fetchData = async () => {
       try {
         const response = await api.get("/api/productSell/readall");
+        console.log(response.data);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get(`category/readAll`);
+        setCategory(response.data);
+      } catch (error) {
+        console.error("Error fetching the categories", error);
       }
     };
 
@@ -105,6 +141,7 @@ function ManagerProduct() {
       ),
     },
   ];
+
   const handleDeleteProductSell = async (productID) => {
     await api.delete(`/api/productSell/delete/${productID}`);
 
@@ -117,9 +154,97 @@ function ManagerProduct() {
       description: "Xóa sản phẩm thành công",
     });
   };
+
+  const handleOpenModal = () => {
+    setVisible(true);
+  };
+  const handleCloseModal = () => {
+    setVisible(false);
+  };
+  const handleOk = () => {
+    formVariable.submit();
+  };
+
+  const handleFileChange = ({ file }) => {
+    setImageFile(file);
+  };
+
+  const onFinish = (values) => {
+    const formData = new FormData();
+    if (imageFile) {
+      formData.append("image", imageFile);
+    }
+    Object.keys(values).forEach((key) => formData.append(key, values[key]));
+
+    api
+      .post("/api/productSell/create", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((response) => {
+        message.success("Product created successfully");
+      })
+      .catch((error) => {
+        message.error("Failed to create product");
+      });
+  };
+
   return (
     <div className="productList">
+      <Button type="primary" onClick={handleOpenModal}>
+        Thêm sản phẩm
+      </Button>
       <Table columns={columns} dataSource={data} />
+      <Modal title="Thêm sản phẩm" open={visible} onCancel={handleCloseModal} onOk={handleOk}>
+        <Form onFinish={onFinish} layout="vertical">
+          <Form.Item name="pname" label="Product Name" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="pdescription" label="Product Description">
+            <Input.TextArea />
+          </Form.Item>
+
+          <Form.Item name="productCode" label="Product Code" rules={[{ required: true }]}>
+            <Input />
+          </Form.Item>
+          <Form.Item name="metalType" label="Metal Type">
+            <Input />
+          </Form.Item>
+          <Form.Item name="gemstoneType" label="Gemstone Type">
+            <Input />
+          </Form.Item>
+          <Form.Item name="manufacturer" label="Manufacturer">
+            <Input />
+          </Form.Item>
+          <Form.Item name="chi" label="CHI">
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item name="carat" label="Carat">
+            <InputNumber min={0} />
+          </Form.Item>
+
+          <Form.Item name="category_id" label="Category" rules={[{ required: true }]}>
+            <Select placeholder="Select a category">
+              {category.map((category) => (
+                <Option key={category.id} value={category.id}>
+                  {category.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item label="Image">
+            <Upload beforeUpload={() => false} onChange={handleFileChange}>
+              <Button icon={<UploadOutlined />}>Select File</Button>
+            </Upload>
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
     </div>
   );
 }

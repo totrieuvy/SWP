@@ -43,6 +43,7 @@ import VNPay from "./page/VNPAY/VNPay";
 import OrderSuccess from "./page/defaultComponent/OrderSuccess";
 import OrderFail from "./page/defaultComponent/OrderFail";
 import ProductBuy from "./page/staff/staff-productbuy/ProductBuy";
+import ManagerProduct from "./page/manager/product/ManagerProduct";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -86,7 +87,7 @@ function App() {
           <Route path="customer/view" element={<ListCustomer />} />
           <Route path="customer/update" element={<UpdateCustomer />} />
           <Route path="changepassword" element={<ManagerChangePassword />} />
-          <Route path="product" element={<CreateProductSell />} />
+          <Route path="product" element={<ManagerProduct />} />
           <Route path="staff" element={<Manager_StaffAccount />} />
         </Route>
       </Route>
