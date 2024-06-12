@@ -174,9 +174,7 @@ function Login() {
               <p>Google</p>
             </button>
           </div>
-          <div className="login__form__right">
-            <img src="./images/Login.jpg" alt="Login" />
-          </div>
+          <div className="login__form__right">{/* <img src="/images/login.jpg" alt="Login" /> */}</div>
         </div>
       </div>
     </div>
