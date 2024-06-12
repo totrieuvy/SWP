@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import SidebarManager from "../sidebarManager/SidebarManager";
 import "./Manager_StaffAccount.scss";
 import { Button, Form, Input, Modal, Popconfirm, Table, notification } from "antd";
 import api from "../../../config/axios";
 import { useForm } from "antd/es/form/Form";
+import moment from "moment";
 
 function Manager_StaffAccount() {
   const [dataSource, setDataSource] = useState([]);
@@ -13,8 +13,8 @@ function Manager_StaffAccount() {
   const columns = [
     {
       title: "Tên",
-      dataIndex: "ausername",
-      key: "ausername",
+      dataIndex: "username",
+      key: "username",
     },
     {
       title: "Email",
@@ -37,21 +37,6 @@ function Manager_StaffAccount() {
       key: "startDate",
     },
     {
-      title: "Ca làm việc bắt đầu",
-      dataIndex: "startTime",
-      key: "startTime",
-    },
-    {
-      title: "Ca làm việc kết thúc",
-      dataIndex: "endTime",
-      key: "endTime",
-    },
-    {
-      title: "Quầy làm việc",
-      dataIndex: "workArea",
-      key: "workArea",
-    },
-    {
       title: "Xóa",
       dataIndex: "staffID",
       key: "staffID",
@@ -63,11 +48,12 @@ function Manager_StaffAccount() {
           okText="Đồng ý"
           cancelText="Không"
         >
-          <Button danger>Delete</Button>
+          <Button danger>Xóa</Button>
         </Popconfirm>
       ),
     },
   ];
+
   const handleDeleteStaff = async (staffID) => {
     await api.delete(`/api/staff/delete/${staffID}`);
 
@@ -84,9 +70,7 @@ function Manager_StaffAccount() {
   const fetchListStaff = async () => {
     try {
       const response = await api.get("/api/staff/readall");
-      console.log(response);
       const responseWithStatusTrue = response.data.filter((item) => item.status === 1);
-      console.log(responseWithStatusTrue);
       setDataSource(responseWithStatusTrue);
     } catch (error) {
       console.error("Không thể lấy dữ liệu nhân viên", error);
@@ -117,6 +101,21 @@ function Manager_StaffAccount() {
     setDataSource([...dataSource, values]);
     formVariable.resetFields();
     handleCloseModal();
+  };
+
+  const validateStartDate = (_, value) => {
+    if (!value) {
+      return Promise.reject(new Error("Hãy nhập ngày bắt đầu làm việc!"));
+    }
+    const currentDate = moment().startOf("day");
+    const inputDate = moment(value, "YYYY-MM-DD", true);
+    if (!inputDate.isValid()) {
+      return Promise.reject(new Error("Định dạng ngày không hợp lệ! Định dạng đúng là YYYY-MM-DD"));
+    }
+    if (inputDate.isBefore(currentDate)) {
+      return Promise.reject(new Error("Ngày bắt đầu làm việc phải lớn hơn hoặc bằng ngày hiện tại"));
+    }
+    return Promise.resolve();
   };
 
   return (
@@ -176,12 +175,11 @@ function Manager_StaffAccount() {
             <Input.Password />
           </Form.Item>
           <Form.Item
-            label="Ngày bắt đầu làm việc:"
+            label="Ngày bắt đầu làm việc (YYYY-MM-DD):"
             name={"startDate"}
             rules={[
               {
-                required: true,
-                message: "Hãy nhập ngày bắt đầu làm việc!",
+                validator: validateStartDate,
               },
             ]}
           >

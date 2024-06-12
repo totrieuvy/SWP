@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Space, Table, Tag } from "antd";
+import { Button, Popconfirm, Space, Table, Tag, notification } from "antd";
 import api from "../../../config/axios";
 
 function ManagerProduct() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    document.title = "Danh sách sản phẩm";
     const fetchData = async () => {
       try {
-        const response = await api.get("/api/productsell/readall");
+        const response = await api.get("/api/productSell/readall");
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -71,9 +72,9 @@ function ManagerProduct() {
     },
     {
       title: "Ảnh",
-      dataIndex: "imageURL",
-      key: "imageURL",
-      render: (imageURL) => <img src={imageURL} alt="product" style={{ width: 50 }} />,
+      dataIndex: "image",
+      key: "image",
+      render: (image) => <img src={image} alt="product" style={{ width: 50 }} />,
     },
     {
       title: "Carat",
@@ -87,7 +88,35 @@ function ManagerProduct() {
       key: "chi",
       sorter: (a, b) => a.chi - b.chi,
     },
+    {
+      title: "Xóa",
+      dataIndex: "productID",
+      key: "productID",
+      render: (productID) => (
+        <Popconfirm
+          title="Xóa sản phẩm"
+          description="Bạn có chắc muốn xóa sản phẩm không?"
+          onConfirm={() => handleDeleteProductSell(productID)}
+          okText="Đồng ý"
+          cancelText="Không"
+        >
+          <Button danger>Xóa</Button>
+        </Popconfirm>
+      ),
+    },
   ];
+  const handleDeleteProductSell = async (productID) => {
+    await api.delete(`/api/productSell/delete/${productID}`);
+
+    const listAfterDelete = data.filter((product) => product.productID !== productID);
+
+    setData(listAfterDelete);
+
+    notification.success({
+      message: "Thành công",
+      description: "Xóa sản phẩm thành công",
+    });
+  };
   return (
     <div className="productList">
       <Table columns={columns} dataSource={data} />
