@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./totalCss.css";
-import { Button, Radio, Space } from "antd";
+import { Button, Form, Input, Radio, Space } from "antd";
 import api from "../../../config/axios";
 
 function Total({ order, id }) {
@@ -102,6 +102,22 @@ function Total({ order, id }) {
             <Radio.Button value="cash">Tiền mặt</Radio.Button>
           </Space>
         </Radio.Group>
+        {payMethod === "cash" && (
+          <Form>
+            <Form.Item
+              label="Cash Amount Received"
+              name="cashAmount"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter the cash amount received!",
+                },
+              ]}
+            >
+              <Input />
+            </Form.Item>
+          </Form>
+        )}
       </section>
       <section id="buttonContainer">
         <Button size="large" type="primary" onClick={handlePayment}>

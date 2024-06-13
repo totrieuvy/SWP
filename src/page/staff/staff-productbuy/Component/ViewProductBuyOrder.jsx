@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Button, Table } from "antd";
 import React from "react";
 
 function ViewProductBuyOrder({ data }) {
@@ -48,14 +48,27 @@ function ViewProductBuyOrder({ data }) {
       render: (text, record) => `$${(record.calculatedPrice || 0).toFixed(2)}`,
     },
   ];
-
+  const handleOrder = () => {
+    console.log(data);
+  };
   return (
     <div className="ViewProductBuyOrder">
       <Table
         dataSource={data}
         columns={columns}
+        style={{ maxHeight: "70%", overflow: "auto" }}
         rowKey={(record, index) => index}
+        pagination={false}
       />
+      <section className="ProductBuyInitializeButton">
+        <Button
+          type="primary"
+          onClick={handleOrder}
+          className="fullWidthButton"
+        >
+          Tạo
+        </Button>
+      </section>
     </div>
   );
 }
