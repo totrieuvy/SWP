@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./AdmiAccountManager.scss";
 import SidebarAdmin from "../sidebarAdmin/SidebarAdmin";
 import api from "../../../config/axios";
-import { Button, Form, Input, Modal, Table } from "antd";
+import { Button, Form, Input, Modal, Table, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 
 function AdminAccountManager() {
@@ -18,11 +18,6 @@ function AdminAccountManager() {
       title: "Email",
       dataIndex: "email",
       key: "email",
-    },
-    {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
     },
   ];
 
@@ -50,11 +45,15 @@ function AdminAccountManager() {
   };
   const handleFinish = async (values) => {
     console.log(values);
-    const response = await api.post("/api/manager", values);
+    const response = await api.post("/api/manager/create", values);
     console.log(response);
     setDataSource([...dataSource, values]);
     formVariable.resetFields();
     handleCloseModal();
+    notification.success({
+      message: "Thành công",
+      description: "Thêm tài khoản quản lí thánh công",
+    });
   };
 
   return (
@@ -84,6 +83,18 @@ function AdminAccountManager() {
             <Input />
           </Form.Item>
           <Form.Item
+            label={"Tên tài khoản"}
+            name={"accountName"}
+            rules={[
+              {
+                required: true,
+                message: "Hãy nhập tên tài khoản!",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
             label={"Mật khẩu"}
             name={"apassword"}
             rules={[
@@ -93,7 +104,7 @@ function AdminAccountManager() {
               },
             ]}
           >
-            <Input />
+            <Input.Password />
           </Form.Item>
           <Form.Item
             label={"Email"}
@@ -106,19 +117,6 @@ function AdminAccountManager() {
             ]}
           >
             <Input />
-          </Form.Item>
-          <Form.Item
-            label={"Vai trò"}
-            name={"role"}
-            initialValue={"ROLE_MANAGER"}
-            rules={[
-              {
-                required: true,
-                message: "Hãy nhập email!",
-              },
-            ]}
-          >
-            <Input disabled />
           </Form.Item>
         </Form>
       </Modal>

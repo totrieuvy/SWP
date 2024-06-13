@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Table } from "antd";
 import Header from "../header/Header";
-import Navigation from "../navigation/Navigation";
 import AdvertiseCarousel from "../advertiseCarousel/AdvertiseCarousel";
 import Footer from "../footer/Footer";
 import "./Promotion.css";

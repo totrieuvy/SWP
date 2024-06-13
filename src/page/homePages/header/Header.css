@@ -2,37 +2,58 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0px 20px;
+  padding: 10px 20px;
   border-bottom: 1px solid #ccc;
+  background-color: #fff;
+
+  a {
+    text-decoration: none;
+  }
 }
 
-.header .header__logo {
-  width: 5%;
+.header__logo {
+  width: 50px; /* Adjust logo size */
+  height: auto;
 }
 
-.header .header__title {
+.header__title {
   color: #000;
+  font-family: "PNJ Demibold", sans-serif; /* Ensure consistent font */
+  font-size: 24px;
+  margin: 0; /* Remove default margin */
 }
 
-.header .header__account {
+.header__account {
   display: flex;
   align-items: center;
 }
 
-.header .header__account .header__account-button {
+.header__account-button {
   color: #000;
   font-size: 15px;
   display: flex;
   align-items: center;
   height: auto;
+  background: none; /* Remove button background */
+  border: none; /* Remove button border */
+  padding: 0; /* Remove button padding */
 }
 
-.header .header__account .header__account-button .header__account-icon {
+.header__account-icon {
   color: #000;
   height: 20px;
   margin-right: 5px;
 }
 
-.header .header__account .header__account-button .header__account-text:hover {
+.header__account-text {
+  color: #000;
+  font-size: 18px;
+}
+
+.header__account-text:hover {
+  text-decoration: underline;
+}
+
+.header__account-button:hover .header__account-text {
   text-decoration: underline;
 }
