@@ -1,14 +1,14 @@
-.RingPage {
+.DiamondProduct {
   background-color: white;
   padding-bottom: 50px;
 }
 
-.RingPage__advertise__image {
+.DiamondProduct__advertise__image {
   display: flex;
   justify-content: center;
 }
 
-.RingPage__advertise__text {
+.DiamondProduct__advertise__text {
   color: #003868;
   font-size: 24px;
   font-family: "PNJ Demibold";
@@ -17,11 +17,9 @@
   padding: 15px 0;
 }
 
-.RingPage__product {
-  padding: 20px 0;
-}
 
-.RingPage__card {
+
+.DiamondProduct__card {
   margin: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
@@ -30,18 +28,18 @@
   height: 26rem; /* Adjusted height */
 }
 
-.RingPage__card:hover {
+.DiamondProduct__card:hover {
   transform: translateY(-10px);
 }
 
-.RingPage__card img {
+.DiamondProduct__card img {
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   width: 90%;
   margin: 0 auto;
 }
 
-.RingPage__card .card-body {
+.DiamondProduct__card .card-body {
   text-align: center;
   font-size: 16px;
 }
@@ -51,7 +49,7 @@
   justify-content: center;
 }
 
-.RingPage__card__image {
+.DiamondProduct__card__image {
   width: 90%;
   height: 60%;
   object-fit: cover;
@@ -123,7 +121,7 @@
   margin-bottom: 5px;
 }
 
-.RingPage {
+.DiamondProduct {
   Button {
     width: 100%;
   }
