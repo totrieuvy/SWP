@@ -4,10 +4,12 @@ import { Button, Form, Input, Modal, Popconfirm, Table, notification } from "ant
 import api from "../../../config/axios";
 import { useForm } from "antd/es/form/Form";
 import moment from "moment";
+import { render } from "react-dom";
 
 function Manager_StaffAccount() {
   const [dataSource, setDataSource] = useState([]);
   const [visible, setVisible] = useState(false);
+  const [visibleUpdate, setVisibleUpdate] = useState(false);
   const [formVariable] = useForm();
 
   const columns = [
@@ -35,6 +37,16 @@ function Manager_StaffAccount() {
       title: "Ngày bắt đầu làm việc",
       dataIndex: "startDate",
       key: "startDate",
+    },
+    {
+      title: "Cập nhật",
+      dataIndex: "staffID",
+      key: "staffID",
+      render: (staffID) => (
+        <Button type="primary" onClick={handleOpenModalUpdate}>
+          Cập nhật
+        </Button>
+      ),
     },
     {
       title: "Xóa",
@@ -85,9 +97,15 @@ function Manager_StaffAccount() {
   const handleOpenModal = () => {
     setVisible(true);
   };
+  const handleOpenModalUpdate = () => {
+    setVisibleUpdate(true);
+  };
 
   const handleCloseModal = () => {
     setVisible(false);
+  };
+  const handleCloseModalUpdate = () => {
+    setVisibleUpdate(false);
   };
 
   const handleOK = () => {
@@ -210,6 +228,11 @@ function Manager_StaffAccount() {
             <Input />
           </Form.Item>
         </Form>
+      </Modal>
+      <Modal title="Cập nhật thông tin nhân viên" open={visibleUpdate} onCancel={handleCloseModalUpdate} onOk={handleOK}>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
+        <p>Some contents...</p>
       </Modal>
     </div>
   );
