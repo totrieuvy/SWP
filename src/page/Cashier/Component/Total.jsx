@@ -1,20 +1,46 @@
 import React, { useEffect, useState } from "react";
 import "./totalCss.css";
-import { Button, Radio, Space } from "antd";
+import {
+  Button,
+  message,
+  Form,
+  Input,
+  Radio,
+  Space,
+  notification,
+  Popconfirm,
+} from "antd";
 import api from "../../../config/axios";
+import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
-function Total({ order, id }) {
+function Total({ clear, order, id }) {
   const [payMethod, setPayMethod] = useState("");
   const [subTotal, setSubTotal] = useState("0");
   const [discount, setDiscount] = useState("0");
-
+  const [cash, setCash] = useState("0");
   const [total, setTotal] = useState("0");
-
   const [orderInfo, setOrderInfo] = useState(`Thanh toán hóa đơn`);
+
+  const [alertApi, contextHolder] = notification.useNotification();
 
   const onChange = ({ target: { value } }) => {
     setPayMethod(value);
   };
+
+  const handleAmountChange = (e) => setCash(e.target.value);
+
+  const openNotification = (mess, desc, icon) => {
+    alertApi.open({
+      message: mess,
+      description: desc,
+      className: "alertCard",
+      style: {
+        width: 600,
+      },
+      icon,
+    });
+  };
+
   const transformData = (inputArray) => {
     return inputArray.flatMap((item) => {
       if (item.promotion_id.length === 0) {
@@ -34,30 +60,32 @@ function Total({ order, id }) {
   };
 
   const fetchTotal = async () => {
-    var result = transformData(order);
+    const result = transformData(order);
     try {
       const response = await api.post("/api/order/OrderTotal", result);
-
       return response.data;
     } catch (error) {
       console.error(error);
     }
   };
+
   useEffect(() => {
     const fetchData = async () => {
       const result = await fetchTotal();
-      setDiscount(result.discount_Price);
-      setSubTotal(result.subTotal);
-      setTotal(result.total);
-      setOrderInfo(`Thanh toan ${id}`);
-      console.log(id);
+      if (result) {
+        setDiscount(result.discount_Price);
+        setSubTotal(result.subTotal);
+        setTotal(result.total);
+        setOrderInfo(`Thanh toan ${id}`);
+        console.log(id);
+      }
     };
     fetchData();
-  }, [order]);
-  const handlePayment = async (e) => {
-    if (payMethod == "vnpay") {
-      e.preventDefault();
+  }, [order, id]);
 
+  const handlePayment = async (e) => {
+    e.preventDefault();
+    if (payMethod === "vnpay") {
       try {
         const response = await api.post(`/vnpay/submitOrder`, null, {
           params: {
@@ -75,8 +103,52 @@ function Total({ order, id }) {
         console.error("Error creating order:", error);
         alert("Error creating order");
       }
+    } else if (payMethod === "cash") {
+      try {
+        const payData = {
+          orderID: id,
+          amount: parseFloat(cash),
+          total: parseFloat(total),
+        };
+
+        const response = await api.patch("/api/order/cash-confirm", payData);
+
+        if (response.status === 200) {
+          openNotification(
+            "Thành công",
+            response.data,
+            <CheckCircleOutlined style={{ color: "green" }} />
+          );
+          clear();
+        } else {
+          openNotification(
+            `Thất bại: ${response.status}`,
+            response.data,
+            <CloseCircleOutlined style={{ color: "red" }} />
+          );
+        }
+      } catch (error) {
+        if (error.response) {
+          openNotification(
+            `Thất bại: ${error.response.status}`,
+            error.response.data,
+            <CloseCircleOutlined style={{ color: "red" }} />
+          );
+        } else {
+          console.error("Error:", error.message);
+        }
+      }
     }
   };
+
+  const confirm = (e) => {
+    console.log(e);
+  };
+  const cancel = (e) => {
+    console.log(e);
+    message.error("Click on No");
+  };
+
   return (
     <div className="total">
       <section className="subTotal">
@@ -102,11 +174,37 @@ function Total({ order, id }) {
             <Radio.Button value="cash">Tiền mặt</Radio.Button>
           </Space>
         </Radio.Group>
+        {payMethod === "cash" && (
+          <Form>
+            {contextHolder}
+            <Form.Item
+              label="Cash Amount Received"
+              name="cashAmount"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter the cash amount received!",
+                },
+              ]}
+            >
+              <Input value={cash} onChange={handleAmountChange} />
+            </Form.Item>
+          </Form>
+        )}
       </section>
       <section id="buttonContainer">
-        <Button size="large" type="primary" onClick={handlePayment}>
-          Thanh toán
-        </Button>
+        <Popconfirm
+          title="Xác nhận thanh toán"
+          description="Thanh toán hóa đơn?"
+          onConfirm={handlePayment}
+          onCancel={cancel}
+          okText="Chấp nhận"
+          cancelText="Không"
+        >
+          <Button size="large" type="primary">
+            Thanh toán
+          </Button>
+        </Popconfirm>
       </section>
     </div>
   );

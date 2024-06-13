@@ -1,4 +1,4 @@
-import { Table } from "antd";
+import { Button, Table } from "antd";
 import React from "react";
 
 function ViewProductBuyOrder({ data }) {
@@ -7,6 +7,19 @@ function ViewProductBuyOrder({ data }) {
       title: "ID",
       dataIndex: "id",
       key: "id",
+      render: (text, record, index) => index + 1,
+    },
+    {
+      title: "Image",
+      dataIndex: "image",
+      key: "image",
+      render: (text, record) => (
+        <img
+          src={`${record.image}`}
+          alt="product"
+          style={{ width: 100, height: 100 }}
+        />
+      ),
     },
     {
       title: "Category",
@@ -32,13 +45,30 @@ function ViewProductBuyOrder({ data }) {
       title: "Calculated Price",
       dataIndex: "calculatedPrice",
       key: "calculatedPrice",
-      render: (text, record) => `$${record.calculatedPrice.toFixed(2)}`,
+      render: (text, record) => `$${(record.calculatedPrice || 0).toFixed(2)}`,
     },
   ];
-
+  const handleOrder = () => {
+    console.log(data);
+  };
   return (
     <div className="ViewProductBuyOrder">
-      <Table dataSource={data} columns={columns} rowKey="id" />
+      <Table
+        dataSource={data}
+        columns={columns}
+        style={{ maxHeight: "70%", overflow: "auto" }}
+        rowKey={(record, index) => index}
+        pagination={false}
+      />
+      <section className="ProductBuyInitializeButton">
+        <Button
+          type="primary"
+          onClick={handleOrder}
+          className="fullWidthButton"
+        >
+          Tạo
+        </Button>
+      </section>
     </div>
   );
 }

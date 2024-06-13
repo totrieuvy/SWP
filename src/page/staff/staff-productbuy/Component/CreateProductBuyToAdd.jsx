@@ -1,19 +1,39 @@
-import React, { useState } from "react";
-import { Form, Input, InputNumber, Checkbox, Button } from "antd";
+import React, { useEffect, useState } from "react";
+import { Form, Input, InputNumber, Checkbox, Button, Select } from "antd";
 import CustomWebcam from "./CustomWebcam";
+import api from "../../../../config/axios";
+import { Option } from "antd/es/mentions";
 
-function CreateProductBuyToAdd() {
+function CreateProductBuyToAdd({ appendOrder }) {
   const [noMetal, setNoMetal] = useState(false);
   const [noGemstone, setNoGemstone] = useState(false);
   const [image, setImage] = useState("");
+  const [category, setCategory] = useState([]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get(`api/category/readall`);
+        setCategory(response.data);
+      } catch (error) {
+        console.error("Error fetching the order", error);
+      }
+    };
 
+    fetchData();
+  }, []);
   const onFinish = (values) => {
-    console.log("Form values:", values);
+    // Combine form values and image into a JSON object
+    const productData = {
+      ...values,
+      image,
+    };
+
+    // Append the JSON object using the appendOrder function
+    appendOrder(productData);
   };
 
   const getImageData = (data) => {
     setImage(data);
-    console.log(data);
   };
 
   const handleProductBuy = () => {
@@ -37,7 +57,24 @@ function CreateProductBuyToAdd() {
             No Metal
           </Checkbox>
         </Form.Item>
-
+        <Form.Item
+          label="Category"
+          name="category"
+          rules={[
+            {
+              required: true,
+              message: "Please input!",
+            },
+          ]}
+        >
+          <Select>
+            {category.map((option) => (
+              <Option key={option.id} value={option.name}>
+                {option.label}
+              </Option>
+            ))}
+          </Select>
+        </Form.Item>
         <Form.Item
           label="Metal Type"
           name="metalType"
