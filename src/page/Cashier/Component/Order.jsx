@@ -50,7 +50,7 @@ const columns = [
     key: "description",
   },
 ];
-function Order({ orderID, setOrder }) {
+function Order({ orderID, setOrder, orderStatus, setOrderStatus }) {
   // Destructuring props to get orderID
   const [data, setData] = useState([]); // Initial state as an empty array to hold product list
 
@@ -67,6 +67,12 @@ function Order({ orderID, setOrder }) {
 
     fetchOrder();
   }, [orderID]); // Add orderID to dependency array
+  useEffect(() => {
+    if (orderStatus == "Clear") {
+      setData([]);
+      setOrderStatus("NotClear");
+    }
+  }, [orderStatus]);
 
   return (
     <div className="bill">
