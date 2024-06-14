@@ -15,6 +15,7 @@
     "antd": "^5.17.3",
     "axios": "^1.7.2",
     "bootstrap": "^5.3.3",
+    "dayjs": "^1.11.11",
     "firebase": "^10.12.2",
     "html5-qrcode": "^2.3.8",
     "jwt-decode": "^4.0.0",

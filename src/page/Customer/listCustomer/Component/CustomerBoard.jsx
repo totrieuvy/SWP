@@ -8,7 +8,7 @@ function CustomerBoard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get("customer/list-all");
+        const response = await api.get("/api/customer");
         console.log(response.data);
         setData(response.data);
       } catch (error) {

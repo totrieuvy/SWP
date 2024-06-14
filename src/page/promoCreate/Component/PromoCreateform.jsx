@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  Button,
-  Cascader,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Mentions,
-  Select,
-  TreeSelect,
-} from "antd";
+import { Button, Cascader, DatePicker, Form, Input, InputNumber, Mentions, Select, TreeSelect } from "antd";
 import api from "../../../config/axios";
 const options = [];
 const category = api.get("/category/readAll").then((response) => {
