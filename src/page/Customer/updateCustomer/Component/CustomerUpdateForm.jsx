@@ -49,7 +49,7 @@ function CustomerUpdateForm({ cid, email, phoneNumber, pointAmount, status }) {
   const onFinish = async (value) => {
     try {
       const response = await api.put(
-        "/customer/update-customer-details",
+        `/api/customer/${value.pk_CustomerID}`,
         value
       );
       console.log("Response:", response.data);

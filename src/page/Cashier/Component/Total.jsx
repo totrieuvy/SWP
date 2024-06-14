@@ -62,7 +62,7 @@ function Total({ clear, order, id }) {
   const fetchTotal = async () => {
     const result = transformData(order);
     try {
-      const response = await api.post("/api/order/OrderTotal", result);
+      const response = await api.post("/api/order/total", result);
       return response.data;
     } catch (error) {
       console.error(error);
