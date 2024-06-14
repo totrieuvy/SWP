@@ -12,7 +12,7 @@ function CreateProductBuyToAdd({ appendOrder }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`api/category/readall`);
+        const response = await api.get(`api/category`);
         setCategory(response.data);
       } catch (error) {
         console.error("Error fetching the order", error);
