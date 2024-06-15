@@ -20,7 +20,7 @@ const CreateProductSell = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`category/readAll`);
+        const response = await api.get(`/api/category`);
         setCategory(response.data);
       } catch (error) {
         console.error("Error fetching the categories", error);

@@ -7,6 +7,7 @@ import Register from "./page/registerStaffPage/RegisterStaff";
 import ResetPassword from "./page/resetPasswordPage/ResetPassword";
 import ChangePassword from "./page/changePassword/ChangePassword";
 import Home from "./page/homePages/home/Home";
+
 import Staff from "./page/staff/staff-page/Staff";
 import Manager_StaffAccount from "./page/manager/manager-staffAccount/Manager_StaffAccount";
 import { useSelector } from "react-redux";
@@ -66,6 +67,7 @@ function App() {
       <Route path="/changePassword" element={<ChangePassword />} />
       <Route path="/customer/view" element={<ListCustomer />} />
       <Route path="/customer/update" element={<UpdateCustomer />} />
+
       <Route path="/test/QR" element={<QR />} />
 
       <Route path="/staff" element={<Staff />} />

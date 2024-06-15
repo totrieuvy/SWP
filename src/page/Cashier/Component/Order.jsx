@@ -57,7 +57,7 @@ function Order({ orderID, setOrder, orderStatus, setOrderStatus }) {
   useEffect(() => {
     const fetchOrder = async () => {
       try {
-        const response = await api.get(`/api/order/get-order/${orderID}`);
+        const response = await api.get(`/api/order/${orderID}`);
         setData(response.data);
         setOrder(response.data);
       } catch (error) {

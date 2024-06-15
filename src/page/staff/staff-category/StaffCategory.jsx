@@ -25,6 +25,7 @@ function StaffCategory() {
     const response = await api.get("/api/category");
 
     console.log(response);
+    setdataSource(response.data);
   };
   useEffect(() => {
     fetchStaffCategory();
