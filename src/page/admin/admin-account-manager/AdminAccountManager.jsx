@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./AdmiAccountManager.scss";
 import SidebarAdmin from "../sidebarAdmin/SidebarAdmin";
 import api from "../../../config/axios";
-import { Button, Form, Input, Modal, Table, notification } from "antd";
+import { Button, Form, Input, Modal, Popconfirm, Table, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 
 function AdminAccountManager() {
@@ -19,12 +19,43 @@ function AdminAccountManager() {
       dataIndex: "email",
       key: "email",
     },
+    {
+      title: "Vai trò",
+      dataIndex: "role",
+      key: "role",
+    },
+    {
+      title: "Xóa",
+      dataIndex: "pk_userID",
+      key: "pk_userID",
+      render: (pk_userID) => (
+        <Popconfirm
+          title="Xóa nhân viên"
+          description="Bạn có chắc muốn xóa quản lí không?"
+          onConfirm={() => handleDeleteManager(pk_userID)}
+          okText="Đồng ý"
+          cancelText="Không"
+        >
+          <Button danger>Xóa</Button>
+        </Popconfirm>
+      ),
+    },
   ];
+  const handleDeleteManager = async (pk_userID) => {
+    const response = await api.delete(`/api/${pk_userID}`);
+
+    const filterAccountAfterDelete = dataSource.filter((data) => data.pk_userID != pk_userID);
+    setDataSource(filterAccountAfterDelete);
+    notification.success({
+      message: "Thành công",
+      description: "Xóa quản lí thành công",
+    });
+  };
 
   const [dataSource, setDataSource] = useState([]);
 
   const fetchListOfManager = async () => {
-    const response = await api.get("/api/manager");
+    const response = await api.get("/api");
     console.log(response.data);
     const responseWithStatusTrue = response.data.filter((item) => item.status === 1);
     setDataSource(responseWithStatusTrue);
@@ -45,7 +76,7 @@ function AdminAccountManager() {
   };
   const handleFinish = async (values) => {
     console.log(values);
-    const response = await api.post("/api/manager/create", values);
+    const response = await api.post("/api", values);
     console.log(response);
     setDataSource([...dataSource, values]);
     formVariable.resetFields();

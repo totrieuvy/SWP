@@ -1,19 +1,37 @@
 import React, { useEffect } from "react";
 import "./ChangePasswordManager.scss";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 import SidebarManager from "../sidebarManager/SidebarManager";
+import { useSelector } from "react-redux";
+import { selectUser } from "redux/features/counterSlice";
+import api from "config/axios";
 
 function ChangePasswordManager() {
   const [formVariable] = useForm();
+  const user = useSelector(selectUser);
 
-  useEffect(() => {
+  const onFinish = async ({ oldPassword, newPassword }) => {
+    try {
+      const response = await api.put(`/api/account/change/${user.id}`, { oldPassword, newPassword });
+      console.log(response);
+      notification.success({
+        message: "Thành công",
+        description: "Đổi mật khẩu thành công",
+      });
+      formVariable.resetFields();
+    } catch (error) {
+      console.log(error);
+      notification.error({
+        message: "Thất bại",
+        description: "Đổi mật khẩu thất bại",
+      });
+    }
+  };
+
+  React.useEffect(() => {
     document.title = "Đổi mật khẩu";
   }, []);
-
-  const onFinish = (values) => {
-    console.log(values);
-  };
 
   return (
     <div className="ChangePasswordManager">

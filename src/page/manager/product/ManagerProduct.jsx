@@ -31,7 +31,7 @@ function ManagerProduct() {
     document.title = "Danh sách sản phẩm";
     const fetchData = async () => {
       try {
-        const response = await api.get("/api/productSell/readall");
+        const response = await api.get("/api/productSell");
         console.log(response.data);
         setData(response.data);
       } catch (error) {
@@ -45,7 +45,7 @@ function ManagerProduct() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`category/readAll`);
+        const response = await api.get(`/api/category`);
         setCategory(response.data);
       } catch (error) {
         console.error("Error fetching the categories", error);
@@ -177,7 +177,7 @@ function ManagerProduct() {
     Object.keys(values).forEach((key) => formData.append(key, values[key]));
 
     api
-      .post("/api/productSell/create", formData, {
+      .post("/api/productSell", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

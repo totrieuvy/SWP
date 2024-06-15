@@ -31,7 +31,6 @@ import StaffProfile from "./page/staff/staff-profile/StaffProfile";
 import StaffCategory from "./page/staff/staff-category/StaffCategory";
 import StaffProduct from "./page/staff/staff-product/StaffProduct";
 import StaffChangePassword from "./page/staff/staff-changepassword/StaffChangePassword";
-import CreateProductSell from "./page/createProductSell/CreateProductSell";
 import MainCreateOrder from "./page/saleCreateOrder/MainCreateOrder";
 import DisplayOrder from "./page/Cashier/DisplayOrder";
 import VNPay from "./page/VNPAY/VNPay";
@@ -39,6 +38,7 @@ import OrderSuccess from "./page/defaultComponent/OrderSuccess";
 import OrderFail from "./page/defaultComponent/OrderFail";
 import ProductBuy from "./page/staff/staff-productbuy/ProductBuy";
 import ManagerProduct from "./page/manager/product/ManagerProduct";
+import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaff";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -95,12 +95,13 @@ function App() {
           <Route path="category" element={<AdminCategory />} />
           <Route path="changepassword" element={<ChangePasswordAdmin />} />
           <Route path="manager" element={<AdminAccountManager />} />
+          <Route path="staff" element={<AdminAccountStaff />} />
         </Route>
       </Route>
 
       <Route path="staff" element={<PrivateProute role={"ROLE_STAFF"} />}>
         <Route path="" element={<Dashboard />}>
-          <Route path="profile" element={<StaffProfile />} />
+          <Route path="profile/:id" element={<StaffProfile />} />
           <Route path="ordersuccess" element={<OrderSuccess />} />
           <Route path="orderfail" element={<OrderFail />} />
           <Route path="category" element={<StaffCategory />} />

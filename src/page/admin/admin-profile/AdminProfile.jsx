@@ -9,7 +9,7 @@ function AdminProfile() {
   const user = useSelector(selectUser);
   const fetchAdminProfile = async () => {
     try {
-      const response = await api.get(`/api/adminprofile/${user.id}`);
+      const response = await api.get(`/api/admins/${user.id}`);
       console.log(response.data);
       return response.data;
     } catch (error) {

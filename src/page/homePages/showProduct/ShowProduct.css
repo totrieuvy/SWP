@@ -3,29 +3,13 @@
   padding-bottom: 50px;
 }
 
-.DiamondProduct__advertise__image {
-  display: flex;
-  justify-content: center;
-}
-
-.DiamondProduct__advertise__text {
-  color: #003868;
-  font-size: 24px;
-  font-family: "PNJ Demibold";
-  display: flex;
-  justify-content: center;
-  padding: 15px 0;
-}
-
-
-
 .DiamondProduct__card {
   margin: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   transition: transform 0.3s ease;
   width: 20rem;
-  height: 26rem; /* Adjusted height */
+  height: 26rem;
 }
 
 .DiamondProduct__card:hover {
@@ -42,18 +26,6 @@
 .DiamondProduct__card .card-body {
   text-align: center;
   font-size: 16px;
-}
-
-.swiper-slide {
-  display: flex;
-  justify-content: center;
-}
-
-.DiamondProduct__card__image {
-  width: 90%;
-  height: 60%;
-  object-fit: cover;
-  margin: 0 auto;
 }
 
 .card__name,
@@ -103,6 +75,13 @@
   top: 20px;
 }
 
+.diamond-modal-content {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
 .diamond-modal-image {
   width: 100%;
   border-radius: 10px;
@@ -119,10 +98,16 @@
 .diamond-modal-detail {
   font-size: 18px;
   margin-bottom: 5px;
+  text-align: center;
 }
 
-.DiamondProduct {
-  Button {
-    width: 100%;
-  }
+.DiamondProduct Button {
+  width: 83%;
+}
+
+.DiamondProduct__card__image {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 65%;
 }
