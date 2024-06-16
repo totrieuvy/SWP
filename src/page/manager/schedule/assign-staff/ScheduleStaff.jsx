@@ -1,15 +1,12 @@
 // ScheduleStaff.jsx
-import { Button } from "antd";
+import { Button, Card } from "antd";
 import React from "react";
 
-const ScheduleStaff = ({ staff }) => {
+const ScheduleStaff = ({ staff, handleAdd }) => {
   return (
-    <div>
-      <Button type="primary">Thêm</Button>
-
-      <h3>Schedule for {staff.username}</h3>
+    <Card title={`Schedule for ${staff.username}`} style={{ width: 300 }}>
       {staff.shift.map((shift) => (
-        <div key={shift.shiftID}>
+        <div key={shift.shiftID} style={{ marginTop: 16 }}>
           <p>Shift ID: {shift.shiftID}</p>
           <p>Start Time: {shift.startTime}</p>
           <p>End Time: {shift.endTime}</p>
@@ -17,7 +14,7 @@ const ScheduleStaff = ({ staff }) => {
           <p>Work Area: {shift.workArea}</p>
         </div>
       ))}
-    </div>
+    </Card>
   );
 };
 

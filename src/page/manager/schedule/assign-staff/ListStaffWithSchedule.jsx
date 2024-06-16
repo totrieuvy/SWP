@@ -3,6 +3,7 @@ import { Button, Table } from "antd";
 import ScheduleStaff from "./ScheduleStaff";
 import api from "../../../../config/axios";
 import DateSelectorForm from "./DateSelectorForm";
+import { useNavigate } from "react-router-dom";
 function ListStaffWithSchedule() {
   const [data, setData] = useState([]);
   const [scheduleData, setScheduleData] = useState({});
@@ -97,13 +98,48 @@ function ListStaffWithSchedule() {
       key: "schedule",
       render: (_, record) =>
         record.shift && record.shift.length > 0 ? (
-          <ScheduleStaff staff={record} />
+          <>
+            <Button onClick={handleAdd} type="primary">
+              Thêm
+            </Button>
+            <ScheduleStaff handleAdd={() => handleAdd(record)} staff={record} />
+          </>
         ) : (
-          <Button type="primary">Thêm</Button>
+          <Button onClick={() => handleAdd(record)} type="primary">
+            Thêm
+          </Button>
         ),
     },
   ];
 
+  const navigate = useNavigate();
+  const handleAdd = (record) => {
+    const serializableRecord = {
+      staffID: record.staffID,
+      phoneNumber: record.phoneNumber,
+      salary: record.salary,
+      startDate: record.startDate,
+      accountName: record.accountName,
+      role: record.role,
+      status: record.status,
+      email: record.email,
+      username: record.username,
+      shift: record.shift
+        ? record.shift.map((shift) => ({
+            date: shift.date,
+            shiftType: shift.shiftType,
+            startTime: shift.startTime,
+            endTime: shift.endTime,
+          }))
+        : [],
+    };
+    console.log(serializableRecord);
+    navigate("/manager/staff/assign-to", {
+      state: {
+        data: serializableRecord,
+      },
+    });
+  };
   return (
     <>
       <DateSelectorForm setScheduleData={setScheduleData} />
