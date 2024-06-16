@@ -39,6 +39,7 @@ import OrderSuccess from "./page/defaultComponent/OrderSuccess";
 import OrderFail from "./page/defaultComponent/OrderFail";
 import ProductBuy from "./page/staff/staff-productbuy/ProductBuy";
 import ManagerProduct from "./page/manager/product/ManagerProduct";
+import ListStaffWithSchedule from "./page/manager/schedule/assign-staff/ListStaffWithSchedule";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -85,6 +86,7 @@ function App() {
           <Route path="changepassword" element={<ManagerChangePassword />} />
           <Route path="product" element={<ManagerProduct />} />
           <Route path="staff" element={<Manager_StaffAccount />} />
+          <Route path="staff/assign" element={<ListStaffWithSchedule />} />
         </Route>
       </Route>
 

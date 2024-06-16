@@ -87,6 +87,8 @@ const Dashboard = () => {
           "manager/staff",
           <CheckCircleOutlined />
         ),
+        getItem("Lịch làm việc", "manager/staff/assign", <ProfileOutlined />),
+
         getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
       ]);
     } else if (user.role === "ROLE_ADMIN") {
