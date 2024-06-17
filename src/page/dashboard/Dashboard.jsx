@@ -69,8 +69,8 @@ const Dashboard = () => {
         getItem("Thể loại", "manager/category", <ProfileOutlined />),
         getItem("Sản phẩm", "manager/product", <HeartOutlined />),
         getItem("Khách hàng", "manager/customer/view", <ProfileOutlined />),
-
         getItem("Danh sách nhân viên", "manager/staff", <CheckCircleOutlined />),
+        getItem("Chính sách ưu đãi", "manager/promotion", <ProfileOutlined />),
         getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
       ]);
     } else if (user.role === "ROLE_ADMIN") {
