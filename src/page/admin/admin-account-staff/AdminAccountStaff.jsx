@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./AdminAccountStaff.scss";
 import api from "../../../config/axios";
-import { Button, Table } from "antd";
+import { Button, Popconfirm, Table, notification } from "antd";
 // import { selectUser } from "redux/features/counterSlice";
 
 function AdminAccountStaff() {
@@ -9,8 +9,8 @@ function AdminAccountStaff() {
   const columns = [
     {
       title: "Tên",
-      dataIndex: "ausername",
-      key: "ausername",
+      dataIndex: "username",
+      key: "username",
     },
     {
       title: "Email",
@@ -29,12 +29,43 @@ function AdminAccountStaff() {
     },
     {
       title: "Ngày bắt đầu",
-      dataIndex: "startDate",
-      key: "startDate",
+      dataIndex: "staffID",
+      key: "staffID",
+    },
+    {
+      title: "Vai trò",
+      dataIndex: "role",
+      key: "role",
+    },
+    {
+      title: "Xóa",
+      dataIndex: "staffID",
+      key: "staffID",
+      render: (staffID) => (
+        <Popconfirm
+          title="Xóa nhân viên"
+          description="Bạn có chắc muốn xóa nhân viên không?"
+          onConfirm={() => handleDeleteStaff(staffID)}
+          okText="Đồng ý"
+          cancelText="Không"
+        >
+          <Button danger>Xóa</Button>
+        </Popconfirm>
+      ),
     },
   ];
+  const handleDeleteStaff = async (staffID) => {
+    const response = await api.delete(`/api/staff-accounts/${staffID}`);
+
+    const filterAccountAfterDelete = dataSource.filter((data) => data.staffID != staffID);
+    setDataSource(filterAccountAfterDelete);
+    notification.success({
+      message: "Thành công",
+      description: "Xóa nhân viênthành công",
+    });
+  };
   const fetchListOfStaffofAdmin = async () => {
-    const response = await api.get("/api/staff/readall");
+    const response = await api.get("/api/staff-accounts");
     console.log(response.data);
     const responseWithStatusTrue = response.data.filter((item) => item.status === 1);
     setDataSource(responseWithStatusTrue);
@@ -46,7 +77,6 @@ function AdminAccountStaff() {
   }, []);
   return (
     <div className="AdminAccountStaff">
-      <Button type="primary">Add new staff</Button>
       <Table dataSource={dataSource} columns={columns} />
     </div>
   );

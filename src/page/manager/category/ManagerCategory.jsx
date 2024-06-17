@@ -33,7 +33,7 @@ function ManagerCategory() {
     },
   ];
   const handleDeleteCategory = async (id) => {
-    await api.delete(`/api/category/delete/${id}`);
+    await api.delete(`/api/category/${id}`);
 
     const listAfterDelete = dataSource.filter((category) => category.id !== id);
 
@@ -41,11 +41,11 @@ function ManagerCategory() {
 
     notification.success({
       message: "Thành công",
-      description: "Xóa nhân viên thành công",
+      description: "Xóa thể loại thành công",
     });
   };
   const fetchCategory = async () => {
-    const response = await api.get("/api/category/readall");
+    const response = await api.get("/api/category");
     console.log(response.data);
     setDataSource(response.data);
   };

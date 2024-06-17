@@ -22,7 +22,7 @@ function StaffCategory() {
     },
   ];
   const fetchStaffCategory = async () => {
-    const response = await api.get("api/category");
+    const response = await api.get("/api/category");
 
     console.log(response);
     setdataSource(response.data);

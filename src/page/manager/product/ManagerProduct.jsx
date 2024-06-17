@@ -26,12 +26,14 @@ function ManagerProduct() {
   const [formVariable] = useForm();
   const [category, setCategory] = useState([]);
   const [imageFile, setImageFile] = useState(null);
+  const [modalUpdate, setModalUpdate] = useState(false);
+  const [oldData, setOldData] = useState({});
 
   useEffect(() => {
     document.title = "Danh sách sản phẩm";
     const fetchData = async () => {
       try {
-        const response = await api.get("/api/productSell/readall");
+        const response = await api.get("/api/productSell");
         console.log(response.data);
         setData(response.data);
       } catch (error) {
@@ -45,7 +47,7 @@ function ManagerProduct() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`category/readAll`);
+        const response = await api.get(`/api/category`);
         setCategory(response.data);
       } catch (error) {
         console.error("Error fetching the categories", error);
@@ -118,11 +120,27 @@ function ManagerProduct() {
       key: "carat",
       sorter: (a, b) => a.carat - b.carat,
     },
+
     {
       title: "Chỉ",
       dataIndex: "chi",
       key: "chi",
       sorter: (a, b) => a.chi - b.chi,
+    },
+    {
+      title: "Cập nhật",
+      dataIndex: "productID",
+      key: "productID",
+      render: (productID, record) => (
+        <Button
+          type="primary"
+          onClick={() => {
+            handleOpenModalUpdate(record);
+          }}
+        >
+          Cập nhật
+        </Button>
+      ),
     },
     {
       title: "Xóa",
@@ -177,7 +195,7 @@ function ManagerProduct() {
     Object.keys(values).forEach((key) => formData.append(key, values[key]));
 
     api
-      .post("/api/productSell/create", formData, {
+      .post("/api/productSell", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -188,6 +206,27 @@ function ManagerProduct() {
       .catch((error) => {
         message.error("Failed to create product");
       });
+  };
+
+  const handleOpenModalUpdate = (record) => {
+    setOldData(record);
+    formVariable.setFieldsValue(record);
+    setModalUpdate(true);
+  };
+
+  const handleCloseModalUpdate = () => {
+    setModalUpdate(false);
+  };
+
+  const handleFinishUpdate = async (values) => {
+    try {
+      const response = await api.put(`/api/productSell/${oldData.productID}`, {
+        name: values.pname,
+      });
+      console.log(response);
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -242,6 +281,15 @@ function ManagerProduct() {
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+
+      {/* update product */}
+      <Modal title="Cập nhật sản phẩm" open={modalUpdate} onCancel={handleCloseModalUpdate} onOk={handleOk}>
+        <Form form={formVariable} labelCol={{ span: 24 }} onFinish={handleFinishUpdate}>
+          <Form.Item label={"Tên sản phẩm"} name={"name"}>
+            <Input />
           </Form.Item>
         </Form>
       </Modal>

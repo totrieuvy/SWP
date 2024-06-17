@@ -61,20 +61,18 @@ const Dashboard = () => {
 
   useEffect(() => {
     if (user.role === "ROLE_STAFF") {
-      if (user.role === "ROLE_STAFF") {
-        setItems([
-          getItem("Hồ sơ", "staff/profile", <ProfileOutlined />),
-          getItem("Thể loại", "staff/category", <ProfileOutlined />),
-          getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
-          getItem("Tạo đơn hàng", "staff/create", <ProfileOutlined />),
-          getItem(
-            "Xác nhận đơn hàng",
-            "staff/confirm-order",
-            <ProfileOutlined />
-          ),
-          getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
-        ]);
-      }
+      setItems([
+        getItem("Hồ sơ", `staff/profile/${user.id}`, <ProfileOutlined />),
+        getItem("Thể loại", "staff/category", <ProfileOutlined />),
+        getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
+        getItem("Tạo đơn hàng", "staff/create", <ProfileOutlined />),
+        getItem(
+          "Xác nhận đơn hàng",
+          "staff/confirm-order",
+          <ProfileOutlined />
+        ),
+        getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
+      ]);
     } else if (user.role === "ROLE_MANAGER") {
       setItems([
         getItem("Hồ sơ", `manager/profile/${user.id}`, <ProfileOutlined />),
@@ -89,6 +87,7 @@ const Dashboard = () => {
         ),
         getItem("Lịch làm việc", "manager/staff/assign", <ProfileOutlined />),
 
+        getItem("Chính sách ưu đãi", "manager/promotion", <ProfileOutlined />),
         getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
       ]);
     } else if (user.role === "ROLE_ADMIN") {
