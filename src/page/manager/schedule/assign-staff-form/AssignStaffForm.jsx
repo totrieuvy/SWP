@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Badge, Calendar, Card, Col, Radio, Row } from "antd";
+import { Badge, Button, Calendar, Card, Col, Radio, Row } from "antd";
 import moment from "moment";
-import axios from "axios";
+import "./style.css";
 import api from "../../../../config/axios";
+
 const sampleData = {
   staffID: 49,
   phoneNumber: "0854321098",
@@ -40,6 +41,7 @@ function AssignStaffForm() {
   const onSelect = (value) => {
     const selectedDate = value.format("dddd, DD-MM-YYYY");
     setDate(selectedDate);
+    console.log(selectedDate);
     filterShifts(selectedDate, shiftType);
   };
 
@@ -123,7 +125,7 @@ function AssignStaffForm() {
       };
 
       return (
-        <div>
+        <div className="shiftIcon">
           {morningShifts.length > 0 &&
             isStaffAssigned(morningShifts) &&
             renderShiftBadges(morningShifts)}
@@ -153,6 +155,34 @@ function AssignStaffForm() {
     }
   };
 
+  const handleAddToSchedule = async () => {
+    const dateParts = date.split(", "); // Split into ["Thursday", "20-06-2024"]
+
+    // Parse the date parts
+    const dateString = dateParts[1]; // "20-06-2024"
+    // Parse the date parts
+    const parts = dateString.split("-");
+    const day = parts[0]; // "24"
+    const month = parts[1]; // "06"
+    const year = parts[2]; // "2024"
+
+    try {
+      const queryString = new URLSearchParams({
+        staffId: data[0].staffID,
+        date: `${year}-${month}-${day}`,
+        shiftType: shiftType,
+      }).toString();
+
+      const response = await api.post(
+        `/scheduling/assignStaffToDay?${queryString}`
+      );
+
+      console.log("Staff assigned successfully", response);
+      fetchShiftsForMonth(currentMonth);
+    } catch (error) {
+      console.error("Failed to assign staff", error);
+    }
+  };
   return (
     <>
       <div>
@@ -215,36 +245,45 @@ function AssignStaffForm() {
           <p>No data available</p>
         )}
       </div>
-      <div style={{ marginBottom: 16 }}>
-        <Radio.Group onChange={onShiftTypeChange} value={shiftType}>
-          <Radio.Button value="Morning">Morning</Radio.Button>
-          <Radio.Button value="Afternoon">Afternoon</Radio.Button>
-          <Radio.Button value="Evening">Evening</Radio.Button>
-        </Radio.Group>
-      </div>
+
       <Calendar
         onSelect={onSelect}
         onPanelChange={onPanelChange}
         cellRender={dateCellRender}
       />
-      <div>
-        <h4>Filtered Shifts:</h4>
-        {filteredShifts.length > 0 ? (
-          filteredShifts.map((shift, index) => (
-            <div key={index}>
-              <p>Shift ID: {shift.shiftID}</p>
-              <p>Date: {date}</p>
-              <p>Shift Type: {shift.shiftType}</p>
-              <p>Start Time: {shift.startTime}</p>
-              <p>End Time: {shift.endTime}</p>
-              <p>Status: {shift.status}</p>
-              <p>Work Area: {shift.workArea}</p>
-            </div>
-          ))
-        ) : (
-          <p>No shifts available for the selected date and shift type</p>
-        )}
-      </div>
+      <section className="staffForm">
+        <div className="filtered">
+          <h4>Filtered Shifts:</h4>
+          {filteredShifts.length > 0 ? (
+            filteredShifts.map((shift, index) => (
+              <div key={index}>
+                <p>Shift ID: {shift.shiftID}</p>
+                <p>Date: {date}</p>
+                <p>Shift Type: {shift.shiftType}</p>
+                <p>Start Time: {shift.startTime}</p>
+                <p>End Time: {shift.endTime}</p>
+                <p>Status: {shift.status}</p>
+                <p>Work Area: {shift.workArea}</p>
+              </div>
+            ))
+          ) : (
+            <p>No shifts available for the selected date and shift type</p>
+          )}
+        </div>
+        <div className="formElement">
+          <div style={{ marginBottom: 16 }}>
+            <Radio.Group onChange={onShiftTypeChange} value={shiftType}>
+              <Radio.Button value="Morning">Morning</Radio.Button>
+              <Radio.Button value="Afternoon">Afternoon</Radio.Button>
+              <Radio.Button value="Evening">Evening</Radio.Button>
+            </Radio.Group>
+          </div>
+          <Button type="primary" onClick={handleAddToSchedule}>
+            {" "}
+            Add
+          </Button>
+        </div>
+      </section>
     </>
   );
 }

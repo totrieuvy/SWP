@@ -1,0 +1,16 @@
+.staffForm{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.filtered{
+    width: 50%;
+}
+.formElement{
+    width: 50%;
+    display:flex;
+    gap: 10%;
+}
+.shiftIcon span{
+    padding: 2.5px ;
+}

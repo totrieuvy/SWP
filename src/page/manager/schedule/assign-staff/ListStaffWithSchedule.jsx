@@ -99,7 +99,7 @@ function ListStaffWithSchedule() {
       render: (_, record) =>
         record.shift && record.shift.length > 0 ? (
           <>
-            <Button onClick={handleAdd} type="primary">
+            <Button onClick={() => handleAdd(record)} type="primary">
               Thêm
             </Button>
             <ScheduleStaff handleAdd={() => handleAdd(record)} staff={record} />
