@@ -38,6 +38,8 @@ import OrderSuccess from "./page/defaultComponent/OrderSuccess";
 import OrderFail from "./page/defaultComponent/OrderFail";
 import ProductBuy from "./page/staff/staff-productbuy/ProductBuy";
 import ManagerProduct from "./page/manager/product/ManagerProduct";
+import ListStaffWithSchedule from "./page/manager/schedule/assign-staff/ListStaffWithSchedule";
+import AssignStaffForm from "./page/manager/schedule/assign-staff-form/AssignStaffForm";
 import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaff";
 import Promotion from "./page/manager/promotion/Promotion";
 
@@ -86,6 +88,8 @@ function App() {
           <Route path="changepassword" element={<ManagerChangePassword />} />
           <Route path="product" element={<ManagerProduct />} />
           <Route path="staff" element={<Manager_StaffAccount />} />
+          <Route path="staff/assign" element={<ListStaffWithSchedule />} />
+          <Route path="staff/assign-to" element={<AssignStaffForm />} />
           <Route path="promotion" element={<Promotion />} />
         </Route>
       </Route>
