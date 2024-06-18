@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {
   Button,
   Form,
+  Image,
   Input,
   InputNumber,
   Modal,
@@ -18,28 +19,29 @@ import { UploadOutlined } from "@ant-design/icons";
 
 import "./ManagerProduct.css";
 import { useForm } from "antd/es/form/Form";
+import { convertUrlToFile } from "../../../utils/convertUrlToFile";
+import { convertFileToImg } from "../../../utils/convertFileToImg";
 
 const { Option } = Select;
 function ManagerProduct() {
   const [data, setData] = React.useState([]);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(0); // 0: closed, 1: create, 2: update
   const [formVariable] = useForm();
   const [category, setCategory] = useState([]);
   const [imageFile, setImageFile] = useState(null);
-  const [modalUpdate, setModalUpdate] = useState(false);
   const [oldData, setOldData] = useState({});
-
+  const [imgUrl, setImgUrl] = useState("");
+  const fetchData = async () => {
+    try {
+      const response = await api.get("/api/productSell");
+      console.log(response.data);
+      setData(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
   useEffect(() => {
     document.title = "Danh sách sản phẩm";
-    const fetchData = async () => {
-      try {
-        const response = await api.get("/api/productSell");
-        console.log(response.data);
-        setData(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
 
     fetchData();
   }, []);
@@ -60,8 +62,8 @@ function ManagerProduct() {
   const columns = [
     {
       title: "Tên",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "pname",
+      key: "pname",
       sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
@@ -87,14 +89,14 @@ function ManagerProduct() {
     },
     {
       title: "Loại",
-      dataIndex: "metalType",
-      key: "metalType",
-      sorter: (a, b) => a.metalType.localeCompare(b.metalType),
+      dataIndex: "category_name",
+      key: "category_name",
+      sorter: (a, b) => a.category_name.localeCompare(b.category_name),
     },
     {
       title: "Mô tả",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "pdescription",
+      key: "pdescription",
     },
     {
       title: "Đá",
@@ -107,6 +109,11 @@ function ManagerProduct() {
       dataIndex: "manufacturer",
       key: "manufacturer",
       sorter: (a, b) => a.manufacturer.localeCompare(b.manufacturer),
+    },
+    {
+      title: "Giá nhà sản xuất",
+      dataIndex: "manufactureCost",
+      key: "manufactureCost",
     },
     {
       title: "Ảnh",
@@ -135,7 +142,8 @@ function ManagerProduct() {
         <Button
           type="primary"
           onClick={() => {
-            handleOpenModalUpdate(record);
+            setVisible(2);
+            setOldData(record);
           }}
         >
           Cập nhật
@@ -161,7 +169,7 @@ function ManagerProduct() {
   ];
 
   const handleDeleteProductSell = async (productID) => {
-    await api.delete(`/api/productSell/delete/${productID}`);
+    await api.delete(`/api/productSell/${productID}`);
 
     const listAfterDelete = data.filter((product) => product.productID !== productID);
 
@@ -173,60 +181,93 @@ function ManagerProduct() {
     });
   };
 
+  useEffect(() => {
+    if (visible === 1) {
+      formVariable.resetFields();
+    } else if (visible === 2) {
+      formVariable.setFieldsValue(oldData);
+    }
+  }, [visible, oldData, formVariable]);
+
   const handleOpenModal = () => {
-    setVisible(true);
+    setVisible(1);
+    formVariable.resetFields();
   };
   const handleCloseModal = () => {
-    setVisible(false);
+    setVisible(0);
+    setImgUrl("");
   };
   const handleOk = () => {
     formVariable.submit();
   };
 
-  const handleFileChange = ({ file }) => {
+  const handleFileChange = async ({ file }) => {
+    console.log(file);
     setImageFile(file);
+    const url = await convertFileToImg(file);
+    setImgUrl(url);
   };
 
-  const onFinish = (values) => {
-    const formData = new FormData();
-    if (imageFile) {
-      formData.append("image", imageFile);
-    }
-    Object.keys(values).forEach((key) => formData.append(key, values[key]));
-
-    api
-      .post("/api/productSell", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((response) => {
-        message.success("Product created successfully");
-      })
-      .catch((error) => {
-        message.error("Failed to create product");
-      });
-  };
-
-  const handleOpenModalUpdate = (record) => {
-    setOldData(record);
-    formVariable.setFieldsValue(record);
-    setModalUpdate(true);
-  };
-
-  const handleCloseModalUpdate = () => {
-    setModalUpdate(false);
-  };
-
-  const handleFinishUpdate = async (values) => {
+  const onFinish = async (values) => {
+    console.log(values);
     try {
-      const response = await api.put(`/api/productSell/${oldData.productID}`, {
-        name: values.pname,
-      });
-      console.log(response);
+      if (visible === 1) {
+        const formData = new FormData();
+        if (imageFile) {
+          formData.append("image", imageFile);
+        }
+        Object.keys(values).forEach((key) => formData.append(key, values[key]));
+        try {
+          const response = await api.post("/api/productSell", formData, {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          });
+
+          console.log(response);
+          message.success("Product created successfully");
+          setData([...data, response.data]);
+        } catch (error) {
+          message.error("Failed to create product");
+        }
+      } else if (visible === 2) {
+        const oldImg = await convertUrlToFile(oldData.image);
+
+        const imgUpdate = imgUrl ? imageFile : oldImg;
+
+        const formData = new FormData();
+        formData.append("image", imgUpdate);
+        formData.append("carat", values.carat);
+        formData.append("category_id", oldData.category_id);
+        formData.append("chi", values.chi);
+        formData.append("cost", oldData.cost);
+        formData.append("gemstoneType", values.gemstoneType);
+        formData.append("manufacturer", values.manufacturer);
+        formData.append("manufactureCost", values.manufactureCost);
+        formData.append("metalType", values.metalType);
+        formData.append("productCode", values.productCode);
+        formData.append("pname", values.pname);
+        formData.append("pdescription", values.pdescription);
+
+        // Send PUT request to update product
+        const response = await api.put(`/api/productSell/${oldData.productID}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        console.log(response);
+        fetchData(); // Refresh data after update
+        notification.success({
+          message: "Success",
+          description: "Product updated successfully",
+        });
+      }
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
+
+    formVariable.resetFields();
+    handleCloseModal();
   };
 
   return (
@@ -235,8 +276,14 @@ function ManagerProduct() {
         Thêm sản phẩm
       </Button>
       <Table columns={columns} dataSource={data} />
-      <Modal title="Thêm sản phẩm" open={visible} onCancel={handleCloseModal} onOk={handleOk}>
-        <Form onFinish={onFinish} layout="vertical">
+      <Modal
+        footer={false}
+        title={visible == 1 ? "Thêm sản phẩm" : "Cập nhật sản phẩm"}
+        open={visible > 0}
+        onCancel={handleCloseModal}
+        onOk={handleOk}
+      >
+        <Form form={formVariable} onFinish={onFinish} layout="vertical">
           <Form.Item name="pname" label="Product Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
@@ -256,6 +303,9 @@ function ManagerProduct() {
           <Form.Item name="manufacturer" label="Manufacturer">
             <Input />
           </Form.Item>
+          <Form.Item name="manufactureCost" label="Manufacture Cost">
+            <InputNumber min={0} />
+          </Form.Item>
           <Form.Item name="chi" label="CHI">
             <InputNumber min={0} />
           </Form.Item>
@@ -273,23 +323,23 @@ function ManagerProduct() {
             </Select>
           </Form.Item>
           <Form.Item label="Image">
-            <Upload beforeUpload={() => false} onChange={handleFileChange}>
+            <Upload beforeUpload={() => false} showUploadList={false} onChange={handleFileChange}>
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
+            {visible == 2 && !imgUrl ? (
+              <div>
+                <Image width={100} height={100} src={oldData.image} />
+              </div>
+            ) : (
+              <div>
+                <Image src={imgUrl} />
+              </div>
+            )}
           </Form.Item>
-          <Form.Item>
+          <Form.Item style={{ textAlign: "center" }}>
             <Button type="primary" htmlType="submit">
               Submit
             </Button>
-          </Form.Item>
-        </Form>
-      </Modal>
-
-      {/* update product */}
-      <Modal title="Cập nhật sản phẩm" open={modalUpdate} onCancel={handleCloseModalUpdate} onOk={handleOk}>
-        <Form form={formVariable} labelCol={{ span: 24 }} onFinish={handleFinishUpdate}>
-          <Form.Item label={"Tên sản phẩm"} name={"name"}>
-            <Input />
           </Form.Item>
         </Form>
       </Modal>
