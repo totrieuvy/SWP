@@ -93,6 +93,7 @@ const Dashboard = () => {
     } else if (user.role === "ROLE_ADMIN") {
       setItems([
         getItem("Hồ sơ", `admin/profile/${user.id}`, <ProfileOutlined />),
+        getItem("Thống kê", `admin/analytic`, <ProfileOutlined />),
         getItem("Sản phẩm", "admin/product", <AppstoreAddOutlined />),
         getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
         getItem("Quản lý nhân sự", "personnel", <HeartOutlined />, [
