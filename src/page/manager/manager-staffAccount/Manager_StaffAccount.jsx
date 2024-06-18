@@ -137,7 +137,6 @@ function Manager_StaffAccount() {
           accountName: values.accountName,
         });
         console.log(response);
-        // setDataSource(updatedDataSource);
         fetchListStaff();
         notification.success({
           message: "Thành công",
