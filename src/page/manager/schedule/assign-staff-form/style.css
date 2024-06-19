@@ -5,6 +5,9 @@
 }
 .filtered{
     width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1%;
 }
 .formElement{
     width: 50%;

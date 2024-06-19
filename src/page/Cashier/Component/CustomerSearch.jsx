@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { AudioOutlined } from "@ant-design/icons";
 import { Button, Input } from "antd";
 import { Html5QrcodeScanner } from "html5-qrcode";
+import CreateCustomerForm from "../../../component/Form/CreateCustomerForm";
 
 const { Search } = Input;
 const suffix = (
@@ -20,7 +21,7 @@ function CustomerSearch({ childToParent }) {
   const [manualSerialNumber, setManualSerialNumber] = useState("");
   const [scanner, setScanner] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
-
+  const [visible, setVisible] = useState(false);
   const startScan = () => {
     if (isScanning) return; // Prevent multiple simultaneous scans
 
@@ -51,6 +52,14 @@ function CustomerSearch({ childToParent }) {
   const handleManualSerialNumberChange = (event) => {
     setManualSerialNumber(event.target.value);
   };
+  const setVisibleFormCustomer = () => {
+    setVisible(true);
+  };
+  const formRef = useRef(null);
+
+  const handleCloseForm = () => {
+    setVisible(false);
+  };
 
   return (
     <div className="search">
@@ -65,9 +74,16 @@ function CustomerSearch({ childToParent }) {
         <Button type="primary" onClick={startScan}>
           Quét QR
         </Button>
-        <Button type="primary">Tạo tài khoản</Button>
+        <Button type="primary" onClick={setVisibleFormCustomer}>
+          Tạo tài khoản
+        </Button>
       </section>
       <div id="reader" style={{ width: "250px", height: "250px" }}></div>
+      {visible && (
+        <div ref={formRef}>
+          <CreateCustomerForm onClose={handleCloseForm} />
+        </div>
+      )}
     </div>
   );
 }

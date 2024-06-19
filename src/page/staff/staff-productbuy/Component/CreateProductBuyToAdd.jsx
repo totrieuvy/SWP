@@ -21,13 +21,29 @@ function CreateProductBuyToAdd({ appendOrder }) {
 
     fetchData();
   }, []);
-  const onFinish = (values) => {
+  const fetchPrice = async (values) => {
+    try {
+      const response = await api.post("/api/productBuy/calculate-cost", {
+        metalType: values.metalType,
+        gemstoneType: values.gemstoneType,
+        metalWeight: values.metalWeight,
+        gemstoneWeight: values.gemstoneWeight,
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    }
+    return 0;
+  };
+  const onFinish = async (values) => {
+    const calculatedPrice = await fetchPrice(values);
     // Combine form values and image into a JSON object
     const productData = {
       ...values,
       image,
+      calculatedPrice: calculatedPrice * 1000,
     };
-
+    console.log(productData);
     // Append the JSON object using the appendOrder function
     appendOrder(productData);
   };

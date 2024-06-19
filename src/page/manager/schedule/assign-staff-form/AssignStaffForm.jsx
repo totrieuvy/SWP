@@ -78,17 +78,22 @@ function AssignStaffForm() {
   };
 
   const filterShifts = (selectedDate, selectedShiftType) => {
-    if (
-      shiftsData[selectedDate] &&
-      shiftsData[selectedDate][selectedShiftType]
-    ) {
-      const allShifts = shiftsData[selectedDate][selectedShiftType];
-      const filtered = allShifts.filter((shift) =>
-        shift.staff.some(
-          (staffMember) => staffMember.staffID === data[0].staffID
-        )
-      );
-      setFilteredShifts(filtered);
+    if (shiftsData[selectedDate]) {
+      var filteredShift = [];
+      Object.keys(shiftsData[selectedDate]).forEach((shiftType) => {
+        const allShifts = shiftsData[selectedDate][shiftType];
+        const filtered = allShifts.filter((shift) =>
+          shift.staff.some(
+            (staffMember) => staffMember.staffID === data[0].staffID
+          )
+        );
+        if (filtered.length > 0) {
+          filteredShift.push(filtered);
+        }
+      });
+
+      setFilteredShifts(filteredShift.flat());
+      console.log(filteredShift.flat());
     } else {
       setFilteredShifts([]);
     }
@@ -155,6 +160,17 @@ function AssignStaffForm() {
     }
   };
 
+  const handleUpdate = (shiftID) => {
+    // Implement update logic here
+    console.log(`Update shift with ID: ${shiftID}`);
+  };
+
+  const handleDelete = (shiftID) => {
+    // Implement delete logic here
+    console.log(`Delete shift with ID: ${shiftID}`);
+    // Example: Remove shift from filteredShifts array
+  };
+
   const handleAddToSchedule = async () => {
     const dateParts = date.split(", "); // Split into ["Thursday", "20-06-2024"]
 
@@ -167,6 +183,7 @@ function AssignStaffForm() {
     const year = parts[2]; // "2024"
 
     try {
+      // @ts-ignore
       const queryString = new URLSearchParams({
         staffId: data[0].staffID,
         date: `${year}-${month}-${day}`,
@@ -253,10 +270,27 @@ function AssignStaffForm() {
       />
       <section className="staffForm">
         <div className="filtered">
-          <h4>Filtered Shifts:</h4>
           {filteredShifts.length > 0 ? (
             filteredShifts.map((shift, index) => (
-              <div key={index}>
+              <Card
+                key={index}
+                style={{ marginBottom: "16px", padding: "16px" }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "flex-start",
+                    gap: "5%",
+                    paddingBottom: "10%",
+                  }}
+                >
+                  <Button onClick={() => handleUpdate(shift.shiftID)}>
+                    Update
+                  </Button>
+                  <Button danger onClick={() => handleDelete(shift.shiftID)}>
+                    Delete
+                  </Button>
+                </div>
                 <p>Shift ID: {shift.shiftID}</p>
                 <p>Date: {date}</p>
                 <p>Shift Type: {shift.shiftType}</p>
@@ -264,7 +298,7 @@ function AssignStaffForm() {
                 <p>End Time: {shift.endTime}</p>
                 <p>Status: {shift.status}</p>
                 <p>Work Area: {shift.workArea}</p>
-              </div>
+              </Card>
             ))
           ) : (
             <p>No shifts available for the selected date and shift type</p>
