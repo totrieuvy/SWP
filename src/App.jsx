@@ -42,6 +42,7 @@ import ListStaffWithSchedule from "./page/manager/schedule/assign-staff/ListStaf
 import AssignStaffForm from "./page/manager/schedule/assign-staff-form/AssignStaffForm";
 import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaff";
 import Promotion from "./page/manager/promotion/Promotion";
+import ViewSchedule from "./page/manager/schedule/schedule_of_all_staff/ViewSchedule";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -91,6 +92,7 @@ function App() {
           <Route path="staff/assign" element={<ListStaffWithSchedule />} />
           <Route path="staff/assign-to" element={<AssignStaffForm />} />
           <Route path="promotion" element={<Promotion />} />
+          <Route path="staff/view" element={<ViewSchedule />} />
         </Route>
       </Route>
 
