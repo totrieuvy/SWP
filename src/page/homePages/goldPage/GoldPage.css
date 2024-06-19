@@ -1,0 +1,130 @@
+.GoldPage {
+  background-color: white;
+  padding-bottom: 50px;
+}
+
+.GoldPage__advertise__image {
+  display: flex;
+  justify-content: center;
+}
+
+.GoldPage__advertise__text {
+  color: #003868;
+  font-size: 24px;
+  font-family: "PNJ Demibold";
+  display: flex;
+  justify-content: center;
+  padding: 15px 0;
+}
+
+.GoldPage__product {
+  padding: 20px 0;
+}
+
+.GoldPage__card {
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+  width: 20rem;
+  height: 26rem; /* Adjusted height */
+}
+
+.GoldPage__card:hover {
+  transform: translateY(-10px);
+}
+
+.GoldPage__card img {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.GoldPage__card .card-body {
+  text-align: center;
+  font-size: 16px;
+}
+
+.swiper-slide {
+  display: flex;
+  justify-content: center;
+}
+
+.GoldPage__card__image {
+  width: 90%;
+  height: 60%;
+  object-fit: cover;
+  margin: 0 auto;
+}
+
+.card__name,
+.card__carat,
+.card__chi,
+.card__cost {
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card__name {
+  font-weight: bold;
+  color: #2f4f4f;
+}
+
+.card__cost {
+  font-size: 20px;
+  color: #c48c46;
+  font-weight: bold;
+}
+
+.mySwiper {
+  padding: 0 20px;
+}
+
+.card__body {
+  padding: 10px 0;
+  height: 40%;
+  line-height: 30px;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+  width: 18px;
+  height: 27px;
+  color: #ccc;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  font-size: 20px;
+}
+
+.diamond-modal {
+  top: 20px;
+}
+
+.diamond-modal-image {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.diamond-modal-title {
+  font-size: 24px;
+  color: #2f4f4f;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.diamond-modal-detail {
+  font-size: 18px;
+  margin-bottom: 5px;
+}
+
+.GoldPage {
+  Button {
+    width: 100%;
+  }
+}

@@ -10,13 +10,7 @@ import {
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Footer } from "antd/es/layout/layout";
-import {
-  Link,
-  Navigate,
-  Outlet,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Link, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../redux/features/counterSlice";
 import "./Dashboard.scss";
@@ -66,11 +60,7 @@ const Dashboard = () => {
         getItem("Thể loại", "staff/category", <ProfileOutlined />),
         getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
         getItem("Tạo đơn hàng", "staff/create", <ProfileOutlined />),
-        getItem(
-          "Xác nhận đơn hàng",
-          "staff/confirm-order",
-          <ProfileOutlined />
-        ),
+        getItem("Xác nhận đơn hàng", "staff/confirm-order", <ProfileOutlined />),
         getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
       ]);
     } else if (user.role === "ROLE_MANAGER") {
@@ -80,13 +70,9 @@ const Dashboard = () => {
         getItem("Sản phẩm", "manager/product", <HeartOutlined />),
         getItem("Khách hàng", "manager/customer/view", <ProfileOutlined />),
 
-        getItem(
-          "Danh sách nhân viên",
-          "manager/staff",
-          <CheckCircleOutlined />
-        ),
+        getItem("Danh sách nhân viên", "manager/staff", <CheckCircleOutlined />),
         getItem("Lịch làm việc", "manager/staff/assign", <ProfileOutlined />),
-
+        getItem("Xem lịch của tất cả nhân viên", "manager/staff/view", <ProfileOutlined />),
         getItem("Chính sách ưu đãi", "manager/promotion", <ProfileOutlined />),
         getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
       ]);
@@ -127,11 +113,7 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-      >
+      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <Menu
           theme="dark"
           defaultSelectedKeys={["profile"]}
@@ -144,10 +126,7 @@ const Dashboard = () => {
             item.children ? (
               <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
                 {item.children.map((subItem) => (
-                  <Menu.Item
-                    key={subItem.key}
-                    onClick={(e) => handleSelectKey(e.keyPath[1])}
-                  >
+                  <Menu.Item key={subItem.key} onClick={(e) => handleSelectKey(e.keyPath[1])}>
                     <Link to={`/${subItem.key}`}>{subItem.label}</Link>
                   </Menu.Item>
                 ))}
@@ -158,19 +137,14 @@ const Dashboard = () => {
               </Menu.Item>
             )
           )}
-          <LogoutOutlined
-            onClick={handleLogout}
-            className="Dashbroad__Logout"
-          />
+          <LogoutOutlined onClick={handleLogout} className="Dashbroad__Logout" />
         </Menu>
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <header></header>
         </Header>
-        <Content
-          style={{ margin: "0 16px", display: "flex", flexDirection: "column" }}
-        >
+        <Content style={{ margin: "0 16px", display: "flex", flexDirection: "column" }}>
           <Breadcrumb>
             {location.pathname.split("/").map((path, index) => (
               <Breadcrumb.Item key={path}>
@@ -202,9 +176,7 @@ const Dashboard = () => {
             <Outlet style={{ flexGrow: 1 }} />
           </div>
         </Content>
-        <Footer
-          style={{ textAlign: "center", backgroundColor: "#E3F2EE" }}
-        ></Footer>
+        <Footer style={{ textAlign: "center", backgroundColor: "#E3F2EE" }}></Footer>
       </Layout>
     </Layout>
   );

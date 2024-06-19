@@ -42,7 +42,7 @@ import ListStaffWithSchedule from "./page/manager/schedule/assign-staff/ListStaf
 import AssignStaffForm from "./page/manager/schedule/assign-staff-form/AssignStaffForm";
 import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaff";
 import Promotion from "./page/manager/promotion/Promotion";
-import Analytic from "./page/admin/admin-analytic/Analytic";
+import ViewSchedule from "./page/manager/schedule/schedule_of_all_staff/ViewSchedule";
 import CategoryTotalPieChart from "./component/Chart/CategoryTotalPieChart";
 import CustomerDemographicBarChart from "./component/Chart/CustomerDemographicBarChart";
 
@@ -94,6 +94,7 @@ function App() {
           <Route path="staff/assign" element={<ListStaffWithSchedule />} />
           <Route path="staff/assign-to" element={<AssignStaffForm />} />
           <Route path="promotion" element={<Promotion />} />
+          <Route path="staff/view" element={<ViewSchedule />} />
         </Route>
       </Route>
 
