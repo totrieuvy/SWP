@@ -42,6 +42,9 @@ import ListStaffWithSchedule from "./page/manager/schedule/assign-staff/ListStaf
 import AssignStaffForm from "./page/manager/schedule/assign-staff-form/AssignStaffForm";
 import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaff";
 import Promotion from "./page/manager/promotion/Promotion";
+import Analytic from "./page/admin/admin-analytic/Analytic";
+import CategoryTotalPieChart from "./component/Chart/CategoryTotalPieChart";
+import CustomerDemographicBarChart from "./component/Chart/CustomerDemographicBarChart";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -102,6 +105,9 @@ function App() {
           <Route path="changepassword" element={<ChangePasswordAdmin />} />
           <Route path="manager" element={<AdminAccountManager />} />
           <Route path="staff" element={<AdminAccountStaff />} />
+          <Route path="analytic" element={<Analytic />} />
+          <Route path="pie" element={<CategoryTotalPieChart />} />
+          <Route path="bar" element={<CustomerDemographicBarChart />} />
         </Route>
       </Route>
 
