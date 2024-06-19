@@ -44,6 +44,7 @@ import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaf
 import Promotion from "./page/manager/promotion/Promotion";
 import Analytic from "./page/admin/admin-analytic/Analytic";
 import CategoryTotalPieChart from "./component/Chart/CategoryTotalPieChart";
+import CustomerDemographicBarChart from "./component/Chart/CustomerDemographicBarChart";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -106,6 +107,7 @@ function App() {
           <Route path="staff" element={<AdminAccountStaff />} />
           <Route path="analytic" element={<Analytic />} />
           <Route path="pie" element={<CategoryTotalPieChart />} />
+          <Route path="bar" element={<CustomerDemographicBarChart />} />
         </Route>
       </Route>
 
