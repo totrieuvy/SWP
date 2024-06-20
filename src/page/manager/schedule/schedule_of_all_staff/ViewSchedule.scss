@@ -1,0 +1,65 @@
+.ViewSchedule {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+  .ant-form-item {
+    margin-bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .ViewSchedule__startDate,
+    .ViewSchedule__endDate {
+      .ant-picker {
+        width: 300px;
+        font-size: 16px;
+        border-radius: 4px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s ease;
+
+        &:hover,
+        &:focus {
+          border-color: #40a9ff;
+        }
+
+        .ant-picker-input {
+          font-size: 16px;
+        }
+      }
+    }
+
+    .ant-btn {
+      width: 300px;
+      font-size: 16px;
+      height: 40px;
+      background-color: #007bff;
+      border-color: #007bff;
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+
+      &:hover,
+      &:focus {
+        background-color: #0056b3;
+        border-color: #0056b3;
+      }
+    }
+  }
+
+  .ViewSchedule__schedule {
+    width: 100%;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+  }
+}
