@@ -8,5 +8,8 @@ export default defineConfig({
     fs: {
       cachedChecks: false
     }
-  }
+  },
+  optimizeDeps: {
+    include: ['@testing-library/react', '@testing-library/jest-dom'],
+  },
 })
