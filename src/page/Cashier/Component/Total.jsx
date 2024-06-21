@@ -42,6 +42,7 @@ function Total({ clear, order, id }) {
   };
 
   const transformData = (inputArray) => {
+    console.log(inputArray);
     return inputArray.flatMap((item) => {
       if (item.promotion_id.length === 0) {
         return {
