@@ -29,6 +29,7 @@ function SaleProductMenu({ category, setOrder }) {
     };
 
     fetchData();
+    console.log(data);
   }, [category]);
 
   useEffect(() => {
@@ -50,7 +51,7 @@ function SaleProductMenu({ category, setOrder }) {
           carat={filteredData.carat}
           chi={filteredData.chi}
           cost={filteredData.cost}
-          pname={filteredData.name} // use 'name' instead of 'pname' as per your data
+          pname={filteredData.pname}
           productCode={filteredData.productCode}
           onAddToOrder={handleAddToOrder}
           image={

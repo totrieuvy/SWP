@@ -45,7 +45,7 @@ const columns = [
   },
 ];
 
-function SaleViewOrderMenu({ currentOrder }) {
+function SaleViewOrderMenu({ currentOrder, closeOrder }) {
   const [email, setEmail] = useState("");
   useEffect(() => {
     console.log(currentOrder);
@@ -74,6 +74,7 @@ function SaleViewOrderMenu({ currentOrder }) {
     }, 0);
     console.log(data);
     const createSaleOrderRequest = api.post("api/order/initialize-qr", data);
+    closeOrder([]);
   };
 
   return (

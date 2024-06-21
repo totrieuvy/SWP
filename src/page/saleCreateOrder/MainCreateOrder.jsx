@@ -28,7 +28,7 @@ function MainCreateOrder() {
   };
   return (
     <div className="saleCreateOrderContainer">
-      <SaleViewOrderMenu currentOrder={currOrder} />
+      <SaleViewOrderMenu closeOrder={setOrder} currentOrder={currOrder} />
       <div id="saleProductDivider">
         <ChooseCategory setCategory={getCategory} />
         <SaleProductMenu setOrder={getOrder} category={category} />
