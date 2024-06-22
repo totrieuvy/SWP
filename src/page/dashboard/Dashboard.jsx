@@ -9,8 +9,7 @@ import {
   LogoutOutlined,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu, theme } from "antd";
-import { Footer } from "antd/es/layout/layout";
-import { Link, Navigate, Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, selectUser } from "../../redux/features/counterSlice";
 import "./Dashboard.scss";
@@ -38,48 +37,51 @@ const Dashboard = () => {
   const location = useLocation();
   const currentURI = location.pathname.split("/").slice(-1)[0];
 
-  const role = "admin";
   const dispatcher = useDispatch();
-
-  const dataOpen = JSON.parse(localStorage.getItem("keys")) ?? [];
-
-  const [openKeys, setOpenKeys] = useState(dataOpen);
-
   const user = useSelector(selectUser);
   const navigation = useNavigate();
+
   const handleLogout = () => {
     localStorage.clear();
     dispatcher(logout());
     navigation("/login");
   };
 
+  const dataOpen = JSON.parse(localStorage.getItem("keys")) ?? [];
+  const [openKeys, setOpenKeys] = useState(dataOpen);
+
   useEffect(() => {
     if (user.role === "ROLE_STAFF") {
       setItems([
-        getItem("Hồ sơ", `staff/profile/${user.id}`, <ProfileOutlined />),
-        getItem("Thể loại", "staff/category", <ProfileOutlined />),
-        getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
-        getItem("Tạo đơn hàng", "staff/create", <ProfileOutlined />),
-        getItem("Xác nhận đơn hàng", "staff/confirm-order", <ProfileOutlined />),
-        getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
+        getItem("Hồ sơ", "profile", <UserOutlined />, [
+          getItem("Hồ sơ cá nhân", `staff/profile/${user.id}`),
+          getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
+        ]),
+        getItem("Thể loại", "staff/category", <AppstoreAddOutlined />),
+        getItem("Sản phẩm", "staff/product", <AppstoreAddOutlined />),
+        getItem("Tạo đơn hàng", "staff/create", <AppstoreAddOutlined />),
+        getItem("Xác nhận đơn hàng", "staff/confirm-order", <CheckCircleOutlined />),
       ]);
     } else if (user.role === "ROLE_MANAGER") {
       setItems([
-        getItem("Hồ sơ", `manager/profile/${user.id}`, <ProfileOutlined />),
-        getItem("Thể loại", "manager/category", <ProfileOutlined />),
+        getItem("Hồ sơ", "profile", <UserOutlined />, [
+          getItem("Thông tin cá nhân/", `manager/profile/${user.id}`),
+          getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
+        ]),
+        getItem("Thể loại", "manager/category", <AppstoreAddOutlined />),
         getItem("Sản phẩm", "manager/product", <HeartOutlined />),
-        getItem("Khách hàng", "manager/customer/view", <ProfileOutlined />),
 
+        getItem("Khách hàng", "manager/customer/view", <UserOutlined />),
         getItem("Danh sách nhân viên", "manager/staff", <CheckCircleOutlined />),
-        getItem("Lịch làm việc", "manager/staff/assign", <ProfileOutlined />),
-        getItem("Xem lịch của tất cả nhân viên", "manager/staff/view", <ProfileOutlined />),
+        getItem("Lịch làm việc", "manager/staff/assign", <UserOutlined />),
+        getItem("Xem lịch của tất cả nhân viên", "manager/staff/view", <UserOutlined />),
         getItem("Chính sách ưu đãi", "manager/promotion", <ProfileOutlined />),
-        getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
+        getItem("Sản phẩm bán chạy nhất", "manager/topproductsell", <HeartOutlined />),
       ]);
     } else if (user.role === "ROLE_ADMIN") {
       setItems([
-        getItem("Hồ sơ", `admin/profile/${user.id}`, <ProfileOutlined />),
-        getItem("Thống kê", `admin/analytic`, <ProfileOutlined />),
+        getItem("Hồ sơ", `admin/profile/${user.id}`, <UserOutlined />),
+        getItem("Thống kê", `admin/analytic`, <BarChartOutlined />),
         getItem("Sản phẩm", "admin/product", <AppstoreAddOutlined />),
         getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
         getItem("Quản lý nhân sự", "personnel", <HeartOutlined />, [
@@ -96,9 +98,11 @@ const Dashboard = () => {
       ]);
     }
   }, [user.role]);
+
   const handleSubMenuOpen = (keyMenuItem) => {
     setOpenKeys(keyMenuItem);
   };
+
   const handleSelectKey = (keyPath) => {
     setKey(keyPath);
   };
@@ -163,20 +167,10 @@ const Dashboard = () => {
               </Breadcrumb.Item>
             ))}
           </Breadcrumb>
-          <div
-            style={{
-              padding: 24,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-              flexGrow: 1,
-              display: "flex",
-              flexDirection: "column",
-            }}
-          >
-            <Outlet style={{ flexGrow: 1 }} />
+          <div className="content-wrapper">
+            <Outlet />
           </div>
         </Content>
-        <Footer style={{ textAlign: "center", backgroundColor: "#E3F2EE" }}></Footer>
       </Layout>
     </Layout>
   );
