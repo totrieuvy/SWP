@@ -173,7 +173,7 @@ function AdminAccountStaff() {
             rules={[
               {
                 required: true,
-                message: "Hãy nhập số điện thoại!",
+                message: "Hãy nhập số điện thoại!!",
               },
             ]}
           >
