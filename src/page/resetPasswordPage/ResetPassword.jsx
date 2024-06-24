@@ -26,11 +26,18 @@ function ResetPassword() {
       console.log(response);
 
       if (response.status === 200) {
-        notification.success({
-          message: "Email sent successfully",
-          description:
-            "Please check your email for instructions to reset your password.",
-        });
+        if (response.data == "Is your email correct?") {
+          notification.error({
+            message: "No such email in database",
+            description: "Please check your email if it is correct",
+          });
+        } else {
+          notification.success({
+            message: "Email sent successfully",
+            description:
+              "Please check your email for instructions to reset your password.",
+          });
+        }
       }
     } catch (error) {
       console.log(error);
