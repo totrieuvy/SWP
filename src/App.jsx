@@ -114,7 +114,6 @@ function App() {
           <Route path="create" element={<MainCreateOrder />} />
           <Route path="confirm-order" element={<DisplayOrder />} />
           <Route path="initialize-productbuy" element={<ProductBuy />} />
-          <Route path="changepassword" element={<StaffCategory />} />
           <Route path="product" element={<StaffProduct />} />
           <Route path="changepassword" element={<StaffChangePassword />} />
         </Route>
