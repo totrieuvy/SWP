@@ -1,4 +1,5 @@
 import { Button, Table } from "antd";
+import api from "../../../../config/axios";
 import React from "react";
 
 function ViewProductBuyOrder({ data }) {
@@ -48,8 +49,44 @@ function ViewProductBuyOrder({ data }) {
       render: (text, record) => `$${(record.calculatedPrice || 0).toFixed(2)}`,
     },
   ];
-  const handleOrder = () => {
-    console.log(data);
+  const transformData = (data) => {
+    return data.map((product) => ({
+      name: product.name,
+      category_id: product.category_id,
+      metalType: product.metalType,
+      gemstoneType: product.gemstoneType,
+      image: product.image,
+      metalWeight: product.metalWeight,
+      gemstoneWeight: product.gemstoneWeight,
+      cost: product.cost,
+    }));
+  };
+
+  // Function to handle order creation
+  const handleOrder = async () => {
+    try {
+      const transformedData = transformData(data);
+      console.log({ List: transformData(data) });
+
+      const response = await api.post("/api/order/initializePB", {
+        list: transformData(data),
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // Function to create product buy order
+  const createProductBuyOrder = async (transformedData) => {
+    try {
+      const response = await api.post("/api/order/initializePB", {
+        list: transformedData,
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      throw error; // Re-throw the error so it can be caught by the caller
+    }
   };
   return (
     <div className="ViewProductBuyOrder">

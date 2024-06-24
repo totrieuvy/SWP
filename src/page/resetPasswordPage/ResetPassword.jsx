@@ -8,20 +8,36 @@ import { useForm } from "antd/es/form/Form";
 
 function ResetPassword() {
   const [formVariable] = useForm();
+
   const handleFinish = async (values) => {
     console.log(values);
     try {
+      // Check if email is valid
+      const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+      if (!emailRegex.test(values.email)) {
+        notification.error({
+          message: "Invalid Email",
+          description: "Please enter a valid email address.",
+        });
+        return;
+      }
+
       const response = await api.post("/api/account/reset", values);
       console.log(response);
 
       if (response.status === 200) {
         notification.success({
-          message: "Gửi mail thành công",
-          description: "Hãy check mail của bạn",
+          message: "Email sent successfully",
+          description:
+            "Please check your email for instructions to reset your password.",
         });
       }
     } catch (error) {
       console.log(error);
+      notification.error({
+        message: "Error",
+        description: "Failed to send email. Please try again later.",
+      });
     }
   };
 
@@ -35,19 +51,42 @@ function ResetPassword() {
 
         <div className="reset__form">
           <div className="reset__form__left">
-            <h3 className="reset__form__left__welcome__1">RESET YOUR PASSWORD</h3>
+            <h3 className="reset__form__left__welcome__1">
+              RESET YOUR PASSWORD
+            </h3>
             <h5 className="reset__form__left__welcome__2">
-              Enter the email associated to with your account and we will send an email with instruction to reset your
-              password
+              Enter the email associated with your account and we will send an
+              email with instructions to reset your password.
             </h5>
 
-            <Form className="reset__form__left__form" form={formVariable} onFinish={handleFinish} method="post">
-              <Form.Item name="email">
+            <Form
+              className="reset__form__left__form"
+              form={formVariable}
+              onFinish={handleFinish}
+              method="post"
+            >
+              <Form.Item
+                name="email"
+                rules={[
+                  {
+                    required: true,
+                    message: "Please input your email!",
+                  },
+                  {
+                    type: "email",
+                    message: "Please enter a valid email address.",
+                  },
+                ]}
+              >
                 <Input prefix={<MailOutlined />} placeholder="Email" />
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" className="reset__form__left__buttonReset" htmlType="submit">
+                <Button
+                  type="primary"
+                  className="reset__form__left__buttonReset"
+                  htmlType="submit"
+                >
                   Reset Password
                 </Button>
               </Form.Item>
@@ -67,5 +106,4 @@ function ResetPassword() {
     </div>
   );
 }
-
 export default ResetPassword;

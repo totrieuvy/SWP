@@ -75,7 +75,7 @@ function CreateProductBuyToAdd({ appendOrder }) {
         </Form.Item>
         <Form.Item
           label="Category"
-          name="category"
+          name="category_id"
           rules={[
             {
               required: true,
@@ -85,8 +85,8 @@ function CreateProductBuyToAdd({ appendOrder }) {
         >
           <Select>
             {category.map((option) => (
-              <Option key={option.id} value={option.name}>
-                {option.label}
+              <Option key={option.id} value={option.id}>
+                {option.name}
               </Option>
             ))}
           </Select>
