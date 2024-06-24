@@ -66,6 +66,8 @@ const Dashboard = () => {
         getItem("Thể loại", "staff/category", <ProfileOutlined />),
         getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
         getItem("Tạo đơn hàng", "staff/create", <ProfileOutlined />),
+        getItem("Mua lại", "staff/initialize-productbuy", <ProfileOutlined />),
+
         getItem(
           "Xác nhận đơn hàng",
           "staff/confirm-order",
