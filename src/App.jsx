@@ -42,9 +42,8 @@ import ListStaffWithSchedule from "./page/manager/schedule/assign-staff/ListStaf
 import AssignStaffForm from "./page/manager/schedule/assign-staff-form/AssignStaffForm";
 import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaff";
 import Promotion from "./page/manager/promotion/Promotion";
-import Analytic from "./page/admin/admin-analytic/Analytic";
-import CategoryTotalPieChart from "./component/Chart/CategoryTotalPieChart";
-import CustomerDemographicBarChart from "./component/Chart/CustomerDemographicBarChart";
+import ViewSchedule from "./page/manager/schedule/schedule_of_all_staff/ViewSchedule";
+import TopProductSell from "./page/manager/top_productSell/TopProductSell";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -73,9 +72,7 @@ function App() {
       <Route path="/changePassword" element={<ChangePassword />} />
       <Route path="/customer/view" element={<ListCustomer />} />
       <Route path="/customer/update" element={<UpdateCustomer />} />
-
       <Route path="/test/QR" element={<QR />} />
-
       <Route path="/staff" element={<Staff />} />
       <Route path="/product/list" element={<ProductList />} />
       <Route path="/promo/create" element={<CreateProduct />} />
@@ -94,9 +91,10 @@ function App() {
           <Route path="staff/assign" element={<ListStaffWithSchedule />} />
           <Route path="staff/assign-to" element={<AssignStaffForm />} />
           <Route path="promotion" element={<Promotion />} />
+          <Route path="staff/view" element={<ViewSchedule />} />
+          <Route path="topproductsell" element={<TopProductSell />} />
         </Route>
       </Route>
-
       <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>
         <Route path="" element={<Dashboard />}>
           <Route path="profile/:id" element={<AdminProfile />} />
@@ -105,12 +103,8 @@ function App() {
           <Route path="changepassword" element={<ChangePasswordAdmin />} />
           <Route path="manager" element={<AdminAccountManager />} />
           <Route path="staff" element={<AdminAccountStaff />} />
-          <Route path="analytic" element={<Analytic />} />
-          <Route path="pie" element={<CategoryTotalPieChart />} />
-          <Route path="bar" element={<CustomerDemographicBarChart />} />
         </Route>
       </Route>
-
       <Route path="staff" element={<PrivateProute role={"ROLE_STAFF"} />}>
         <Route path="" element={<Dashboard />}>
           <Route path="profile/:id" element={<StaffProfile />} />

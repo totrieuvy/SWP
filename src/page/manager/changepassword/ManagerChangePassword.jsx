@@ -1,15 +1,40 @@
-import { Button, Form, Input } from "antd";
+import { Button, Form, Input, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
+import api from "../../../config/axios";
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../../redux/features/counterSlice";
 
 function ManagerChangePassword() {
   const [formVariable] = useForm();
-  const handleFinish = (values) => {
-    console.log(values);
+  const user = useSelector(selectUser);
+
+  const onFinish = async ({ oldPassword, newPassword }) => {
+    try {
+      const response = await api.put(`/api/account/change/${user.id}`, { oldPassword, newPassword });
+      console.log(response);
+
+      notification.success({
+        message: "Thành công",
+        description: "Đổi mật khẩu thành công",
+      });
+
+      formVariable.resetFields();
+    } catch (error) {
+      console.log(error.response.data);
+      notification.error({
+        message: "Thất bại",
+        description: error.response.data,
+      });
+    }
   };
+
+  React.useEffect(() => {
+    document.title = "Đổi mật khẩu";
+  }, []);
   return (
     <div className="ManagerChangePassword">
-      <Form form={formVariable} labelCol={{ span: 24 }} onFinish={handleFinish}>
+      <Form form={formVariable} labelCol={{ span: 24 }} onFinish={onFinish}>
         <Form.Item
           label="Nhập mật khẩu cũ:"
           name="oldPassword"
