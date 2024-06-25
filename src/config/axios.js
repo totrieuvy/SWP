@@ -1,7 +1,7 @@
 import axios from "axios";
 //const baseUrl = "http://localhost:8080";
 
-const baseUrl = "http://128.199.78.89:8080";
+const baseUrl = "http://174.138.72.129:8080";
 //
 const config = {
   baseUrl,
