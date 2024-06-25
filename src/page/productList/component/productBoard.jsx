@@ -21,9 +21,9 @@ function ProductBoard() {
   const columns = [
     {
       title: "Tên",
-      dataIndex: "name",
-      key: "name",
-      sorter: (a, b) => a.name.localeCompare(b.name),
+      dataIndex: "pname",
+      key: "pname",
+      sorter: (a, b) => a.pname.localeCompare(b.pname),
     },
     {
       title: "Giá",
@@ -54,8 +54,8 @@ function ProductBoard() {
     },
     {
       title: "Mô tả",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "pdescription",
+      key: "pdescription",
     },
     {
       title: "Đá",

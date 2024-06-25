@@ -58,7 +58,7 @@ function ViewProductBuyOrder({ data }) {
       image: product.image,
       metalWeight: product.metalWeight,
       gemstoneWeight: product.gemstoneWeight,
-      cost: product.cost,
+      cost: product.calculatedPrice,
     }));
   };
 
