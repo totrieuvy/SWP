@@ -58,11 +58,7 @@ const Dashboard = () => {
         getItem("Tạo đơn hàng", "staff/create", <ProfileOutlined />),
         getItem("Mua lại", "staff/initialize-productbuy", <ProfileOutlined />),
 
-        getItem(
-          "Xác nhận đơn hàng",
-          "staff/confirm-order",
-          <ProfileOutlined />
-        ),
+        getItem("Xác nhận đơn hàng", "staff/confirm-order", <ProfileOutlined />),
         getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
         getItem("Hồ sơ", "profile", <UserOutlined />, [
           getItem("Hồ sơ cá nhân", `staff/profile/${user.id}`),
@@ -90,6 +86,7 @@ const Dashboard = () => {
         getItem("Hồ sơ", `admin/profile/${user.id}`, <UserOutlined />),
         getItem("Thống kê", `admin/analytic`, <BarChartOutlined />),
         getItem("Sản phẩm", "admin/product", <AppstoreAddOutlined />),
+        getItem("Sản phẩm bán chạy nhất", `admin/topproductsell`, <BarChartOutlined />),
         getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
         getItem("Quản lý nhân sự", "personnel", <HeartOutlined />, [
           getItem("Quản lí", "admin/manager"),

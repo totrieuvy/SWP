@@ -36,6 +36,26 @@ function StaffProfile() {
       dataIndex: "username",
       key: "username",
     },
+    {
+      title: "Số điện thoại",
+      dataIndex: "phoneNumber",
+      key: "phoneNumber",
+    },
+    {
+      title: "Lương",
+      dataIndex: "salary",
+      key: "salary",
+    },
+    {
+      title: "Ngày bắt đầu",
+      dataIndex: "startDate",
+      key: "startDate",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
   ];
   return (
     <div className="StaffProfile">

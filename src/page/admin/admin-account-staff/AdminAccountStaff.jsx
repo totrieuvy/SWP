@@ -28,7 +28,7 @@ function AdminAccountStaff() {
       key: "phoneNumber",
     },
     {
-      title: "Lương (tính theo đô)",
+      title: "Lương ",
       dataIndex: "salary",
       key: "salary",
     },

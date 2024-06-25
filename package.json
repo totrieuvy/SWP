@@ -12,6 +12,9 @@
   },
   "dependencies": {
     "@auth0/auth0-react": "^2.2.4",
+    "@nivo/bar": "^0.84.0",
+    "@nivo/core": "^0.87.0",
+    "@nivo/pie": "^0.84.0",
     "antd": "^5.17.3",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
