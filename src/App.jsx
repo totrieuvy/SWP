@@ -46,6 +46,7 @@ import ViewSchedule from "./page/manager/schedule/schedule_of_all_staff/ViewSche
 import TopProductSell from "./page/manager/top_productSell/TopProductSell";
 import TopProductSells from "./page/admin/topproductsell/TopProductSells";
 
+
 const PrivateProute = ({ role }) => {
   console.log(role);
   const user = useSelector(selectUser);
@@ -105,6 +106,7 @@ function App() {
           <Route path="manager" element={<AdminAccountManager />} />
           <Route path="staff" element={<AdminAccountStaff />} />
           <Route path="topproductsell" element={<TopProductSells />} />
+
         </Route>
       </Route>
       <Route path="staff" element={<PrivateProute role={"ROLE_STAFF"} />}>

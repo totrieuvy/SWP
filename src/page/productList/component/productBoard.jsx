@@ -23,7 +23,8 @@ function ProductBoard() {
       title: "Tên",
       dataIndex: "pname",
       key: "pname",
-      sorter: (a, b) => a.name.localeCompare(b.name),
+
+      sorter: (a, b) => a.pname.localeCompare(b.pname),
     },
     {
       title: "Giá",
@@ -54,8 +55,8 @@ function ProductBoard() {
     },
     {
       title: "Mô tả",
-      dataIndex: "description",
-      key: "description",
+      dataIndex: "pdescription",
+      key: "pdescription",
     },
     {
       title: "Đá",
