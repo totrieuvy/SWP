@@ -1,0 +1,52 @@
+.top-product-sell-container {
+  height: 100vh; /* Full viewport height */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+
+  .top-product-sell-stats {
+    display: flex;
+    justify-content: space-around;
+    width: 80%;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  .stat-box {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    margin: 0 10px;
+  }
+
+  .stat-box h3 {
+    margin: 0 0 10px;
+    color: #333;
+  }
+
+  .stat-box p {
+    margin: 0;
+    font-size: 1.2em;
+    color: #007bff;
+  }
+
+  .bar-chart {
+    width: 80%;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+
+  .bar-chart h3 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+}

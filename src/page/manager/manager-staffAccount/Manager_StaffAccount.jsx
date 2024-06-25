@@ -28,9 +28,10 @@ function Manager_StaffAccount() {
       key: "phoneNumber",
     },
     {
-      title: "Lương (tính theo đô)",
+      title: "Lương",
       dataIndex: "salary",
       key: "salary",
+      render: (salary) => salary.toLocaleString("vi-VN", { style: "currency", currency: "VND" }),
     },
     {
       title: "Ngày bắt đầu làm việc",

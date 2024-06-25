@@ -44,6 +44,7 @@ import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaf
 import Promotion from "./page/manager/promotion/Promotion";
 import ViewSchedule from "./page/manager/schedule/schedule_of_all_staff/ViewSchedule";
 import TopProductSell from "./page/manager/top_productSell/TopProductSell";
+import TopProductSells from "./page/admin/topproductsell/TopProductSells";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -103,6 +104,7 @@ function App() {
           <Route path="changepassword" element={<ChangePasswordAdmin />} />
           <Route path="manager" element={<AdminAccountManager />} />
           <Route path="staff" element={<AdminAccountStaff />} />
+          <Route path="topproductsell" element={<TopProductSells />} />
         </Route>
       </Route>
       <Route path="staff" element={<PrivateProute role={"ROLE_STAFF"} />}>

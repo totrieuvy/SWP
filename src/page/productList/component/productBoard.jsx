@@ -21,8 +21,8 @@ function ProductBoard() {
   const columns = [
     {
       title: "Tên",
-      dataIndex: "name",
-      key: "name",
+      dataIndex: "pname",
+      key: "pname",
       sorter: (a, b) => a.name.localeCompare(b.name),
     },
     {
@@ -73,9 +73,7 @@ function ProductBoard() {
       title: "Ảnh",
       dataIndex: "image",
       key: "image",
-      render: (imageURL) => (
-        <img src={imageURL} alt="product" style={{ width: 50 }} />
-      ),
+      render: (imageURL) => <img src={imageURL} alt="product" style={{ width: 50 }} />,
     },
     {
       title: "Carat",
