@@ -66,13 +66,24 @@ function ViewProductBuyOrder({ data }) {
   const handleOrder = async () => {
     try {
       const transformedData = transformData(data);
-      console.log({ List: transformData(data) });
+      console.log({ order: transformedData });
 
-      const response = await api.post("/api/order/initializePB", {
-        list: transformData(data),
+      // Convert JSON data to byte array
+      const requestData = new TextEncoder().encode(
+        JSON.stringify(transformedData)
+      );
+
+      const response = await api.post("/api/order/initializePB", requestData, {
+        headers: {
+          "Content-Type": "application/octet-stream",
+        },
       });
+
+      console.log("Order created successfully:", response.data);
+      // Handle success as per your application's logic
     } catch (error) {
-      console.error(error);
+      console.error("Error creating order:", error);
+      // Handle error as per your application's logic
     }
   };
 
