@@ -1,0 +1,20 @@
+.AssignManyContainer {
+    display: flex;
+    width: 100%;
+    gap: 25px;
+    justify-content: space-between;
+  }
+.inputter{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    margin-top: 25px;
+    gap: 50px;
+    width: 20vw;
+}
+.toggleButton{
+  width: fit-content;
+}
+.calendarMany{
+  width: 70%;
+}

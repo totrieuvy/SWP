@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 const { RangePicker } = DatePicker;
 
-function DateSelectorForm({ setScheduleData }) {
+function DateSelectorForm({ setScheduleData, assignMany }) {
   const [dates, setDates] = useState({ startDate: null, endDate: null });
 
   const onDateChange = (dates) => {
@@ -22,7 +22,7 @@ function DateSelectorForm({ setScheduleData }) {
 
   const handleFetchData = async () => {
     try {
-      const response = await api.get("scheduling/scheduleMatrix", {
+      const response = await api.get("api/scheduling/scheduleMatrix", {
         params: {
           startDate: dates.startDate,
           endDate: dates.endDate,
@@ -46,6 +46,7 @@ function DateSelectorForm({ setScheduleData }) {
           <Button type="primary" onClick={handleFetchData}>
             Tìm kiếm
           </Button>
+          <Button onClick={assignMany}>Sắp xếp</Button>
         </Form.Item>
       </Form>
     </div>

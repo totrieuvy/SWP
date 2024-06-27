@@ -45,6 +45,8 @@ import Promotion from "./page/manager/promotion/Promotion";
 import ViewSchedule from "./page/manager/schedule/schedule_of_all_staff/ViewSchedule";
 import TopProductSell from "./page/manager/top_productSell/TopProductSell";
 import Analytic from "./page/admin/admin-analytic/Analytic";
+import AssignMany from "./page/manager/schedule/assign-staff-many/AssignMany";
+import ConfirmProductBuy from "./page/staff/staff-productbuy/ConfirmProductBuy";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -91,6 +93,7 @@ function App() {
           <Route path="staff" element={<Manager_StaffAccount />} />
           <Route path="staff/assign" element={<ListStaffWithSchedule />} />
           <Route path="staff/assign-to" element={<AssignStaffForm />} />
+          <Route path="staff/assign-to-many" element={<AssignMany />} />
           <Route path="promotion" element={<Promotion />} />
           <Route path="staff/view" element={<ViewSchedule />} />
           <Route path="topproductsell" element={<TopProductSell />} />
@@ -116,6 +119,8 @@ function App() {
           <Route path="create" element={<MainCreateOrder />} />
           <Route path="confirm-order" element={<DisplayOrder />} />
           <Route path="initialize-productbuy" element={<ProductBuy />} />
+          <Route path="confirm-productbuy" element={<ConfirmProductBuy />} />
+
           <Route path="product" element={<StaffProduct />} />
           <Route path="changepassword" element={<StaffChangePassword />} />
         </Route>
