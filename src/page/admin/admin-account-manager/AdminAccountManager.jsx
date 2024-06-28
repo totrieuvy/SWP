@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./AdmiAccountManager.scss";
 import SidebarAdmin from "../sidebarAdmin/SidebarAdmin";
 import api from "../../../config/axios";
-import { Button, Form, Input, Modal, Popconfirm, Table, notification } from "antd";
+import { Button, Form, Input, Modal, Popconfirm, Spin, Table, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
 
 function AdminAccountManager() {
   const [visible, setVisible] = useState(false);
   const [formVariable] = useForm();
+  const [loading, setLoading] = useState(true);
   const columns = [
     {
       title: "Tên",
@@ -55,10 +56,16 @@ function AdminAccountManager() {
   const [dataSource, setDataSource] = useState([]);
 
   const fetchListOfManager = async () => {
-    const response = await api.get("/api");
-    console.log(response.data);
-    const responseWithStatusTrue = response.data.filter((item) => item.status === 1);
-    setDataSource(responseWithStatusTrue);
+    try {
+      const response = await api.get("/api");
+      console.log(response.data);
+      const responseWithStatusTrue = response.data.filter((item) => item.status === 1);
+      setDataSource(responseWithStatusTrue);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(true);
+    }
   };
   useEffect(() => {
     fetchListOfManager();
@@ -89,10 +96,16 @@ function AdminAccountManager() {
 
   return (
     <div className="AdminAccountManager">
-      <Button type="primary" onClick={handleOpenModal}>
-        Thêm quản lí
-      </Button>
-      <Table dataSource={dataSource} columns={columns} />
+      {loading ? (
+        <Spin size="large" />
+      ) : (
+        <>
+          <Button type="primary" onClick={handleOpenModal}>
+            Thêm quản lí
+          </Button>
+          <Table dataSource={dataSource} columns={columns} />
+        </>
+      )}
       <Modal title="Thêm quản lí " open={visible} onOk={handleSubmit} onCancel={handleCloseModal}>
         <Form
           form={formVariable}
