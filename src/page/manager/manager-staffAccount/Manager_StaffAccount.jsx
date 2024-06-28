@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Manager_StaffAccount.scss";
-import { Button, DatePicker, Form, Input, Modal, Popconfirm, Table, notification } from "antd";
+import { Button, DatePicker, Form, Input, Modal, Popconfirm, Spin, Table, notification } from "antd";
 import api from "../../../config/axios";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
@@ -10,6 +10,8 @@ function Manager_StaffAccount() {
   const [visible, setVisible] = useState(0); // 0: closed, 1: create, 2: update
   const [oldData, setOldData] = useState({});
   const [formVariable] = useForm();
+
+  const [loading, setLoading] = useState(true);
 
   const columns = [
     {
@@ -88,8 +90,10 @@ function Manager_StaffAccount() {
       const response = await api.get("/api/staff-accounts");
       const responseWithStatusTrue = response.data.filter((item) => item.status === 1);
       setDataSource(responseWithStatusTrue);
+      setLoading(false);
     } catch (error) {
       console.error("Không thể lấy dữ liệu nhân viên", error);
+      setLoading(true);
     }
   };
 
@@ -153,10 +157,16 @@ function Manager_StaffAccount() {
 
   return (
     <div className="Manager_StaffAccount">
-      <Button type="primary" className="Manager_StaffAccount_Button" onClick={handleOpenModal}>
-        Thêm nhân viên
-      </Button>
-      <Table dataSource={dataSource} columns={columns} />
+      {loading ? (
+        <Spin size="large" />
+      ) : (
+        <>
+          <Button type="primary" className="Manager_StaffAccount_Button" onClick={handleOpenModal}>
+            Thêm nhân viên
+          </Button>
+          <Table dataSource={dataSource} columns={columns} />
+        </>
+      )}
       <Modal
         title={visible === 1 ? "Thêm nhân viên" : "Cập nhật thông tin nhân viên"}
         open={visible > 0}

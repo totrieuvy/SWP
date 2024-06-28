@@ -45,7 +45,10 @@ import Promotion from "./page/manager/promotion/Promotion";
 import ViewSchedule from "./page/manager/schedule/schedule_of_all_staff/ViewSchedule";
 import TopProductSell from "./page/manager/top_productSell/TopProductSell";
 import TopProductSells from "./page/admin/topproductsell/TopProductSells";
-
+import TransactionTotal from "./page/manager/transaction/transaction-total/TransactionTotal";
+import TransactionDetail from "./page/manager/transaction/transaction-detail/TransactionDetail";
+import Transaction_ProductSell from "./page/manager/transaction/transaction-detail-psell/Transaction_ProductSell";
+import Transaction_ProductBuy from "./page/manager/transaction/transaction-detail-pbuy/Transaction_ProductBuy";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -95,6 +98,10 @@ function App() {
           <Route path="promotion" element={<Promotion />} />
           <Route path="staff/view" element={<ViewSchedule />} />
           <Route path="topproductsell" element={<TopProductSell />} />
+          <Route path="transaction/total" element={<TransactionTotal />} />
+          {/* <Route path="transaction/detail/:orderID/:orderType" element={<TransactionDetail />} /> */}
+          <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductSell />} />
+          <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductBuy />} />
         </Route>
       </Route>
       <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>
@@ -106,7 +113,6 @@ function App() {
           <Route path="manager" element={<AdminAccountManager />} />
           <Route path="staff" element={<AdminAccountStaff />} />
           <Route path="topproductsell" element={<TopProductSells />} />
-
         </Route>
       </Route>
       <Route path="staff" element={<PrivateProute role={"ROLE_STAFF"} />}>
