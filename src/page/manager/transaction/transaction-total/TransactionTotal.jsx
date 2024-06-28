@@ -44,7 +44,7 @@ function TransactionTotal() {
       title: "Loại đặt hàng",
       dataIndex: "orderType",
       key: "orderType",
-      render: (orderType) => (orderType == "OUTGOING" ? "Hàng bán ra" : "Hàng mua vào"),
+      render: (orderType) => (orderType == "OUTGOING" ? "Hàng mua vào" : "Hàng bán ra"),
     },
     {
       title: "Xem chi tiết",
@@ -75,9 +75,9 @@ function TransactionTotal() {
     document.title = "Các đơn hàng";
   }, []);
 
-  const productSell = data.filter((item) => item.orderType == "OUTGOING");
+  const productSell = data.filter((item) => item.orderType == "INGOING");
 
-  const productBuy = data.filter((item) => item.orderType == "INGOING");
+  const productBuy = data.filter((item) => item.orderType == "OUTGOING");
 
   return (
     <div className="TransactionTotal">
