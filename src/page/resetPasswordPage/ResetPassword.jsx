@@ -34,8 +34,7 @@ function ResetPassword() {
         } else {
           notification.success({
             message: "Email sent successfully",
-            description:
-              "Please check your email for instructions to reset your password.",
+            description: "Please check your email for instructions to reset your password.",
           });
         }
       }
@@ -58,20 +57,13 @@ function ResetPassword() {
 
         <div className="reset__form">
           <div className="reset__form__left">
-            <h3 className="reset__form__left__welcome__1">
-              RESET YOUR PASSWORD
-            </h3>
+            <h3 className="reset__form__left__welcome__1">RESET YOUR PASSWORD</h3>
             <h5 className="reset__form__left__welcome__2">
-              Enter the email associated with your account and we will send an
-              email with instructions to reset your password.
+              Enter the email associated with your account and we will send an email with instructions to reset your
+              password.
             </h5>
 
-            <Form
-              className="reset__form__left__form"
-              form={formVariable}
-              onFinish={handleFinish}
-              method="post"
-            >
+            <Form className="reset__form__left__form" form={formVariable} onFinish={handleFinish} method="post">
               <Form.Item
                 name="email"
                 rules={[
@@ -89,11 +81,7 @@ function ResetPassword() {
               </Form.Item>
 
               <Form.Item>
-                <Button
-                  type="primary"
-                  className="reset__form__left__buttonReset"
-                  htmlType="submit"
-                >
+                <Button type="primary" className="reset__form__left__buttonReset" htmlType="submit">
                   Reset Password
                 </Button>
               </Form.Item>
@@ -105,9 +93,7 @@ function ResetPassword() {
               </Button>
             </div>
           </div>
-          <div className="reset__form__right">
-            <img src="./images/Login.jpg" alt="Reset Password" />
-          </div>
+          <div className="reset__form__right">{/* <img src="./images/Login.jpg" alt="Reset Password" /> */}</div>
         </div>
       </div>
     </div>
