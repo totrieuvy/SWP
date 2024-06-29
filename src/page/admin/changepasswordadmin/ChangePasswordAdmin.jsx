@@ -1,23 +1,41 @@
 import React, { useEffect } from "react";
-import SidebarAdmin from "../sidebarAdmin/SidebarAdmin";
+// import SidebarAdmin from "../sidebarAdmin/SidebarAdmin";
 import "./ChangePasswordAdmin.scss";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
+import api from "../../../config/axios";
+import { useSelector } from "react-redux";
+import { selectUser } from "../../../redux/features/counterSlice";
 
 function ChangePasswordAdmin() {
   const [formVariable] = useForm();
+  const user = useSelector(selectUser);
 
-  useEffect(() => {
+  const handleChangepasswordAdmin = async ({ oldPassword, newPassword }) => {
+    try {
+      const response = await api.put(`/api/account/change/${user.id}`, { oldPassword, newPassword });
+      console.log(response);
+      notification.success({
+        message: "Thành công",
+        description: "Đổi mật khẩu thành công",
+      });
+      formVariable.resetFields();
+    } catch (error) {
+      console.log(error.response.data);
+      notification.error({
+        message: "Thất bại",
+        description: error.response.data,
+      });
+    }
+  };
+
+  React.useEffect(() => {
     document.title = "Đổi mật khẩu";
   }, []);
 
-  const onFinish = (values) => {
-    console.log(values);
-  };
-
   return (
     <div className="ChangePasswordAdmin">
-      <Form form={formVariable} labelCol={{ span: 24 }} onFinish={onFinish}>
+      <Form form={formVariable} labelCol={{ span: 24 }} onFinish={handleChangepasswordAdmin}>
         <Form.Item
           label="Nhập mật khẩu cũ:"
           name="oldPassword"

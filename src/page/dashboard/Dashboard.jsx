@@ -4,7 +4,6 @@ import {
   HeartOutlined,
   UserOutlined,
   BarChartOutlined,
-  CheckCircleOutlined,
   AppstoreAddOutlined,
   LogoutOutlined,
 } from "@ant-design/icons";
@@ -29,7 +28,7 @@ function getItem(label, key, icon, children) {
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
   const {
-    token: { colorBgContainer, borderRadiusLG },
+    token: { colorBgContainer },
   } = theme.useToken();
 
   const [items, setItems] = useState([]);
@@ -57,12 +56,7 @@ const Dashboard = () => {
         getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
         getItem("Tạo đơn hàng", "staff/create", <ProfileOutlined />),
         getItem("Mua lại", "staff/initialize-productbuy", <ProfileOutlined />),
-
-        getItem(
-          "Xác nhận đơn hàng",
-          "staff/confirm-order",
-          <ProfileOutlined />
-        ),
+        getItem("Xác nhận đơn hàng", "staff/confirm-order", <ProfileOutlined />),
         getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
         getItem("Hồ sơ", "profile", <UserOutlined />, [
           getItem("Hồ sơ cá nhân", `staff/profile/${user.id}`),
@@ -72,16 +66,28 @@ const Dashboard = () => {
     } else if (user.role === "ROLE_MANAGER") {
       setItems([
         getItem("Hồ sơ", "profile", <UserOutlined />, [
+<<<<<<< HEAD
           getItem("Thông tin cá nhân/", `manager/profile/${user.id}`),
           getItem(
             "Đổi mật khẩu",
             "manager/changepassword",
             <ProfileOutlined />
           ),
+=======
+          getItem("Thông tin cá nhân", `manager/profile/${user.id}`),
+          getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
+>>>>>>> fd8e7b393cfb1a02b616e1ae05909088f6e235be
+        ]),
+        getItem("Quản lí nhân sự", "manager/manage", <UserOutlined />, [
+          getItem("Danh sách nhân viên", "manager/staff"),
+          getItem("Xem lịch của tất cả nhân viên", "manager/staff/view"),
+          getItem("Lịch làm việc", "manager/staff/assign"),
+        ]),
+        getItem("Quản lí đơn hàng", "manager/transaction", <ProfileOutlined />, [
+          getItem("Tổng đơn hàng", "manager/transaction/total"),
         ]),
         getItem("Thể loại", "manager/category", <AppstoreAddOutlined />),
         getItem("Sản phẩm", "manager/product", <HeartOutlined />),
-
         getItem("Khách hàng", "manager/customer/view", <UserOutlined />),
         getItem(
           "Danh sách nhân viên",
@@ -103,8 +109,10 @@ const Dashboard = () => {
       ]);
     } else if (user.role === "ROLE_ADMIN") {
       setItems([
-        getItem("Hồ sơ", `admin/profile/${user.id}`, <UserOutlined />),
-        getItem("Thống kê", `admin/analytic`, <BarChartOutlined />),
+        getItem("Hồ sơ", `profile`, <UserOutlined />, [
+          getItem("Hồ sơ", `admin/profile/${user.id}`),
+          getItem("Đổi mật khẩu", "admin/changepassword"),
+        ]),
         getItem("Sản phẩm", "admin/product", <AppstoreAddOutlined />),
         getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
         getItem("Thống kê hà hoàng", "admin/analytic", <AppstoreAddOutlined />),
@@ -113,13 +121,7 @@ const Dashboard = () => {
           getItem("Quản lí", "admin/manager"),
           getItem("Nhân viên", "admin/staff"),
         ]),
-        getItem("Thống kê", "statistics", <BarChartOutlined />, [
-          getItem("Doanh thu", "stats-club-1"),
-          getItem("Club 2", "stats-club-2"),
-          getItem("Club 3", "stats-club-3"),
-          getItem("All Clubs", "all-clubs"),
-        ]),
-        getItem("Đổi mật khẩu", "admin/changepassword", <ProfileOutlined />),
+        getItem("Thống kê", "statistics", <BarChartOutlined />, [getItem("Sản phẩm bán chạy", `admin/topproductsell`)]),
       ]);
     }
   }, [user.role]);
@@ -141,12 +143,17 @@ const Dashboard = () => {
   }, [currentURI]);
 
   return (
+<<<<<<< HEAD
     <Layout style={{ minHeight: "100vh" }}>
       <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
       >
+=======
+    <Layout style={{ minHeight: "100vh" }} className="dashboard_overall">
+      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
+>>>>>>> fd8e7b393cfb1a02b616e1ae05909088f6e235be
         <Menu
           theme="dark"
           defaultSelectedKeys={["profile"]}

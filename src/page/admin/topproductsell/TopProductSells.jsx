@@ -7,7 +7,7 @@ import { Spin } from "antd";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const TopProductSell = () => {
+const TopProductSells = () => {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalUnits, setTotalUnits] = useState(0);
@@ -19,29 +19,27 @@ const TopProductSell = () => {
       .then((response) => {
         const data = response.data;
 
-        // Sort data by unitSold descending and select top 5
-        const sortedData = data.sort((a, b) => b.unitSold - a.unitSold).slice(0, 5);
+        const totalRevenue = data.reduce((sum, item) => sum + item.revenueSold, 0);
+        const totalUnits = data.reduce((sum, item) => sum + item.unitSold, 0);
 
-        // Calculate total units and total revenue from top 5 products
-        const totalUnitsTop5 = sortedData.reduce((sum, item) => sum + item.unitSold, 0);
-        const totalRevenueTop5 = sortedData.reduce((sum, item) => sum + item.revenueSold, 0);
+        const sortedData = data.sort((a, b) => b.unitSold - a.unitSold).slice(0, 10);
 
         const labels = sortedData.map((item) => item.product_Name);
-        const unitSoldDataTop5 = sortedData.map((item) => item.unitSold);
+        const unitSoldData = sortedData.map((item) => item.unitSold);
 
         setChartData({
           labels: labels,
           datasets: [
             {
               label: "Units Sold",
-              data: unitSoldDataTop5,
+              data: unitSoldData,
               backgroundColor: "rgba(75, 192, 192, 0.6)",
             },
           ],
         });
 
-        setTotalRevenue(totalRevenueTop5);
-        setTotalUnits(totalUnitsTop5);
+        setTotalRevenue(totalRevenue);
+        setTotalUnits(totalUnits);
         setLoading(false);
         document.title = "Những sản phẩm bán chạy";
       })
@@ -59,7 +57,7 @@ const TopProductSell = () => {
       },
       title: {
         display: true,
-        text: "Top 5 sản phẩm bán chạy nhất",
+        text: "Top 10 sản phẩm bán chạy nhất",
       },
     },
     scales: {
@@ -99,4 +97,4 @@ const TopProductSell = () => {
   );
 };
 
-export default TopProductSell;
+export default TopProductSells;
