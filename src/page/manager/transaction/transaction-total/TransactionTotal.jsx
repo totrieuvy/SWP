@@ -3,7 +3,6 @@ import api from "../../../../config/axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import "./TransactionTotal.scss";
-import moment from "moment";
 
 function TransactionTotal() {
   const [data, setData] = useState([]);
@@ -23,11 +22,15 @@ function TransactionTotal() {
       sorter: (a, b) => a.totalAmount - b.totalAmount,
     },
     {
-      title: "Ngày giao dịch",
+      title: "Ngày, giờ giao dịch",
       dataIndex: "purchaseDate",
       key: "purchaseDate",
-      render: (purchaseDate) => moment(purchaseDate).format("YYYY-MM-DD / HH:mm:ss"),
-      sorter: (a, b) => moment(b.purchaseDate).diff(moment(a.purchaseDate)),
+      render: (purchaseDate) => {
+        const datePart = purchaseDate.slice(0, 10);
+        const timePart = purchaseDate.slice(11, 19);
+        return `${datePart} / ${timePart}`;
+      },
+      sorter: (a, b) => new Date(b.purchaseDate) - new Date(a.purchaseDate),
       defaultSortOrder: "ascend",
     },
     {
@@ -45,6 +48,14 @@ function TransactionTotal() {
       dataIndex: "orderType",
       key: "orderType",
       render: (orderType) => (orderType == "OUTGOING" ? "Hàng mua vào" : "Hàng bán ra"),
+    },
+    {
+      title: "Tình trạng đặt hàng",
+      dataIndex: "orderStatus",
+      key: "orderStatus",
+      render: (orderStatus) => (orderStatus == 0 ? "Chưa được thanh toán" : "Đã được thanh toán"),
+      sorter: (a, b) => a.orderStatus.localeCompare(b.orderStatus),
+      defaultSortOrder: "ascend",
     },
     {
       title: "Xem chi tiết",
