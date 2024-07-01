@@ -138,7 +138,6 @@ function Manager_StaffAccount() {
           role: "ROLE_STAFF",
           email: values.email,
           username: values.username,
-          password: values.password,
           accountName: values.accountName,
         });
         console.log(response);
@@ -210,18 +209,22 @@ function Manager_StaffAccount() {
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            label="Mật khẩu:"
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Hãy nhập mật khẩu!",
-              },
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
+          {visible == 1 ? (
+            <Form.Item
+              label="Mật khẩu:"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Hãy nhập mật khẩu!",
+                },
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+          ) : (
+            ""
+          )}
           <Form.Item
             label="Ngày bắt đầu làm việc (YYYY-MM-DD):"
             name="startDate"

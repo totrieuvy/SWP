@@ -1,13 +1,19 @@
-import { Table } from "antd";
+import { Spin, Table, Tag } from "antd";
 import api from "../../../config/axios";
 import React, { useEffect, useState } from "react";
 
 function Promotion() {
   const [dataSource, setDataSource] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const columns = [
     {
       title: "Tên",
+      dataIndex: "code",
+      key: "code",
+    },
+    {
+      title: "Mô tả",
       dataIndex: "description",
       key: "description",
     },
@@ -26,20 +32,37 @@ function Promotion() {
       dataIndex: "discount",
       key: "discount",
     },
+    {
+      title: "Trạng thái",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => (
+        <Tag color={status ? "green" : "red"}>{status ? "Còn hạn giảm giá" : "Hết hạn giảm giá"}</Tag>
+      ),
+      sorter: (a, b) => a.status - b.status,
+      defaultSortOrder: "descend",
+    },
   ];
 
   const fetchPromotion = async () => {
-    const response = await api.get("/api/promotion/active");
-    console.log(response.data);
-    setDataSource(response.data);
+    try {
+      const response = await api.get("/api/promotion/active");
+      setDataSource(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error("Failed to fetch promotions:", error);
+      setLoading(true);
+    }
   };
+
   useEffect(() => {
     fetchPromotion();
     document.title = "Chính sách ưu đãi";
   }, []);
+
   return (
     <div className="ManagerPromotion">
-      <Table dataSource={dataSource} columns={columns} />
+      {loading ? <Spin size="large" /> : <Table dataSource={dataSource} columns={columns} rowKey="code" />}
     </div>
   );
 }

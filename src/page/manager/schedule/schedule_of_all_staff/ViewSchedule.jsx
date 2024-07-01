@@ -11,7 +11,7 @@ function ViewSchedule() {
 
   const fetchSchedule = async (start, end) => {
     try {
-      const response = await api.get("/scheduling/scheduleMatrix", {
+      const response = await api.get("/api/scheduling/scheduleMatrix", {
         params: { startDate: start, endDate: end },
       });
       console.log(response.data);
