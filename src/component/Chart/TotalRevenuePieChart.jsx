@@ -28,6 +28,7 @@ const TotalRevenuePieChart = ({ startDate, endDate }) => {
 
   useEffect(() => {
     fetchData(startDate, endDate);
+    console.log(startDate, endDate);
   }, [startDate, endDate]);
 
   const handleDateChange = (dates) => {
