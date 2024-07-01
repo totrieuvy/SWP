@@ -1,6 +1,7 @@
 import { Button, Table } from "antd";
 import api from "../../../../config/axios";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 function ViewProductBuyOrder({ data }) {
   const columns = [
@@ -61,7 +62,7 @@ function ViewProductBuyOrder({ data }) {
       cost: product.calculatedPrice,
     }));
   };
-
+  const navigate = useNavigate();
   // Function to handle order creation
   const handleOrder = async () => {
     try {
@@ -73,13 +74,24 @@ function ViewProductBuyOrder({ data }) {
         JSON.stringify(transformedData)
       );
 
-      const response = await api.post("/api/order/initializePB", requestData, {
-        headers: {
-          "Content-Type": "application/octet-stream",
-        },
-      });
+      const response = await api.post(
+        "/api/productBuy/create-ProductBuys",
+        requestData,
+        {
+          headers: {
+            "Content-Type": "application/octet-stream",
+          },
+        }
+      );
 
-      console.log("Order created successfully:", response.data);
+      if (response.data) {
+        navigate("/staff/confirm-productbuy", {
+          state: {
+            list: response.data,
+            data: data,
+          },
+        });
+      }
       // Handle success as per your application's logic
     } catch (error) {
       console.error("Error creating order:", error);

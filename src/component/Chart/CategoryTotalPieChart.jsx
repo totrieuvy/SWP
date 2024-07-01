@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Pie } from "react-chartjs-2";
 import { Chart, ArcElement } from "chart.js";
+import { Spin } from "antd"; // Import Spin component from Ant Design
 Chart.register(ArcElement);
 import "./style.css";
+import api from "../../config/axios";
+
 const sampleData = [
   { name: "Ring", totalAmountSold: 150 },
   { name: "Necklace", totalAmountSold: 200 },
@@ -12,6 +15,7 @@ const sampleData = [
   { name: "Gold", totalAmountSold: 300 },
   { name: "Gemstone", totalAmountSold: 120 },
 ];
+
 function generateColorArray(length) {
   let colorArray = [];
 
@@ -37,14 +41,37 @@ function generateColorArray(length) {
 
   return colorArray;
 }
+
 function CategoryTotalPieChart() {
+  const [dataCategory, setData] = useState([]);
+  const [isLoading, setLoading] = useState(true); // State for loading indicator
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await api.get("api/Dashboard/revenue-category-all");
+        const apiData = response.data.map((item) => ({
+          name: item.category_Name,
+          totalAmountSold: item.category_Total,
+        }));
+        setData(apiData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      } finally {
+        setLoading(false); // Set loading state to false after fetching data
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const data = {
-    labels: sampleData.map((item) => item.name),
+    labels: dataCategory.map((item) => item.name),
     datasets: [
       {
-        data: sampleData.map((item) => item.totalAmountSold),
-        backgroundColor: generateColorArray(sampleData.length),
-        hoverBackgroundColor: generateColorArray(sampleData.length),
+        data: dataCategory.map((item) => item.totalAmountSold),
+        backgroundColor: generateColorArray(dataCategory.length),
+        hoverBackgroundColor: generateColorArray(dataCategory.length),
       },
     ],
   };
@@ -52,7 +79,11 @@ function CategoryTotalPieChart() {
   return (
     <div className="pieCategory">
       <h2>Sales by Category</h2>
-      <Pie data={data} />
+      {isLoading ? (
+        <Spin size="large" /> // Display Spin component while loading
+      ) : (
+        <Pie data={data} />
+      )}
     </div>
   );
 }

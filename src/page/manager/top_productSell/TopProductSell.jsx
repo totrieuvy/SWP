@@ -1,11 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import api from "../../../config/axios";
 import { Spin } from "antd";
-// import "./TopProduct.scss";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const TopProductSell = () => {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
@@ -20,11 +34,19 @@ const TopProductSell = () => {
         const data = response.data;
 
         // Sort data by unitSold descending and select top 5
-        const sortedData = data.sort((a, b) => b.unitSold - a.unitSold).slice(0, 5);
+        const sortedData = data
+          .sort((a, b) => b.unitSold - a.unitSold)
+          .slice(0, 5);
 
         // Calculate total units and total revenue from top 5 products
-        const totalUnitsTop5 = sortedData.reduce((sum, item) => sum + item.unitSold, 0);
-        const totalRevenueTop5 = sortedData.reduce((sum, item) => sum + item.revenueSold, 0);
+        const totalUnitsTop5 = sortedData.reduce(
+          (sum, item) => sum + item.unitSold,
+          0
+        );
+        const totalRevenueTop5 = sortedData.reduce(
+          (sum, item) => sum + item.revenueSold,
+          0
+        );
 
         const labels = sortedData.map((item) => item.product_Name);
         const unitSoldDataTop5 = sortedData.map((item) => item.unitSold);

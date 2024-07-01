@@ -64,7 +64,7 @@ function AssignStaffForm() {
     // Make an API call to fetch shifts for the month
     const response = api
       .get(
-        `scheduling/scheduleMatrix?startDate=${startOfMonth}&endDate=${endOfMonth}`
+        `api/scheduling/scheduleMatrix?startDate=${startOfMonth}&endDate=${endOfMonth}`
       )
       .then((response) => {
         // Assuming the response has the structure needed
@@ -191,7 +191,7 @@ function AssignStaffForm() {
       }).toString();
 
       const response = await api.post(
-        `/scheduling/assignStaffToDay?${queryString}`
+        `api/scheduling/assignStaffToDay?${queryString}`
       );
 
       console.log("Staff assigned successfully", response);

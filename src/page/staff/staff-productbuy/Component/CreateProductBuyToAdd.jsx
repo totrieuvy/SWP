@@ -9,6 +9,11 @@ function CreateProductBuyToAdd({ appendOrder }) {
   const [noGemstone, setNoGemstone] = useState(false);
   const [image, setImage] = useState("");
   const [category, setCategory] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState({
+    id: null,
+    name: "",
+  });
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -21,6 +26,7 @@ function CreateProductBuyToAdd({ appendOrder }) {
 
     fetchData();
   }, []);
+
   const fetchPrice = async (values) => {
     try {
       const response = await api.post("/api/productBuy/calculate-cost", {
@@ -35,25 +41,22 @@ function CreateProductBuyToAdd({ appendOrder }) {
     }
     return 0;
   };
+
   const onFinish = async (values) => {
     const calculatedPrice = await fetchPrice(values);
-    // Combine form values and image into a JSON object
     const productData = {
       ...values,
+      category_id: selectedCategory.id,
+      category: selectedCategory.name,
       image,
       calculatedPrice: calculatedPrice * 1000,
     };
     console.log(productData);
-    // Append the JSON object using the appendOrder function
     appendOrder(productData);
   };
 
   const getImageData = (data) => {
     setImage(data);
-  };
-
-  const handleProductBuy = () => {
-    console.log("hello world");
   };
 
   return (
@@ -73,17 +76,17 @@ function CreateProductBuyToAdd({ appendOrder }) {
             No Metal
           </Checkbox>
         </Form.Item>
+
         <Form.Item
           label="Category"
           name="category_id"
-          rules={[
-            {
-              required: true,
-              message: "Please input!",
-            },
-          ]}
+          rules={[{ required: true, message: "Please input!" }]}
         >
-          <Select>
+          <Select
+            onChange={(value, option) =>
+              setSelectedCategory({ id: value, name: option.children })
+            }
+          >
             {category.map((option) => (
               <Option key={option.id} value={option.id}>
                 {option.name}
@@ -91,6 +94,7 @@ function CreateProductBuyToAdd({ appendOrder }) {
             ))}
           </Select>
         </Form.Item>
+
         <Form.Item
           label="Metal Type"
           name="metalType"
@@ -98,7 +102,9 @@ function CreateProductBuyToAdd({ appendOrder }) {
             { required: !noMetal, message: "Please enter the metal type" },
           ]}
         >
-          <Input disabled={noMetal} />
+          <Select disabled={noMetal}>
+            <Option value="Gold">Gold</Option>
+          </Select>
         </Form.Item>
 
         <Form.Item
@@ -127,7 +133,9 @@ function CreateProductBuyToAdd({ appendOrder }) {
             },
           ]}
         >
-          <Input disabled={noGemstone} />
+          <Select disabled={noGemstone}>
+            <Option value="Diamond">Diamond</Option>
+          </Select>
         </Form.Item>
 
         <Form.Item

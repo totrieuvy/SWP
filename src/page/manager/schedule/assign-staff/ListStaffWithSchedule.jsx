@@ -140,9 +140,20 @@ function ListStaffWithSchedule() {
       },
     });
   };
+
+  const handleAssignMany = () => {
+    navigate("/manager/staff/assign-to-many", {
+      state: {
+        data: data,
+      },
+    });
+  };
   return (
     <>
-      <DateSelectorForm setScheduleData={setScheduleData} />
+      <DateSelectorForm
+        assignMany={handleAssignMany}
+        setScheduleData={setScheduleData}
+      />
       <Table columns={columns} dataSource={combinedData} rowKey="staffID" />
     </>
   );

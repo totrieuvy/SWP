@@ -44,6 +44,9 @@ import AdminAccountStaff from "./page/admin/admin-account-staff/AdminAccountStaf
 import Promotion from "./page/manager/promotion/Promotion";
 import ViewSchedule from "./page/manager/schedule/schedule_of_all_staff/ViewSchedule";
 import TopProductSell from "./page/manager/top_productSell/TopProductSell";
+import Analytic from "./page/admin/admin-analytic/Analytic";
+import AssignMany from "./page/manager/schedule/assign-staff-many/AssignMany";
+import ConfirmProductBuy from "./page/staff/staff-productbuy/ConfirmProductBuy";
 import TopProductSells from "./page/admin/topproductsell/TopProductSells";
 import TransactionTotal from "./page/manager/transaction/transaction-total/TransactionTotal";
 import Transaction_ProductSell from "./page/manager/transaction/transaction-detail-psell/Transaction_ProductSell";
@@ -94,13 +97,20 @@ function App() {
           <Route path="staff" element={<Manager_StaffAccount />} />
           <Route path="staff/assign" element={<ListStaffWithSchedule />} />
           <Route path="staff/assign-to" element={<AssignStaffForm />} />
+          <Route path="staff/assign-to-many" element={<AssignMany />} />
           <Route path="promotion" element={<Promotion />} />
           <Route path="staff/view" element={<ViewSchedule />} />
           <Route path="topproductsell" element={<TopProductSell />} />
           <Route path="transaction/total" element={<TransactionTotal />} />
           {/* <Route path="transaction/detail/:orderID/:orderType" element={<TransactionDetail />} /> */}
-          <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
-          <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
+          <Route
+            path="transaction/detail/:orderID/OUTGOING"
+            element={<Transaction_ProductBuy />}
+          />
+          <Route
+            path="transaction/detail/:orderID/INGOING"
+            element={<Transaction_ProductSell />}
+          />
         </Route>
       </Route>
       <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>
@@ -111,6 +121,8 @@ function App() {
           <Route path="changepassword" element={<ChangePasswordAdmin />} />
           <Route path="manager" element={<AdminAccountManager />} />
           <Route path="staff" element={<AdminAccountStaff />} />
+          <Route path="analytic" element={<Analytic />} />
+
           <Route path="topproductsell" element={<TopProductSells />} />
         </Route>
       </Route>
@@ -123,6 +135,8 @@ function App() {
           <Route path="create" element={<MainCreateOrder />} />
           <Route path="confirm-order" element={<DisplayOrder />} />
           <Route path="initialize-productbuy" element={<ProductBuy />} />
+          <Route path="confirm-productbuy" element={<ConfirmProductBuy />} />
+
           <Route path="product" element={<StaffProduct />} />
           <Route path="changepassword" element={<StaffChangePassword />} />
         </Route>
