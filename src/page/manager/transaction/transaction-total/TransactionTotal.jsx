@@ -1,4 +1,4 @@
-import { Button, Modal, Spin, Table } from "antd";
+import { Button, Spin, Table, Tag } from "antd";
 import api from "../../../../config/axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -44,17 +44,15 @@ function TransactionTotal() {
       key: "staffName",
     },
     {
-      title: "Loại đặt hàng",
-      dataIndex: "orderType",
-      key: "orderType",
-      render: (orderType) => (orderType == "OUTGOING" ? "Hàng mua vào" : "Hàng bán ra"),
-    },
-    {
       title: "Tình trạng đặt hàng",
       dataIndex: "orderStatus",
       key: "orderStatus",
-      render: (orderStatus) => (orderStatus == 0 ? "Chưa được thanh toán" : "Đã được thanh toán"),
-      sorter: (a, b) => a.orderStatus.localeCompare(b.orderStatus),
+      render: (orderStatus) => (
+        <Tag color={orderStatus == 1 ? "green" : "red"}>
+          {orderStatus == 1 ? "Đã được thanh toán" : "Chưa được thanh toán"}
+        </Tag>
+      ),
+      sorter: (a, b) => a.orderStatus - b.orderStatus,
       defaultSortOrder: "ascend",
     },
     {
@@ -86,9 +84,8 @@ function TransactionTotal() {
     document.title = "Các đơn hàng";
   }, []);
 
-  const productSell = data.filter((item) => item.orderType == "INGOING");
-
-  const productBuy = data.filter((item) => item.orderType == "OUTGOING");
+  const productSell = data.filter((item) => item.orderType === "INGOING");
+  const productBuy = data.filter((item) => item.orderType === "OUTGOING");
 
   return (
     <div className="TransactionTotal">
@@ -97,10 +94,10 @@ function TransactionTotal() {
       ) : (
         <>
           <h2>ĐƠN HÀNG BÁN RA</h2>
-          <Table dataSource={productSell} columns={columns} />
+          <Table dataSource={productSell} columns={columns} rowKey="orderID" />
 
           <h2>ĐƠN HÀNG MUA VÀO</h2>
-          <Table dataSource={productBuy} columns={columns} />
+          <Table dataSource={productBuy} columns={columns} rowKey="orderID" />
         </>
       )}
     </div>
