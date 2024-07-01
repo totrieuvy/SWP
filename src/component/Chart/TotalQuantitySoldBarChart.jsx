@@ -53,6 +53,7 @@ const TotalQuantitySoldBarChart = ({ startDate, endDate }) => {
   };
 
   const options = {
+    maintainAspectRatio: false,
     scales: {
       y: {
         beginAtZero: true,

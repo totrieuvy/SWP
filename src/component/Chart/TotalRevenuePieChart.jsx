@@ -67,7 +67,7 @@ const TotalRevenuePieChart = ({ startDate, endDate }) => {
         <Spin size="large" />
       ) : (
         <div className="TotalRevenuePieChart">
-          <Pie data={chartData} />
+          <Pie data={chartData} options={{ aspectRatio: 0 }} />
         </div>
       )}
     </div>
