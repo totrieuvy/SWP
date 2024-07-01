@@ -62,3 +62,11 @@ body::-webkit-scrollbar-thumb
     justify-content: space-around;
     align-items: center;
 }
+.productBuyConfirmation{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 50px;
+    align-items:center;
+}

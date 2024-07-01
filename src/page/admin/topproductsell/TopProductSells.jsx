@@ -1,11 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import api from "../../../config/axios";
 import { Spin } from "antd";
-// import "./TopProduct.scss";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const TopProductSells = () => {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
@@ -19,10 +33,15 @@ const TopProductSells = () => {
       .then((response) => {
         const data = response.data;
 
-        const totalRevenue = data.reduce((sum, item) => sum + item.revenueSold, 0);
+        const totalRevenue = data.reduce(
+          (sum, item) => sum + item.revenueSold,
+          0
+        );
         const totalUnits = data.reduce((sum, item) => sum + item.unitSold, 0);
 
-        const sortedData = data.sort((a, b) => b.unitSold - a.unitSold).slice(0, 10);
+        const sortedData = data
+          .sort((a, b) => b.unitSold - a.unitSold)
+          .slice(0, 10);
 
         const labels = sortedData.map((item) => item.product_Name);
         const unitSoldData = sortedData.map((item) => item.unitSold);

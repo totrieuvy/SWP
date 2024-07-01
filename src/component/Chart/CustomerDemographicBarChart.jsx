@@ -1,19 +1,49 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
+import api from "../../config/axios";
+import { Spin, DatePicker } from "antd";
+import moment from "moment";
 
 Chart.register(...registerables);
-const CustomerDemographicBarChart = () => {
-  // Data for the chart
+
+const { RangePicker } = DatePicker;
+
+const CustomerDemographicBarChart = ({ startDate, endDate }) => {
+  const [demographicData, setDemographicData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDemographic = async () => {
+      try {
+        const response = await api.get(
+          `api/Dashboard/demographic-customers?startTime=${startDate}&endTime=${endDate}`
+        );
+        const rawData = response.data;
+        setDemographicData([
+          rawData[0]?.male || 0,
+          rawData[0]?.female || 0,
+          rawData[0]?.other || 0,
+        ]);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setLoading(false);
+      }
+    };
+
+    fetchDemographic();
+  }, [startDate, endDate]);
+
   const data = {
-    labels: ["Gentlemen", "Madam", "Others"],
+    labels: ["Male", "Female", "Others"],
     datasets: [
       {
         label: "Demographics",
-        data: [300, 350, 150], // Example data (replace with your actual data)
+        data: demographicData,
         backgroundColor: [
-          "rgba(54, 162, 235, 0.6)", // Blue color for Boys
-          "rgba(255, 99, 132, 0.6)", // Red color for Girls
+          "rgba(54, 162, 235, 0.6)", // Blue color for Male
+          "rgba(255, 99, 132, 0.6)", // Red color for Female
           "rgba(75, 192, 192, 0.6)", // Green color for Others
         ],
         borderColor: [
@@ -26,22 +56,24 @@ const CustomerDemographicBarChart = () => {
     ],
   };
 
-  // Configuration options
   const options = {
     scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true,
-          },
-        },
-      ],
+      y: {
+        beginAtZero: true,
+      },
     },
   };
 
+  const handleDateChange = (dates) => {
+    if (dates) {
+      startDate = moment(dates[0]);
+      endDate = moment(dates[1]);
+    }
+  };
+
   return (
-    <div style={{ height: "400px", width: "600px" }}>
-      <Bar data={data} options={options} />
+    <div style={{ height: "500px", width: "600px" }}>
+      {loading ? <Spin size="large" /> : <Bar data={data} options={options} />}
     </div>
   );
 };

@@ -180,9 +180,10 @@ function AssignMany() {
       const formattedEndDate = selectedRange[1]?.format("YYYY-MM-DD");
 
       const response = await api.post(
-        `/scheduling/assignStaffByShiftTypePattern?startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
+        `api/scheduling/assignStaffByShiftTypePattern?startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
         data
       );
+      setData(response.data);
       return response.data;
     } catch (error) {
       console.error(error);

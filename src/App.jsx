@@ -121,6 +121,8 @@ function App() {
           <Route path="changepassword" element={<ChangePasswordAdmin />} />
           <Route path="manager" element={<AdminAccountManager />} />
           <Route path="staff" element={<AdminAccountStaff />} />
+          <Route path="analytic" element={<Analytic />} />
+
           <Route path="topproductsell" element={<TopProductSells />} />
         </Route>
       </Route>
