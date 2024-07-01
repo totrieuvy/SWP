@@ -102,7 +102,6 @@ function RevenueChart() {
 
   return (
     <div className="DailyRevenueOverTime">
-      <h2>Daily Revenue Over Time</h2>
       <Line data={data} options={options} />
     </div>
   );

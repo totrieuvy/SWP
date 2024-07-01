@@ -69,10 +69,10 @@ const TopProductSells = () => {
   }, []);
 
   const options = {
-    responsive: true,
+    maintainAspectRatio: false,
     plugins: {
       legend: {
-        position: "top",
+        position: "top", // Set position as 'top', ensuring type compatibility
       },
       title: {
         display: true,

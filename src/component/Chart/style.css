@@ -1,20 +1,38 @@
+.TotalQuantitySoldBarChart {
+  width: 80%;
+}
+.TotalRevenuePieChart {
+  width: 80%;
+}
+.DailyRevenueOverTime {
+  width: 65%;
+}
 .pieCategory {
-    height: 500px;
-    width: 500px;
-  }
-  
-  .DailyRevenueOverTime {
-    height: 35vh;
-    width: 75vw;
-  }
-  
-  .TotalQuantitySoldBarChart {
-    width: 500px; /* Increased width */
-    height: 500px; /* Added height */
-  }
-  
-  .TotalRevenuePieChart {
-    width: 500px; /* Increased width */
-    height: 500px; /* Added height */
-  }
-  
+  width: 30%;
+}
+.CustomerSignupsChart {
+  width: 25%;
+}
+.CustomerDemographic {
+  width: 25% !important;
+}
+.LoyaltyMember {
+  width: 25%;
+}
+.TotalQuantitySoldBarChart,
+.TotalRevenuePieChart,
+.DailyRevenueOverTime,
+.CustomerSignupsChart,
+.CustomerDemographic,
+.LoyaltyMember,
+.DailyRevenueOverTime,
+.pieCategory,
+.top-product-sell-container {
+  border: 2px solid #b350ff;
+  border-radius: 25px;
+  padding: 25px 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 10px 10px;
+}

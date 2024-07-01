@@ -80,7 +80,7 @@ const LoyaltyMemberBarChart = ({ startDate, endDate }) => {
   return loading ? (
     <Spin size="large" />
   ) : (
-    <div style={{ height: "400px", width: "600px" }}>
+    <div className="LoyaltyMember">
       <Bar data={chartData} options={options} />
     </div>
   );

@@ -57,6 +57,7 @@ const CustomerDemographicBarChart = ({ startDate, endDate }) => {
   };
 
   const options = {
+    maintainAspectRatio: false, // Disable maintain aspect ratio
     scales: {
       y: {
         beginAtZero: true,
@@ -72,7 +73,7 @@ const CustomerDemographicBarChart = ({ startDate, endDate }) => {
   };
 
   return (
-    <div style={{ height: "500px", width: "600px" }}>
+    <div className="CustomerDemographic">
       {loading ? <Spin size="large" /> : <Bar data={data} options={options} />}
     </div>
   );
