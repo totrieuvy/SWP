@@ -64,7 +64,9 @@ function Analytic() {
           />
         </div>
       </div>
-      <TopProductSell />
+      <div className="topProductSellContainer">
+        <TopProductSell />
+      </div>
       <TransactionTotal />
     </>
   );

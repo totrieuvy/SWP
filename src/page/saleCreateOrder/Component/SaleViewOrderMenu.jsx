@@ -47,6 +47,8 @@ const columns = [
 
 function SaleViewOrderMenu({ currentOrder, closeOrder }) {
   const [email, setEmail] = useState("");
+  const [qrImage, setQrImage] = useState(null);
+
   useEffect(() => {
     console.log(currentOrder);
   }, [currentOrder]);
@@ -54,7 +56,8 @@ function SaleViewOrderMenu({ currentOrder, closeOrder }) {
   const handleInputChange = (event) => {
     setEmail(event.target.value);
   };
-  const handleSubmitOrder = () => {
+
+  const handleSubmitOrder = async () => {
     const data = {
       orderRequest: {
         paymentType: "none",
@@ -72,8 +75,23 @@ function SaleViewOrderMenu({ currentOrder, closeOrder }) {
     data.orderRequest.totalAmount = currentOrder.reduce((total, product) => {
       return total + product.cost * product.quantity;
     }, 0);
-    console.log(data);
-    const createSaleOrderRequest = api.post("api/order/initialize-qr", data);
+
+    try {
+      const response = await api.post("api/order/initialize-qr", data);
+
+      console.log(response.data);
+      if (!email.trim()) {
+        const response = await api.post("api/order/initialize-qr", data);
+        const base64Data = response.data;
+        const qrImageUrl = `data:image/png;base64,${base64Data}`;
+        setQrImage(qrImageUrl);
+      } else {
+        setQrImage(null);
+      }
+    } catch (error) {
+      console.error("Error initializing QR:", error);
+    }
+
     closeOrder([]);
   };
 
@@ -116,6 +134,11 @@ function SaleViewOrderMenu({ currentOrder, closeOrder }) {
           Thanh toán
         </Button>
       </div>
+      {qrImage && (
+        <div className="SaleOrderQrImage">
+          <Image src={qrImage} alt="QR Code" />
+        </div>
+      )}
     </div>
   );
 }

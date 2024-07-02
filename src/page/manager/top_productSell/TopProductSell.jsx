@@ -76,7 +76,6 @@ const TopProductSell = () => {
   const options = {
     responsive: true,
     maintainAspectRatio: false,
-
     plugins: {
       legend: {
         position: "top",
@@ -96,6 +95,8 @@ const TopProductSell = () => {
         },
       },
     },
+    // Adjust the height of the chart here
+    height: 450, // Adjust this value as needed
   };
 
   return (

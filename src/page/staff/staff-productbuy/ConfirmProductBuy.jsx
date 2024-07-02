@@ -14,7 +14,7 @@ function ConfirmProductBuy() {
   const [image, setImage] = useState(null);
   const [alertMessage, setAlertMessage] = useState(null);
   const user = useSelector(selectUser);
-
+  const [id, setId] = useState(null);
   const columns = [
     {
       title: "ID",
@@ -65,8 +65,10 @@ function ConfirmProductBuy() {
   const handleConfirm = async () => {
     console.log("Confirm button clicked");
     const responseMessage = await confirmHandler();
-    console.log("Response message:", responseMessage);
-    setAlertMessage(responseMessage);
+    setId(responseMessage);
+    const paymentMessage = await processPayment(responseMessage);
+    console.log(paymentMessage);
+    setAlertMessage(paymentMessage);
   };
 
   const confirmHandler = async () => {
@@ -96,7 +98,23 @@ function ConfirmProductBuy() {
       return "Error confirming order. Please try again.";
     }
   };
-
+  const processPayment = async (orderIdentifier) => {
+    const requestBody = {
+      order_ID: orderIdentifier,
+      image: image,
+    };
+    console.log(requestBody);
+    try {
+      const response = await api.patch(
+        "/api/order/process-payment-PB",
+        requestBody
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error confirming order:", error);
+      return "Error confirming order. Please try again.";
+    }
+  };
   return (
     <div className="ConfirmProductBuy">
       <h1>Confirm Order</h1>
