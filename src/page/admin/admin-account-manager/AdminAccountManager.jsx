@@ -43,7 +43,7 @@ function AdminAccountManager() {
     },
   ];
   const handleDeleteManager = async (pk_userID) => {
-    const response = await api.delete(`/api/${pk_userID}`);
+    const response = await api.delete(`/api/manager/${pk_userID}`);
 
     const filterAccountAfterDelete = dataSource.filter((data) => data.pk_userID != pk_userID);
     setDataSource(filterAccountAfterDelete);
@@ -57,7 +57,7 @@ function AdminAccountManager() {
 
   const fetchListOfManager = async () => {
     try {
-      const response = await api.get("/api");
+      const response = await api.get("/api/manager");
       console.log(response.data);
       const responseWithStatusTrue = response.data.filter((item) => item.status === 1);
       setDataSource(responseWithStatusTrue);
@@ -83,7 +83,7 @@ function AdminAccountManager() {
   };
   const handleFinish = async (values) => {
     console.log(values);
-    const response = await api.post("/api", values);
+    const response = await api.post("/api/manager", values);
     console.log(response);
     setDataSource([...dataSource, values]);
     formVariable.resetFields();

@@ -11,7 +11,7 @@ function ManagerProfile() {
 
   const fetchManagerProfile = async () => {
     try {
-      const response = await api.get(`/api/${user.id}`);
+      const response = await api.get(`/api/manager/${user.id}`);
       console.log(response.data);
       return response.data;
     } catch (error) {
