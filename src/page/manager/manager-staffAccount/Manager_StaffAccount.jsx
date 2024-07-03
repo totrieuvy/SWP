@@ -10,7 +10,6 @@ function Manager_StaffAccount() {
   const [visible, setVisible] = useState(0); // 0: closed, 1: create, 2: update
   const [oldData, setOldData] = useState({});
   const [formVariable] = useForm();
-
   const [loading, setLoading] = useState(true);
 
   const columns = [
@@ -124,12 +123,16 @@ function Manager_StaffAccount() {
   };
 
   const handleFinish = async (values) => {
-    values.startDate = dayjs(values.startDate).format("YYYY-MM-DD");
+    values.startDate = dayjs(values.startDate).toISOString(); // Convert to ISO string
     console.log(values);
     try {
       if (visible === 1) {
         const response = await api.post("/api/account/register", values);
         setDataSource([...dataSource, { ...values, staffID: response.data.staffID }]);
+        notification.success({
+          message: "Thành công",
+          description: "Thêm tài khoản nhân viên thành công",
+        });
       } else if (visible === 2) {
         const response = await api.put(`/api/staff-accounts/${oldData.staffID}`, {
           phoneNumber: values.phoneNumber,
@@ -148,7 +151,7 @@ function Manager_StaffAccount() {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.log("error", error);
     }
     formVariable.resetFields();
     handleCloseModal();
