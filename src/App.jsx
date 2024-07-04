@@ -53,6 +53,8 @@ import Transaction_ProductSell from "./page/manager/transaction/transaction-deta
 import Transaction_ProductBuy from "./page/manager/transaction/transaction-detail-pbuy/Transaction_ProductBuy";
 import StaffPerformance from "./page/manager/staff-performance/StaffPerformance";
 
+import SaleComparision from "./page/manager/sales_comparision/SaleComparision";
+
 const PrivateProute = ({ role }) => {
   console.log(role);
   const user = useSelector(selectUser);
@@ -106,14 +108,10 @@ function App() {
           <Route path="topproductsell" element={<TopProductSell />} />
           <Route path="transaction/total" element={<TransactionTotal />} />
           {/* <Route path="transaction/detail/:orderID/:orderType" element={<TransactionDetail />} /> */}
-          <Route
-            path="transaction/detail/:orderID/OUTGOING"
-            element={<Transaction_ProductBuy />}
-          />
-          <Route
-            path="transaction/detail/:orderID/INGOING"
-            element={<Transaction_ProductSell />}
-          />
+          salecomparision
+          <Route path="salecomparision" element={<SaleComparision />} />
+          <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
+          <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
         </Route>
       </Route>
       <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>
