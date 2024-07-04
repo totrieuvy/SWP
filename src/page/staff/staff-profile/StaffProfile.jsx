@@ -113,7 +113,7 @@ function StaffProfile() {
   return (
     <div className="StaffProfile">
       <Table dataSource={dataSource} columns={columns} />
-      <Modal title="Cập nhật thông tin" open={visible} onCancel={handleCloseModal} onOk={() => formVariable.submit()}>
+      <Modal title="Cập nhật thông tin hồ sơ" open={visible} onCancel={handleCloseModal} onOk={() => formVariable.submit()}>
         <Form form={formVariable} layout="vertical" onFinish={handleFinish}>
           <Form.Item name="username" label="Tên đăng nhập">
             <Input />
