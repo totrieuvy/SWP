@@ -88,7 +88,7 @@ function AdminProfile() {
                     <Form.Item label="Vai trò" name="role">
                       <Input disabled={true} />
                     </Form.Item>
-                    <Form.Item label="Tên tài khoản" name="accountname">
+                    <Form.Item label="Tên tài khoản" name="accountName">
                       <Input disabled={!isEditing} />
                     </Form.Item>
                     <Form.Item label="Trạng thái" name="status">
@@ -98,11 +98,7 @@ function AdminProfile() {
                   <div style={{ marginTop: 20 }}>
                     {isEditing ? (
                       <div>
-                        <Button
-                          type="primary"
-                          onClick={handleSaveProfile}
-                          style={{ marginRight: 10 }}
-                        >
+                        <Button type="primary" onClick={handleSaveProfile} style={{ marginRight: 10 }}>
                           Lưu
                         </Button>
                         <Button onClick={handleCancelEdit}>Hủy</Button>
