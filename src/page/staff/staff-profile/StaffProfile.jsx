@@ -1,15 +1,16 @@
-import { Button, Modal, Table, Form, Input } from "antd";
+import { Button, Form, Input, Modal, Table, notification } from "antd";
 import api from "../../../config/axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../redux/features/counterSlice";
+import { useForm } from "antd/es/form/Form";
 
 function StaffProfile() {
   const [dataSource, setDataSource] = useState([]);
   const user = useSelector(selectUser);
   const [visible, setVisible] = useState(false);
   const [oldData, setOldData] = useState({});
-  const [form] = Form.useForm();
+  const [formVariable] = useForm();
 
   const fetchStaffProfile = async () => {
     try {
@@ -36,7 +37,7 @@ function StaffProfile() {
 
   const columns = [
     {
-      title: "Tên",
+      title: "Tên đăng nhập",
       dataIndex: "username",
       key: "username",
     },
@@ -78,22 +79,31 @@ function StaffProfile() {
   ];
 
   const handleOpenModal = (record) => {
-    setOldData(record);
-    form.setFieldsValue(record);
     setVisible(true);
+    setOldData(record);
+    formVariable.setFieldsValue({
+      username: record.username,
+      phone: record.phoneNumber,
+      email: record.email,
+    });
   };
 
   const handleCloseModal = () => {
     setVisible(false);
-    form.resetFields();
+    formVariable.resetFields();
   };
 
-  const handleUpdate = async (values) => {
+  const handleFinish = async (values) => {
     try {
-      await api.put(`/api/staff-accounts/${user.id}`, values);
+      const response = await api.put(`/api/staff/${user.id}`, values);
+      console.log(response.data);
       const data = await fetchStaffProfile();
       const dataArray = Array.isArray(data) ? data : [data];
       setDataSource(dataArray);
+      notification.success({
+        message: "Thành công",
+        description: "Cập nhật nhân viên thành công",
+      });
       handleCloseModal();
     } catch (error) {
       console.error("Error updating staff profile:", error);
@@ -103,12 +113,12 @@ function StaffProfile() {
   return (
     <div className="StaffProfile">
       <Table dataSource={dataSource} columns={columns} />
-      <Modal title="Cập nhật thông tin" visible={visible} onCancel={handleCloseModal} onOk={() => form.submit()}>
-        <Form form={form} layout="vertical" onFinish={handleUpdate}>
-          <Form.Item name="username" label="Tên">
+      <Modal title="Cập nhật thông tin" open={visible} onCancel={handleCloseModal} onOk={() => formVariable.submit()}>
+        <Form form={formVariable} layout="vertical" onFinish={handleFinish}>
+          <Form.Item name="username" label="Tên đăng nhập">
             <Input />
           </Form.Item>
-          <Form.Item name="phoneNumber" label="Số điện thoại">
+          <Form.Item name="phone" label="Số điện thoại">
             <Input />
           </Form.Item>
           <Form.Item name="email" label="Email">
