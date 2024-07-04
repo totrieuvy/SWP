@@ -51,6 +51,7 @@ import TopProductSells from "./page/admin/topproductsell/TopProductSells";
 import TransactionTotal from "./page/manager/transaction/transaction-total/TransactionTotal";
 import Transaction_ProductSell from "./page/manager/transaction/transaction-detail-psell/Transaction_ProductSell";
 import Transaction_ProductBuy from "./page/manager/transaction/transaction-detail-pbuy/Transaction_ProductBuy";
+import StaffPerformance from "./page/manager/staff-performance/StaffPerformance";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -99,6 +100,8 @@ function App() {
           <Route path="staff/assign-to" element={<AssignStaffForm />} />
           <Route path="staff/assign-to-many" element={<AssignMany />} />
           <Route path="promotion" element={<Promotion />} />
+          <Route path="staff/performance" element={<StaffPerformance />} />
+
           <Route path="staff/view" element={<ViewSchedule />} />
           <Route path="topproductsell" element={<TopProductSell />} />
           <Route path="transaction/total" element={<TransactionTotal />} />

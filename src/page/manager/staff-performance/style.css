@@ -1,0 +1,24 @@
+.staffPerformanceDashboardDivider {
+  display: flex;
+  flex-direction: row;
+  height: 100vh; /* Full height of the viewport */
+  overflow: hidden; /* Prevent overflow */
+}
+
+.left {
+  flex: 1; /* Take up remaining space equally */
+  overflow: auto; /* Allow internal scrolling if content overflows */
+  padding: 16px; /* Add padding for aesthetics */
+  box-sizing: border-box; /* Include padding in the element's total width and height */
+}
+
+.right {
+  flex: 1; /* Take up remaining space equally */
+  overflow: auto; /* Allow internal scrolling if content overflows */
+  padding: 16px; /* Add padding for aesthetics */
+  box-sizing: border-box; /* Include padding in the element's total width and height */
+}
+.right .CustomerSignupsChart {
+  height: 50%;
+  width: 50%;
+}
