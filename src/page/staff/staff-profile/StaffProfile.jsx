@@ -102,7 +102,7 @@ function StaffProfile() {
       setDataSource(dataArray);
       notification.success({
         message: "Thành công",
-        description: "Cập nhật nhân viên thành công",
+        description: "Cập nhật hồ sơ thành công",
       });
       handleCloseModal();
     } catch (error) {

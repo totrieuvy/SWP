@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./AdmiAccountManager.scss";
-import SidebarAdmin from "../sidebarAdmin/SidebarAdmin";
 import api from "../../../config/axios";
 import { Button, Form, Input, Modal, Popconfirm, Spin, Table, notification } from "antd";
 import { useForm } from "antd/es/form/Form";
@@ -12,8 +11,8 @@ function AdminAccountManager() {
   const columns = [
     {
       title: "Tên",
-      dataIndex: "ausername",
-      key: "ausername",
+      dataIndex: "username",
+      key: "username",
     },
     {
       title: "Email",
@@ -21,9 +20,9 @@ function AdminAccountManager() {
       key: "email",
     },
     {
-      title: "Vai trò",
-      dataIndex: "role",
-      key: "role",
+      title: "Tên tài khoản",
+      dataIndex: "accountName",
+      key: "accountName",
     },
     {
       title: "Xóa",
@@ -44,7 +43,6 @@ function AdminAccountManager() {
   ];
   const handleDeleteManager = async (pk_userID) => {
     const response = await api.delete(`/api/manager/${pk_userID}`);
-
     const filterAccountAfterDelete = dataSource.filter((data) => data.pk_userID != pk_userID);
     setDataSource(filterAccountAfterDelete);
     notification.success({
@@ -116,7 +114,7 @@ function AdminAccountManager() {
         >
           <Form.Item
             label={"Tên người dùng"}
-            name={"ausername"}
+            name={"username"}
             rules={[
               {
                 required: true,
