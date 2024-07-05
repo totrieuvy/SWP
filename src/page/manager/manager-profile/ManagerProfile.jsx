@@ -1,127 +1,137 @@
 import React, { useEffect, useState } from "react";
-import "./ManagerProfile.scss";
-import { Button, Form, Input, Modal, Table, notification } from "antd";
+import { Card, Button, Row, Col, Form, Input, notification } from "antd";
 import api from "../../../config/axios";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../redux/features/counterSlice";
 import { useForm } from "antd/es/form/Form";
 
 function ManagerProfile() {
-  const [dataSource, setDataSource] = useState([]);
+  const [managerProfile, setManagerProfile] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const user = useSelector(selectUser);
-  const [formVariable] = useForm();
-  const [oldData, setOldData] = useState({});
-  const [visible, setVisible] = useState(false);
+  const [form] = useForm();
 
   const fetchManagerProfile = async () => {
     try {
       const response = await api.get(`/api/manager/${user.id}`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching manager profile:", error);
-      return [];
+      return null;
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchManagerProfile();
-      const dataArray = Array.isArray(data) ? data : [data];
-      setDataSource(dataArray);
-      console.log(dataArray);
+      setManagerProfile(data);
+      form.setFieldsValue(data);
     };
 
     fetchData();
     document.title = "Thông tin quản lí";
-  }, []);
+  }, [form]);
 
-  const columns = [
-    {
-      title: "Tên đăng nhập",
-      dataIndex: "username",
-      key: "username",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "Tên tài khoản",
-      dataIndex: "accountName",
-      key: "accountName",
-    },
-    {
-      title: "Cập nhật",
-      dataIndex: "pk_userID",
-      key: "pk_userID",
-      render: (pk_userID, record) => (
-        <Button
-          type="primary"
-          onClick={() => {
-            handleOpenModal(record);
-          }}
-        >
-          Cập nhật
-        </Button>
-      ),
-    },
-  ];
-
-  const handleOpenModal = (record) => {
-    setVisible(true);
-    setOldData(record);
-    formVariable.setFieldsValue({
-      username: record.username,
-      accountName: record.accountName,
-      email: record.email,
-    });
+  const handleEditProfile = () => {
+    setIsEditing(true);
   };
 
-  const handleCloseModal = () => {
-    setVisible(false);
-    formVariable.resetFields();
-  };
-
-  const handleFinish = async (values) => {
+  const handleSaveProfile = async () => {
     try {
-      const response = await api.put(`/api/managers/${user.id}`, values);
+      const updatedProfile = await form.validateFields();
+      const response = await api.put(`/api/managers/${user.id}`, {
+        email: updatedProfile.email,
+        username: updatedProfile.username,
+        accountName: updatedProfile.accountName,
+      });
       console.log(response.data);
-      const data = await fetchManagerProfile();
-      const dataArray = Array.isArray(data) ? data : [data];
-      setDataSource(dataArray);
+      setManagerProfile(updatedProfile);
+      setIsEditing(false);
       notification.success({
         message: "Thành công",
         description: "Cập nhật hồ sơ thành công",
       });
-      handleCloseModal();
     } catch (error) {
-      console.error("Error updating manager profile:", error);
+      console.error("Error saving profile:", error);
     }
   };
 
+  const handleCancelEdit = () => {
+    form.setFieldsValue(managerProfile);
+    setIsEditing(false);
+  };
+
   return (
-    <div className="ManagerProfile">
-      <Table dataSource={dataSource} columns={columns} />
-      <Modal
-        title="Cập nhật thông tin hồ sơ"
-        open={visible}
-        onCancel={handleCloseModal}
-        onOk={() => formVariable.submit()}
-      >
-        <Form form={formVariable} layout="vertical" onFinish={handleFinish}>
-          <Form.Item name="username" label="Tên đăng nhập">
-            <Input />
-          </Form.Item>
-          <Form.Item name="accountName" label="Tên tài khoản">
-            <Input />
-          </Form.Item>
-          <Form.Item name="email" label="Email">
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
+    <div className="ManagerProfile" style={{ padding: 20, minHeight: "100vh" }}>
+      {managerProfile && (
+        <Row justify="center" align="middle" style={{ height: "100%" }}>
+          <Col span={24}>
+            <Card bordered={false} style={{ width: "100%" }}>
+              <div
+                className="profileContainer"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 20,
+                }}
+              >
+                <div
+                  style={{
+                    flex: 1,
+                    borderRight: "1px solid #e8e8e8",
+                    paddingRight: 20,
+                  }}
+                >
+                  <Form form={form} layout="vertical">
+                    <Form.Item label="Tên đăng nhập" name="username">
+                      <Input disabled={!isEditing} />
+                    </Form.Item>
+                    <Form.Item label="Email" name="email">
+                      <Input disabled={!isEditing} />
+                    </Form.Item>
+                    <Form.Item label="Tên tài khoản" name="accountName">
+                      <Input disabled={!isEditing} />
+                    </Form.Item>
+                  </Form>
+                  <div style={{ marginTop: 20 }}>
+                    {isEditing ? (
+                      <div>
+                        <Button type="primary" onClick={handleSaveProfile} style={{ marginRight: 10 }}>
+                          Lưu
+                        </Button>
+                        <Button onClick={handleCancelEdit}>Hủy</Button>
+                      </div>
+                    ) : (
+                      <Button type="primary" onClick={handleEditProfile}>
+                        Chỉnh sửa hồ sơ
+                      </Button>
+                    )}
+                  </div>
+                </div>
+                <div style={{ flex: 1, paddingLeft: 20 }}>
+                  <div
+                    style={{
+                      border: "1px solid #e8e8e8",
+                      borderRadius: 8,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <img
+                      src="https://t4.ftcdn.net/jpg/06/19/35/33/360_F_619353357_S0oPc83bPWHRdFbscBN3stxauqlRcDKo.jpg"
+                      alt="Manager Profile"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      )}
     </div>
   );
 }
