@@ -66,8 +66,6 @@ const Dashboard = () => {
     } else if (user.role === "ROLE_MANAGER") {
       setItems([
         getItem("Hồ sơ", "profile", <UserOutlined />, [
-          getItem("Thông tin cá nhân/", `manager/profile/${user.id}`),
-          getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
           getItem("Thông tin cá nhân", `manager/profile/${user.id}`),
           getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
         ]),
@@ -82,7 +80,6 @@ const Dashboard = () => {
         getItem("Thể loại", "manager/category", <AppstoreAddOutlined />),
         getItem("Sản phẩm", "manager/product", <HeartOutlined />),
         getItem("Khách hàng", "manager/customer/view", <UserOutlined />),
-        getItem("Danh sách nhân viên", "manager/staff", <ProfileOutlined />),
         getItem("So sánh sản phẩm", "manager/salecomparision", <ProfileOutlined />),
         getItem("Lịch làm việc", "manager/staff/assign", <UserOutlined />),
         getItem("Xem lịch của tất cả nhân viên", "manager/staff/view", <UserOutlined />),

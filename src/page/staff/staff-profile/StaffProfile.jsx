@@ -1,131 +1,146 @@
-import { Button, Form, Input, Modal, Table, notification } from "antd";
-import api from "../../../config/axios";
 import React, { useEffect, useState } from "react";
+import { Card, Button, Row, Col, Form, Input, notification } from "antd";
+import api from "../../../config/axios";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../../redux/features/counterSlice";
 import { useForm } from "antd/es/form/Form";
 
 function StaffProfile() {
-  const [dataSource, setDataSource] = useState([]);
+  const [staffProfile, setStaffProfile] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
   const user = useSelector(selectUser);
-  const [visible, setVisible] = useState(false);
-  const [oldData, setOldData] = useState({});
-  const [formVariable] = useForm();
+  const [form] = useForm();
 
   const fetchStaffProfile = async () => {
     try {
       const response = await api.get(`/api/staff-accounts/${user.id}`);
-      console.log(response.data);
       return response.data;
     } catch (error) {
       console.error("Error fetching staff profile:", error);
-      return [];
+      return null;
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchStaffProfile();
-      const dataArray = Array.isArray(data) ? data : [data];
-      setDataSource(dataArray);
-      console.log(dataArray);
+      setStaffProfile(data);
+      form.setFieldsValue(data);
     };
 
     fetchData();
     document.title = "Thông tin nhân viên";
-  }, []);
+  }, [form]);
 
-  const columns = [
-    {
-      title: "Tên đăng nhập",
-      dataIndex: "username",
-      key: "username",
-    },
-    {
-      title: "Số điện thoại",
-      dataIndex: "phoneNumber",
-      key: "phoneNumber",
-    },
-    {
-      title: "Lương",
-      dataIndex: "salary",
-      key: "salary",
-    },
-    {
-      title: "Ngày bắt đầu",
-      dataIndex: "startDate",
-      key: "startDate",
-    },
-    {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
-    },
-    {
-      title: "Cập nhật",
-      dataIndex: "staffID",
-      key: "staffID",
-      render: (staffID, record) => (
-        <Button
-          type="primary"
-          onClick={() => {
-            handleOpenModal(record);
-          }}
-        >
-          Cập nhật
-        </Button>
-      ),
-    },
-  ];
-
-  const handleOpenModal = (record) => {
-    setVisible(true);
-    setOldData(record);
-    formVariable.setFieldsValue({
-      username: record.username,
-      phone: record.phoneNumber,
-      email: record.email,
-    });
+  const handleEditProfile = () => {
+    setIsEditing(true);
   };
 
-  const handleCloseModal = () => {
-    setVisible(false);
-    formVariable.resetFields();
-  };
-
-  const handleFinish = async (values) => {
+  const handleSaveProfile = async () => {
     try {
-      const response = await api.put(`/api/staff/${user.id}`, values);
-      console.log(response.data);
-      const data = await fetchStaffProfile();
-      const dataArray = Array.isArray(data) ? data : [data];
-      setDataSource(dataArray);
+      const updatedProfile = await form.validateFields();
+      await api.put(`/api/staff/${user.id}`, {
+        email: updatedProfile.email,
+        username: updatedProfile.username,
+        accountName: updatedProfile.accountName,
+        phone: updatedProfile.phone,
+      });
+      setStaffProfile(updatedProfile);
+      setIsEditing(false);
       notification.success({
         message: "Thành công",
-        description: "Cập nhật nhân viên thành công",
+        description: "Cập nhật hồ sơ thành công",
       });
-      handleCloseModal();
     } catch (error) {
-      console.error("Error updating staff profile:", error);
+      console.error("Error saving profile:", error);
     }
   };
 
+  const handleCancelEdit = () => {
+    form.setFieldsValue(staffProfile);
+    setIsEditing(false);
+  };
+
   return (
-    <div className="StaffProfile">
-      <Table dataSource={dataSource} columns={columns} />
-      <Modal title="Cập nhật thông tin hồ sơ" open={visible} onCancel={handleCloseModal} onOk={() => formVariable.submit()}>
-        <Form form={formVariable} layout="vertical" onFinish={handleFinish}>
-          <Form.Item name="username" label="Tên đăng nhập">
-            <Input />
-          </Form.Item>
-          <Form.Item name="phone" label="Số điện thoại">
-            <Input />
-          </Form.Item>
-          <Form.Item name="email" label="Email">
-            <Input />
-          </Form.Item>
-        </Form>
-      </Modal>
+    <div className="StaffProfile" style={{ padding: 20, minHeight: "100vh" }}>
+      {staffProfile && (
+        <Row justify="center" align="middle" style={{ height: "100%" }}>
+          <Col span={24}>
+            <Card bordered={false} style={{ width: "100%" }}>
+              <div
+                className="profileContainer"
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: 20,
+                }}
+              >
+                <div
+                  style={{
+                    flex: 1,
+                    borderRight: "1px solid #e8e8e8",
+                    paddingRight: 20,
+                  }}
+                >
+                  <Form form={form} layout="vertical">
+                    <Form.Item label="Tên đăng nhập" name="username">
+                      <Input disabled={!isEditing} />
+                    </Form.Item>
+                    <Form.Item label="Tên tài khoản" name="accountName">
+                      <Input disabled={!isEditing} />
+                    </Form.Item>
+                    <Form.Item label="Số điện thoại" name="phoneNumber">
+                      <Input disabled={!isEditing} />
+                    </Form.Item>
+                    <Form.Item label="Email" name="email">
+                      <Input disabled={!isEditing} />
+                    </Form.Item>
+                    <Form.Item label="Lương" name="salary">
+                      <Input disabled={true} />
+                    </Form.Item>
+                    <Form.Item label="Ngày bắt đầu" name="startDate">
+                      <Input disabled={true} />
+                    </Form.Item>
+                  </Form>
+                  <div style={{ marginTop: 20 }}>
+                    {isEditing ? (
+                      <div>
+                        <Button type="primary" onClick={handleSaveProfile} style={{ marginRight: 10 }}>
+                          Lưu
+                        </Button>
+                        <Button onClick={handleCancelEdit}>Hủy</Button>
+                      </div>
+                    ) : (
+                      <Button type="primary" onClick={handleEditProfile}>
+                        Chỉnh sửa hồ sơ
+                      </Button>
+                    )}
+                  </div>
+                </div>
+                <div style={{ flex: 1, paddingLeft: 20 }}>
+                  <div
+                    style={{
+                      border: "1px solid #e8e8e8",
+                      borderRadius: 8,
+                      overflow: "hidden",
+                    }}
+                  >
+                    <img
+                      src="https://t4.ftcdn.net/jpg/06/19/35/33/360_F_619353357_S0oPc83bPWHRdFbscBN3stxauqlRcDKo.jpg"
+                      alt="Staff Profile"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      )}
     </div>
   );
 }

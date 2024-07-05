@@ -46,7 +46,7 @@ function Promotion() {
 
   const fetchPromotion = async () => {
     try {
-      const response = await api.get("/api/promotion/active");
+      const response = await api.get("/api/promotion/list");
       setDataSource(response.data);
       setLoading(false);
     } catch (error) {

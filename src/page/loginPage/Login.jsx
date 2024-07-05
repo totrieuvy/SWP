@@ -58,8 +58,8 @@ function Login() {
             setLockoutEndTime(lockoutEnd);
             localStorage.setItem("lockoutEndTime", lockoutEnd);
             notification.error({
-              message: "Locked Out",
-              description: "Too many failed attempts. Try again later.",
+              message: "Đã bị khóa",
+              description: "Quá nhiều lần thử. Hãy thử lại sau.",
             });
           } else {
             notification.error({
@@ -72,10 +72,9 @@ function Login() {
     }
   };
   useEffect(() => {
-    document.title = "Login";
+    document.title = "Đăng nhập";
     const storedAttempts = parseInt(localStorage.getItem("loginAttempts")) || 0;
-    const storedLockoutEnd =
-      parseInt(localStorage.getItem("lockoutEndTime")) || null;
+    const storedLockoutEnd = parseInt(localStorage.getItem("lockoutEndTime")) || null;
 
     setAttempts(storedAttempts);
     setLockoutEndTime(storedLockoutEnd);
@@ -144,47 +143,34 @@ function Login() {
 
         <div className="login__form">
           <div className="login__form__left">
-            <h3 className="login__form__left__welcome__1">WELCOME BACK </h3>
-            <h5 className="login__form__left__welcome__2">
-              Select method to log in
-            </h5>
-            <Form
-              className="login__form__left__form"
-              form={formVariable}
-              onFinish={handleFinish}
-            >
+            <h3 className="login__form__left__welcome__1">Chào mừng đã trở lại </h3>
+            <h5 className="login__form__left__welcome__2">Chọn cách thức đăng nhập</h5>
+            <Form className="login__form__left__form" form={formVariable} onFinish={handleFinish}>
               <Form.Item
                 name="username"
                 rules={[
                   {
                     required: true,
-                    message: "Please input username",
+                    message: "Bắt buộc nhập tên đăng nhập",
                   },
                 ]}
               >
-                <Input prefix={<UserOutlined />} placeholder="Username" />
+                <Input prefix={<UserOutlined />} placeholder="Tên đăng nhập" />
               </Form.Item>
               <Form.Item
                 name="password"
                 rules={[
                   {
                     required: true,
-                    message: "Please input password",
+                    message: "PBắt buộc nhập mật khẩu",
                   },
                 ]}
               >
-                <Input.Password
-                  prefix={<LockOutlined />}
-                  placeholder="Password"
-                  type="password"
-                />
+                <Input.Password prefix={<LockOutlined />} placeholder="Mật khẩu" type="password" />
               </Form.Item>
 
-              <Link
-                className="login__form__left__forgotpass"
-                to="/resetPassword"
-              >
-                Forgot password?
+              <Link className="login__form__left__forgotpass" to="/resetPassword">
+                Quên mật khẩu?
               </Link>
 
               <Form.Item>
@@ -194,23 +180,17 @@ function Login() {
                   className="login__form__left__buttonLogin"
                   htmlType="submit"
                 >
-                  Login
+                  Đăng nhập
                 </Button>
               </Form.Item>
             </Form>
-            <p className="login__form__left__email">Or login with Google</p>
-            <button
-              disabled={isLockedOut}
-              className="login__form__left__google"
-              onClick={handleLoginGoogle}
-            >
+            <p className="login__form__left__email">Hoặc đăng nhập bằng tài khoản Google</p>
+            <button disabled={isLockedOut} className="login__form__left__google" onClick={handleLoginGoogle}>
               <img src="/images/google.png" alt="Google" />
               <p>Google</p>
             </button>
           </div>
-          <div className="login__form__right">
-            {/* <img src="/images/login.jpg" alt="Login" /> */}
-          </div>
+          <div className="login__form__right">{/* <img src="/images/login.jpg" alt="Login" /> */}</div>
         </div>
       </div>
     </div>
