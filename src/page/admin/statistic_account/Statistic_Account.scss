@@ -1,0 +1,18 @@
+.Statistic_Account {
+  text-align: center;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  .chart-container {
+    width: 500px;
+    height: 500px;
+    margin: 0 auto;
+
+    canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+  }
+}
