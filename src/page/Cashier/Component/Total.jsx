@@ -86,11 +86,13 @@ function Total({ clear, order, id }) {
 
   const handlePayment = async (e) => {
     e.preventDefault();
+    const amount = parseInt(total) * 100; // Convert total to integer and then multiply
+    console.log(amount);
     if (payMethod === "vnpay") {
       try {
         const response = await api.post(`/vnpay/submitOrder`, null, {
           params: {
-            amount: parseInt(total) * 100,
+            amount: amount,
             orderInfo: orderInfo,
           },
         });
@@ -164,7 +166,7 @@ function Total({ clear, order, id }) {
       <hr />
       <section className="totalAmount">
         <p className="totalTitle">Tổng giá</p>
-        <p className="totalTitle subTotalValue">{total}đ</p>
+        <p className="totalTitle subTotalValue">{parseInt(total) * 100}đ</p>
       </section>
       <hr />
       <section className="selectPayment">

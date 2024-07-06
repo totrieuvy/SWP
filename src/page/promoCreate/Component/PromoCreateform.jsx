@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, Cascader, DatePicker, Form, Input, InputNumber, Mentions, Select, TreeSelect } from "antd";
+import React, { useEffect, useState } from "react";
+import { Button, Cascader, DatePicker, Form, Input, InputNumber } from "antd";
 
 import api from "../../../config/axios";
 
@@ -42,9 +42,9 @@ const PromoCreateForm = () => {
           children: products
             .filter((product) => product.category_id === category.id)
             .map((product) => ({
-              label: product.name,
-              value: product.id,
-              key: `product-${product.id}-${product.category_id}`, // Ensure unique keys for products
+              label: product.pname,
+              value: product.productID,
+              key: `product-${product.productID}`, // Ensure unique keys for products
             })),
         }));
 
