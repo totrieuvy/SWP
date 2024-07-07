@@ -19,6 +19,9 @@
 .LoyaltyMember {
   width: 25%;
 }
+.CustomerProductsTrendChart {
+  width: 100%;
+}
 .TotalQuantitySoldBarChart,
 .TotalRevenuePieChart,
 .DailyRevenueOverTime,

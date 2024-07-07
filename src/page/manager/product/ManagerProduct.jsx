@@ -34,7 +34,9 @@ function ManagerProduct() {
   const [imgUrl, setImgUrl] = useState("");
   const [isPromoCreateFormVisible, setIsPromoCreateFormVisible] =
     useState(false); // State for PromoCreateForm visibility
-
+  const [isAdjustRatioFormVisible, setIsAdjustRatioFormVisible] =
+    useState(false);
+  const [ratioForm] = useForm();
   const fetchData = async () => {
     try {
       const response = await api.get("/api/productSell");
@@ -187,7 +189,18 @@ function ManagerProduct() {
       description: "Xóa sản phẩm thành công",
     });
   };
-
+  const handleAdjustRatio = async (values) => {
+    try {
+      const response = await api.post(
+        `/api/productSell/adjust-ratio/${values.ratio}`
+      );
+      message.success("Pricing ratio adjusted successfully");
+    } catch (error) {
+      message.error("Failed to adjust pricing ratio");
+      console.error("Error during API call:", error);
+    }
+    setIsAdjustRatioFormVisible(false);
+  };
   useEffect(() => {
     if (visible === 1) {
       formVariable.resetFields();
@@ -298,6 +311,13 @@ function ManagerProduct() {
       >
         Add Promotion
       </Button>
+      <Button
+        type="primary"
+        style={{ marginLeft: "20px" }}
+        onClick={() => setIsAdjustRatioFormVisible(true)}
+      >
+        Adjust Pricing Ratio
+      </Button>
       <Table
         dataSource={data}
         columns={columns}
@@ -382,6 +402,22 @@ function ManagerProduct() {
         onCancel={() => setIsPromoCreateFormVisible(false)}
       >
         <PromoCreateForm />
+      </Modal>
+      <Modal
+        title="Adjust Pricing Ratio"
+        open={isAdjustRatioFormVisible}
+        onCancel={() => setIsAdjustRatioFormVisible(false)}
+        onOk={() => ratioForm.submit()}
+      >
+        <Form form={ratioForm} onFinish={handleAdjustRatio} layout="vertical">
+          <Form.Item
+            label="Ratio"
+            name="ratio"
+            rules={[{ required: true, message: "Please input the ratio!" }]}
+          >
+            <InputNumber min={0} />
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
   );
