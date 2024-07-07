@@ -1,24 +1,9 @@
 import React from "react";
 import { Bar, Line } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-} from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip } from "chart.js";
 
 // Register the required components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
 const generateDailyData = (year) => {
   const dailyData = [];
@@ -29,9 +14,7 @@ const generateDailyData = (year) => {
 
     // Loop through each day of the month
     for (let day = 1; day <= daysInMonth; day++) {
-      const dateString = `${year}-${month.toString().padStart(2, "0")}-${day
-        .toString()
-        .padStart(2, "0")}`;
+      const dateString = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
       // Generate random revenue data (for demonstration purposes)
       const revenue = Math.floor(Math.random() * 100) + 100; // Example random revenue between 100 and 199
 
@@ -65,7 +48,7 @@ function RevenueChart() {
     labels: labels,
     datasets: [
       {
-        label: "Daily Revenue",
+        label: "Doanh thu hằng tháng",
         data: dataPoints.map((dataPoint) => dataPoint.revenue), // Use revenue data
         fill: false,
         borderColor: "#00144F",

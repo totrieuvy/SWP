@@ -1,0 +1,73 @@
+/* Styles for the product list container */
+.productList {
+  padding: 20px;
+  background-color: #f0f2f5;
+}
+
+/* Styles for the primary button */
+.productList .ant-btn-primary {
+  margin-bottom: 20px;
+  background-color: #1890ff;
+  border-color: #1890ff;
+}
+
+/* Styles for the table */
+.productList .ant-table {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.productList .ant-table-thead > tr > th {
+  background-color: #fafafa;
+  font-weight: bold;
+}
+
+.productList .ant-table-tbody > tr > td {
+  padding: 16px;
+}
+
+.productList .ant-tag-geekblue {
+  background-color: #2b8ef5;
+  border-color: #2b8ef5;
+  color: #fff;
+}
+
+.productList .ant-tag-volcano {
+  background-color: #ff4d4f;
+  border-color: #ff4d4f;
+  color: #fff;
+}
+
+.productList .ant-btn-danger {
+  background-color: #ff4d4f;
+  border-color: #ff4d4f;
+  color: #fff;
+}
+
+.productList .ant-btn-danger:hover {
+  background-color: #ff7875;
+  border-color: #ff7875;
+}
+
+/* Styles for images within table */
+.productList img {
+  width: 50px;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Styles for the modal */
+.productList .ant-modal-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.productList .ant-modal-content {
+  border-radius: 8px;
+}
+
+.productList .ant-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+}

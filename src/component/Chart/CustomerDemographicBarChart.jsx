@@ -16,15 +16,9 @@ const CustomerDemographicBarChart = ({ startDate, endDate }) => {
   useEffect(() => {
     const fetchDemographic = async () => {
       try {
-        const response = await api.get(
-          `api/Dashboard/demographic-customers?startTime=${startDate}&endTime=${endDate}`
-        );
+        const response = await api.get(`api/Dashboard/demographic-customers?startTime=${startDate}&endTime=${endDate}`);
         const rawData = response.data;
-        setDemographicData([
-          rawData[0]?.male || 0,
-          rawData[0]?.female || 0,
-          rawData[0]?.other || 0,
-        ]);
+        setDemographicData([rawData[0]?.male || 0, rawData[0]?.female || 0, rawData[0]?.other || 0]);
         setLoading(false);
       } catch (error) {
         console.error(error);
@@ -39,18 +33,14 @@ const CustomerDemographicBarChart = ({ startDate, endDate }) => {
     labels: ["Male", "Female", "Others"],
     datasets: [
       {
-        label: "Demographics",
+        label: "Giới tính",
         data: demographicData,
         backgroundColor: [
           "rgba(54, 162, 235, 0.6)", // Blue color for Male
           "rgba(255, 99, 132, 0.6)", // Red color for Female
           "rgba(75, 192, 192, 0.6)", // Green color for Others
         ],
-        borderColor: [
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 99, 132, 1)",
-          "rgba(75, 192, 192, 1)",
-        ],
+        borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)", "rgba(75, 192, 192, 1)"],
         borderWidth: 1,
       },
     ],
@@ -73,9 +63,7 @@ const CustomerDemographicBarChart = ({ startDate, endDate }) => {
   };
 
   return (
-    <div className="CustomerDemographic">
-      {loading ? <Spin size="large" /> : <Bar data={data} options={options} />}
-    </div>
+    <div className="CustomerDemographic">{loading ? <Spin size="large" /> : <Bar data={data} options={options} />}</div>
   );
 };
 

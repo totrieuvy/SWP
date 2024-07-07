@@ -31,6 +31,7 @@ function ManagerProduct() {
   const [imageFile, setImageFile] = useState(null);
   const [oldData, setOldData] = useState({});
   const [imgUrl, setImgUrl] = useState("");
+
   const fetchData = async () => {
     try {
       const response = await api.get("/api/productSell");
@@ -249,14 +250,13 @@ function ManagerProduct() {
         formData.append("pname", values.pname);
         formData.append("pdescription", values.pdescription);
 
-        // Send PUT request to update product
         const response = await api.put(`/api/productSell/${oldData.productID}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
         console.log(response);
-        fetchData(); // Refresh data after update
+        fetchData();
         notification.success({
           message: "Success",
           description: "Product updated successfully",
@@ -284,36 +284,64 @@ function ManagerProduct() {
         onOk={handleOk}
       >
         <Form form={formVariable} onFinish={onFinish} layout="vertical">
-          <Form.Item name="pname" label="Product Name" rules={[{ required: true }]}>
+          <Form.Item name="pname" label="Tên sản phẩm" rules={[{ required: true, message: "hãy nhập tên sản phẩm" }]}>
             <Input />
           </Form.Item>
-          <Form.Item name="pdescription" label="Product Description">
+          <Form.Item
+            name="pdescription"
+            label="Mô tả sản phẩm"
+            rules={[{ required: true, message: "hãy nhập mô tả sản phẩm" }]}
+          >
             <Input.TextArea />
           </Form.Item>
 
-          <Form.Item name="productCode" label="Product Code" rules={[{ required: true }]}>
+          <Form.Item
+            name="productCode"
+            label="Mã sản phẩm"
+            rules={[{ required: true, message: "hãy nhập mã sản phẩm" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="metalType" label="Metal Type">
+          <Form.Item
+            name="metalType"
+            label="Loại kim loại"
+            rules={[{ required: true, message: "hãy nhập loại kim loại" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="gemstoneType" label="Gemstone Type">
+          <Form.Item
+            name="gemstoneType"
+            label="Loại đá quý"
+            rules={[{ required: true, message: "hãy nhập loại đá quý" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="manufacturer" label="Manufacturer">
+          <Form.Item
+            name="manufacturer"
+            label="Nhà sản xuất"
+            rules={[{ required: true, message: "hãy nhập nhà sản xuất" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="manufactureCost" label="Manufacture Cost">
+          <Form.Item
+            name="manufactureCost"
+            label="Giá nhà sản xuất"
+            rules={[{ required: true, message: "hãy nhập giá nhà sản xuất" }]}
+          >
             <InputNumber min={0} />
           </Form.Item>
-          <Form.Item name="chi" label="CHI">
+          <Form.Item name="chi" label="Chỉ" rules={[{ required: true, message: "hãy nhập số chỉ" }]}>
             <InputNumber min={0} />
           </Form.Item>
-          <Form.Item name="carat" label="Carat">
+          <Form.Item name="carat" label="Carat" rules={[{ required: true, message: "hãy nhập số carat" }]}>
             <InputNumber min={0} />
           </Form.Item>
 
-          <Form.Item name="category_id" label="Category" rules={[{ required: true }]}>
+          <Form.Item
+            name="category_id"
+            label="Category"
+            rules={[{ required: true, message: "hãy chọn loại sản phẩm" }]}
+          >
             <Select placeholder="Select a category">
               {category.map((category) => (
                 <Option key={category.id} value={category.id}>
@@ -322,7 +350,7 @@ function ManagerProduct() {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item label="Image">
+          <Form.Item label="Ảnh" rules={[{ required: true, message: "hãy nhập ảnh sản phẩm" }]}>
             <Upload beforeUpload={() => false} showUploadList={false} onChange={handleFileChange}>
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>

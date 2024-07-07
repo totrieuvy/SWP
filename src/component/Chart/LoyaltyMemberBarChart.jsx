@@ -42,13 +42,8 @@ const LoyaltyMemberBarChart = ({ startDate, endDate }) => {
     labels: ["Connect", "Member", "Companion", "Intimate"],
     datasets: [
       {
-        label: "Loyalty Members",
-        data: [
-          data[0]?.connect || 0,
-          data[0]?.member || 0,
-          data[0]?.companion || 0,
-          data[0]?.intimate || 0,
-        ],
+        label: "Loại khách hàng",
+        data: [data[0]?.connect || 0, data[0]?.member || 0, data[0]?.companion || 0, data[0]?.intimate || 0],
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)", // Red
           "rgba(54, 162, 235, 0.6)", // Blue
