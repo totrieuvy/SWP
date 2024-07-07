@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AudioOutlined } from "@ant-design/icons";
-import { Button, Input } from "antd";
+import { Button, Input, List } from "antd";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import CreateCustomerForm from "../../../component/Form/CreateCustomerForm";
+import api from "../../../config/axios";
 
 const { Search } = Input;
 const suffix = (
@@ -14,14 +15,15 @@ const suffix = (
   />
 );
 
-const onSearch = (value, _e, info) => console.log(info?.source, value);
-
 function CustomerSearch({ childToParent }) {
   const [scanResult, setScanResult] = useState(null);
   const [manualSerialNumber, setManualSerialNumber] = useState("");
   const [scanner, setScanner] = useState(null);
   const [isScanning, setIsScanning] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [searchResults, setSearchResults] = useState([]);
+  const formRef = useRef(null);
+
   const startScan = () => {
     if (isScanning) return; // Prevent multiple simultaneous scans
 
@@ -52,24 +54,67 @@ function CustomerSearch({ childToParent }) {
   const handleManualSerialNumberChange = (event) => {
     setManualSerialNumber(event.target.value);
   };
+
   const setVisibleFormCustomer = () => {
     setVisible(true);
   };
-  const formRef = useRef(null);
 
   const handleCloseForm = () => {
     setVisible(false);
   };
 
+  const onSearch = async (value) => {
+    try {
+      const response = await api.get("/api/customer/search", {
+        params: {
+          keyword: value,
+        },
+      });
+
+      setSearchResults(response.data);
+    } catch (error) {
+      console.error("Error searching customers:", error);
+    }
+  };
+
+  const handleSelectCustomer = (customer) => {
+    console.log("Selected customer:", customer);
+    // You can perform actions here based on the selected customer
+  };
+
   return (
     <div className="search">
-      <Search
-        placeholder="Nhập tên khách hàng"
-        allowClear
-        size="large"
-        onSearch={onSearch}
-        style={{ borderWidth: "2px" }}
-      />
+      <div
+        style={{ marginBottom: 10, display: "flex", flexDirection: "column" }}
+      >
+        <Search
+          placeholder="Nhập tên khách hàng"
+          allowClear
+          size="large"
+          onSearch={onSearch}
+          style={{ borderWidth: "2px" }}
+        />
+        {searchResults.length > 0 && (
+          <div style={{ marginTop: 10 }}>
+            <List
+              itemLayout="horizontal"
+              style={{ overflowY: "scroll", height: "100px" }}
+              dataSource={searchResults}
+              renderItem={(customer) => (
+                <List.Item
+                  onClick={() => handleSelectCustomer(customer)}
+                  style={{ cursor: "pointer" }}
+                >
+                  <List.Item.Meta
+                    title={customer.email}
+                    description={`Phone: ${customer.phoneNumber}`}
+                  />
+                </List.Item>
+              )}
+            />
+          </div>
+        )}
+      </div>
       <section id="getOrderField">
         <Button type="primary" onClick={startScan}>
           Quét QR

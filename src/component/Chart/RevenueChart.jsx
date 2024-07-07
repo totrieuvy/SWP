@@ -1,33 +1,63 @@
-import React from "react";
-import { Bar, Line } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip } from "chart.js";
+import React, { useEffect, useState } from "react";
+import { Line } from "react-chartjs-2";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+} from "chart.js";
+import api from "../../config/axios";
+import { Spin } from "antd";
 
 // Register the required components
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
-const generateDailyData = (year) => {
-  const dailyData = [];
+const RevenueChart = ({ startDate, endDate }) => {
+  const [data, setData] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  // Loop through each month (1 to 12)
-  for (let month = 1; month <= 12; month++) {
-    const daysInMonth = new Date(year, month, 0).getDate(); // Get number of days in the month
-
-    // Loop through each day of the month
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dateString = `${year}-${month.toString().padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
-      // Generate random revenue data (for demonstration purposes)
-      const revenue = Math.floor(Math.random() * 100) + 100; // Example random revenue between 100 and 199
-
-      // Push each day's data into the dailyData array
-      dailyData.push({ date: dateString, revenue: revenue });
+  const fetchData = async (startDate, endDate) => {
+    try {
+      const response = await api.get(
+        `/api/Dashboard/daily-revenue?startDate=${startDate}&endDate=${endDate}`
+      );
+      setData(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    fetchData(startDate, endDate);
+  }, [startDate, endDate]);
+
+
+  const daysArray = [];
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  for (let d = start; d <= end; d.setDate(d.getDate() + 1)) {
+    daysArray.push(new Date(d).toISOString().split("T")[0]);
   }
 
-  return dailyData;
-};
+  const chartData = {
+    labels: daysArray,
+    datasets: [
+      {
+        label: "Daily Revenue",
+        data: daysArray.map((date) => data[date] || 0),
+        fill: false,
+        borderColor: "#00144F",
+        tension: 0.1,
+      },
+    ],
+  };
 
-function RevenueChart() {
-  const dataPoints = generateDailyData(2024); // Generate the data points
   const months = [
     "January",
     "February",
@@ -42,34 +72,19 @@ function RevenueChart() {
     "November",
     "December",
   ];
-  // Create arrays for labels and data points
-  const labels = dataPoints.map((dataPoint) => dataPoint.date); // Use full date as labels
-  const data = {
-    labels: labels,
-    datasets: [
-      {
-        label: "Doanh thu hằng tháng",
-        data: dataPoints.map((dataPoint) => dataPoint.revenue), // Use revenue data
-        fill: false,
-        borderColor: "#00144F",
-        tension: 0.1,
-      },
-    ],
-  };
+
 
   const options = {
     scales: {
       x: {
-        // Change xAxes to x
         title: {
           display: true,
           text: "Days",
         },
         ticks: {
-          callback: function (value, index, values) {
-            const date = new Date(dataPoints[value].date);
-            const month = date.getMonth();
-            return months[month]; // Display month name
+          callback: function (value, index) {
+            const date = new Date(daysArray[value]);
+            return `${months[date.getMonth()]}`;
           },
         },
       },
@@ -84,10 +99,16 @@ function RevenueChart() {
   };
 
   return (
-    <div className="DailyRevenueOverTime">
-      <Line data={data} options={options} />
-    </div>
+    <>
+      {loading ? (
+        <Spin size="large" />
+      ) : (
+        <div className="DailyRevenueOverTime">
+          <Line data={chartData} options={options} />
+        </div>
+      )}
+    </>
   );
-}
+};
 
 export default RevenueChart;

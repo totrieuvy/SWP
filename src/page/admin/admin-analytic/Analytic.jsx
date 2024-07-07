@@ -11,6 +11,7 @@ import { DatePicker } from "antd";
 import CustomerSignupChart from "../../../component/Chart/CustomerSignUpChart";
 import TopProductSell from "../../../page/manager/top_productSell/TopProductSell";
 import TransactionTotal from "../../../page/manager/transaction/transaction-total/TransactionTotal";
+import CustomerBuyTrend from "../../../component/Chart/CustomerBuyTrend";
 
 const { RangePicker } = DatePicker;
 
@@ -34,7 +35,10 @@ function Analytic() {
         <div className="div1">
           <CategoryTotalPieChart />
 
-          <RevenueChart />
+          <RevenueChart
+            startDate={dateRange[0].format("YYYY-MM-DD")}
+            endDate={dateRange[1].format("YYYY-MM-DD")}
+          />
         </div>
         <div className="div2">
           <TotalQuantitySoldBarChart
@@ -55,6 +59,7 @@ function Analytic() {
             startDate={dateRange[0].format("YYYY-MM-DD")}
             endDate={dateRange[1].format("YYYY-MM-DD")}
           />
+          <CustomerBuyTrend />
           <LoyaltyMemberBarChart
             startDate={dateRange[0].format("YYYY-MM-DD")}
             endDate={dateRange[1].format("YYYY-MM-DD")}
