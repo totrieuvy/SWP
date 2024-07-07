@@ -15,10 +15,7 @@ import TransactionTotal from "../../../page/manager/transaction/transaction-tota
 const { RangePicker } = DatePicker;
 
 function Analytic() {
-  const [dateRange, setDateRange] = useState([
-    moment().startOf("year"),
-    moment().endOf("year"),
-  ]);
+  const [dateRange, setDateRange] = useState([moment().startOf("year"), moment().endOf("year")]);
 
   const handleDateChange = (dates) => {
     if (dates && dates.length === 2) {
@@ -26,13 +23,13 @@ function Analytic() {
     }
   };
 
+  React.useEffect(() => {
+    document.title = "Thống kê tổng quan";
+  }, []);
+
   return (
     <>
-      <RangePicker
-        format="YYYY-MM-DD"
-        onChange={handleDateChange}
-        style={{ marginBottom: "20px" }}
-      />
+      <RangePicker format="YYYY-MM-DD" onChange={handleDateChange} style={{ marginBottom: "20px" }} />
       <div className="adminAnalytic">
         <div className="div1">
           <CategoryTotalPieChart />

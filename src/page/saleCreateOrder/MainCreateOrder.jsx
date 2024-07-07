@@ -6,20 +6,20 @@ import ChooseCategory from "./Component/ChooseCategory";
 function MainCreateOrder() {
   const [category, setCategory] = useState("");
   const [currOrder, setOrder] = useState([]);
+
+  React.useEffect(() => {
+    document.title = "Tạo đơn hàng";
+  }, []);
   const getCategory = (selectedCategory) => {
     setCategory(selectedCategory);
   };
   useEffect(() => {}, [category]);
   const getOrder = (product) => {
     setOrder((prevOrder) => {
-      const existingProduct = prevOrder.find(
-        (item) => item.productID === product.productID
-      );
+      const existingProduct = prevOrder.find((item) => item.productID === product.productID);
       if (existingProduct) {
         return prevOrder.map((item) =>
-          item.productID === product.productID
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+          item.productID === product.productID ? { ...item, quantity: item.quantity + 1 } : item
         );
       } else {
         return [...prevOrder, { ...product, quantity: 1 }];

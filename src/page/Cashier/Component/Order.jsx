@@ -6,13 +6,13 @@ const { Option } = Select;
 
 const columns = (discountCodes, handleDiscountChange) => [
   {
-    title: "Name",
+    title: "Giá",
     dataIndex: "name",
     key: "name",
     render: (text) => <a>{text}</a>,
   },
   {
-    title: "Quantity",
+    title: "Số lượng",
     dataIndex: "quantity",
     key: "quantity",
   },
@@ -22,27 +22,27 @@ const columns = (discountCodes, handleDiscountChange) => [
     key: "carat",
   },
   {
-    title: "Chi",
+    title: "Chỉ",
     dataIndex: "chi",
     key: "chi",
   },
   {
-    title: "Cost",
+    title: "Giá",
     dataIndex: "cost",
     key: "cost",
   },
   {
-    title: "Gemstone Type",
+    title: "Loại đá quý",
     dataIndex: "gemstoneType",
     key: "gemstoneType",
   },
   {
-    title: "Manufacturer",
+    title: "Nhà sản xuất",
     dataIndex: "manufacturer",
     key: "manufacturer",
   },
   {
-    title: "Discount",
+    title: "Giảm giá",
     dataIndex: "promotion_id",
     key: "promotion_id",
     render: (text, record) => (
@@ -60,7 +60,7 @@ const columns = (discountCodes, handleDiscountChange) => [
     ),
   },
   {
-    title: "Description",
+    title: "Mô tả",
     dataIndex: "description",
     key: "description",
   },
@@ -70,6 +70,10 @@ function Order({ orderID, setOrder, orderStatus, setOrderStatus }) {
   const [data, setData] = useState([]);
   const [discountCodes, setDiscountCodes] = useState([]);
 
+  React.useEffect(() => {
+    document.title = "Xác nhận đơn hàng";
+  }, []);
+
   useEffect(() => {
     const fetchOrder = async () => {
       try {
@@ -77,10 +81,7 @@ function Order({ orderID, setOrder, orderStatus, setOrderStatus }) {
         // Initialize discount field for each product
         const orderData = response.data.map((product) => ({
           ...product,
-          promotion_id:
-            product.promotion_id && product.promotion_id.length > 0
-              ? product.promotion_id[0]
-              : [],
+          promotion_id: product.promotion_id && product.promotion_id.length > 0 ? product.promotion_id[0] : [],
         }));
         setData(orderData);
         setOrder(orderData);
@@ -109,19 +110,14 @@ function Order({ orderID, setOrder, orderStatus, setOrderStatus }) {
   }, [orderStatus]);
 
   const handleDiscountChange = (productID, value) => {
-    const updatedData = data.map((item) =>
-      item.productID === productID ? { ...item, promotion_id: [value] } : item
-    );
+    const updatedData = data.map((item) => (item.productID === productID ? { ...item, promotion_id: [value] } : item));
     setData(updatedData);
     setOrder(updatedData);
   };
 
   return (
     <div className="bill">
-      <Table
-        columns={columns(discountCodes, handleDiscountChange)}
-        dataSource={data}
-      />
+      <Table columns={columns(discountCodes, handleDiscountChange)} dataSource={data} />
     </div>
   );
 }

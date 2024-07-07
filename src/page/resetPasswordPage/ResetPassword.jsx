@@ -47,6 +47,10 @@ function ResetPassword() {
     }
   };
 
+  React.useEffect(() => {
+    document.title = "Đổi mật khẩu";
+  }, []);
+
   return (
     <div className="ResetPassword">
       <div className="ResetPasswordPage">

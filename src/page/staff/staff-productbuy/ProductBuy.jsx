@@ -12,6 +12,10 @@ function ProductBuy() {
     setOrder((prevArray) => [...prevArray, orderData]);
   };
 
+  React.useEffect(() => {
+    document.title = "Mua lại";
+  }, []);
+
   useEffect(() => {
     console.log(order);
   }, [order]);

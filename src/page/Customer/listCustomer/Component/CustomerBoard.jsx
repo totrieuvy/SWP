@@ -81,7 +81,7 @@ function CustomerBoard() {
       },
     },
     {
-      title: "Action",
+      title: "Hành động",
       key: "action",
       render: (text, record) => (
         <Space size="middle">

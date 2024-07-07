@@ -8,6 +8,10 @@ function ListStaffWithSchedule() {
   const [data, setData] = useState([]);
   const [scheduleData, setScheduleData] = useState({});
 
+  React.useEffect(() => {
+    document.title = "Lịch làm việc";
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,33 +57,33 @@ function ListStaffWithSchedule() {
       key: "staffID",
     },
     {
-      title: "Phone Number",
+      title: "Số điện thoại",
       dataIndex: "phoneNumber",
       key: "phoneNumber",
     },
     {
-      title: "Salary",
+      title: "Lương",
       dataIndex: "salary",
       key: "salary",
     },
     {
-      title: "Start Date",
+      title: "Ngày bắt đầu",
       dataIndex: "startDate",
       key: "startDate",
       render: (text) => new Date(text).toLocaleString(),
     },
     {
-      title: "Account Name",
+      title: "Tên tài khoản",
       dataIndex: "accountName",
       key: "accountName",
     },
     {
-      title: "Role",
+      title: "Vai trò",
       dataIndex: "role",
       key: "role",
     },
     {
-      title: "Status",
+      title: "Trạng thái",
       dataIndex: "status",
       key: "status",
     },
@@ -89,12 +93,12 @@ function ListStaffWithSchedule() {
       key: "email",
     },
     {
-      title: "Username",
+      title: "Tên đăng nhập",
       dataIndex: "username",
       key: "username",
     },
     {
-      title: "Schedule",
+      title: "Lịch",
       key: "schedule",
       render: (_, record) =>
         record.shift && record.shift.length > 0 ? (
@@ -150,10 +154,7 @@ function ListStaffWithSchedule() {
   };
   return (
     <>
-      <DateSelectorForm
-        assignMany={handleAssignMany}
-        setScheduleData={setScheduleData}
-      />
+      <DateSelectorForm assignMany={handleAssignMany} setScheduleData={setScheduleData} />
       <Table columns={columns} dataSource={combinedData} rowKey="staffID" />
     </>
   );

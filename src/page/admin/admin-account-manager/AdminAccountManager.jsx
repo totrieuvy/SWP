@@ -80,16 +80,26 @@ function AdminAccountManager() {
     formVariable.submit();
   };
   const handleFinish = async (values) => {
-    console.log(values);
-    const response = await api.post("/api/manager", values);
-    console.log(response);
-    setDataSource([...dataSource, values]);
-    formVariable.resetFields();
-    handleCloseModal();
-    notification.success({
-      message: "Thành công",
-      description: "Thêm tài khoản quản lí thánh công",
-    });
+    try {
+      console.log(values);
+      const response = await api.post("/api/manager", values);
+      console.log(response);
+      setDataSource([...dataSource, values]);
+      formVariable.resetFields();
+      handleCloseModal();
+      notification.success({
+        message: "Thành công",
+        description: "Thêm tài khoản quản lí thánh công",
+      });
+    } catch (error) {
+      console.log(error);
+      if (error.response.status === 400) {
+        if (error.response.data == "Duplicate ") {
+          let change = "Trùng email!";
+          notification.error({ message: "Thất bại", description: change });
+        }
+      }
+    }
   };
 
   return (
