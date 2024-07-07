@@ -15,9 +15,7 @@ const TotalQuantitySoldBarChart = ({ startDate, endDate }) => {
 
   const fetchData = async (startDate, endDate) => {
     try {
-      const response = await api.get(
-        `/api/Dashboard/salesByStaff?startDate=${startDate}&endDate=${endDate}`
-      );
+      const response = await api.get(`/api/Dashboard/salesByStaff?startDate=${startDate}&endDate=${endDate}`);
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -43,7 +41,7 @@ const TotalQuantitySoldBarChart = ({ startDate, endDate }) => {
     labels: data.map((item) => item.staffUsername),
     datasets: [
       {
-        label: "Total Quantity Sold",
+        label: "Biểu đồ cột tổng số lượng đẵ bán",
         data: data.map((item) => item.totalQuantitySold),
         backgroundColor: "rgba(75, 192, 192, 0.6)",
         borderColor: "rgba(75, 192, 192, 1)",

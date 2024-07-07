@@ -21,6 +21,10 @@ function ManagerProfile() {
     }
   };
 
+  React.useEffect(() => {
+    document.title = "Thông tin quản lí";
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchManagerProfile();
@@ -29,7 +33,6 @@ function ManagerProfile() {
     };
 
     fetchData();
-    document.title = "Thông tin quản lí";
   }, [form]);
 
   const handleEditProfile = () => {

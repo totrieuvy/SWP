@@ -37,6 +37,7 @@ function ManagerProduct() {
   const [isAdjustRatioFormVisible, setIsAdjustRatioFormVisible] =
     useState(false);
   const [ratioForm] = useForm();
+
   const fetchData = async () => {
     try {
       const response = await api.get("/api/productSell");
@@ -286,6 +287,7 @@ function ManagerProduct() {
         );
 
         setData(updatedData);
+
         notification.success({
           message: "Thành công",
           description: "Cập nhật sản phẩm thành công",
@@ -330,59 +332,75 @@ function ManagerProduct() {
         onCancel={handleCloseModal}
       >
         <Form form={formVariable} onFinish={onFinish} layout="vertical">
+          <Form.Item name="pname" label="Tên sản phẩm" rules={[{ required: true, message: "hãy nhập tên sản phẩm" }]}>
+            <Input />
+          </Form.Item>
           <Form.Item
-            label="Tên sản phẩm"
-            name="pname"
-            rules={[{ required: true, message: "Tên sản phẩm là bắt buộc" }]}
+            name="pdescription"
+            label="Mô tả sản phẩm"
+            rules={[{ required: true, message: "hãy nhập mô tả sản phẩm" }]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+
+          <Form.Item
+            name="productCode"
+            label="Mã sản phẩm"
+            rules={[{ required: true, message: "hãy nhập mã sản phẩm" }]}
           >
             <Input />
           </Form.Item>
           <Form.Item
-            label="Loại sản phẩm"
-            name="category_id"
-            rules={[{ required: true, message: "Loại sản phẩm là bắt buộc" }]}
+            name="metalType"
+            label="Loại kim loại"
+            rules={[{ required: true, message: "hãy nhập loại kim loại" }]}
           >
-            <Select>
-              {category.map((item) => (
-                <Option key={item.categoryID} value={item.categoryID}>
-                  {item.categoryName}
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="gemstoneType"
+            label="Loại đá quý"
+            rules={[{ required: true, message: "hãy nhập loại đá quý" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="manufacturer"
+            label="Nhà sản xuất"
+            rules={[{ required: true, message: "hãy nhập nhà sản xuất" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name="manufactureCost"
+            label="Giá nhà sản xuất"
+            rules={[{ required: true, message: "hãy nhập giá nhà sản xuất" }]}
+          >
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item name="chi" label="Chỉ" rules={[{ required: true, message: "hãy nhập số chỉ" }]}>
+            <InputNumber min={0} />
+          </Form.Item>
+          <Form.Item name="carat" label="Carat" rules={[{ required: true, message: "hãy nhập số carat" }]}>
+            <InputNumber min={0} />
+          </Form.Item>
+
+          <Form.Item
+            name="category_id"
+            label="Category"
+            rules={[{ required: true, message: "hãy chọn loại sản phẩm" }]}
+          >
+            <Select placeholder="Select a category">
+              {category.map((category) => (
+                <Option key={category.id} value={category.id}>
+                  {category.name}
                 </Option>
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            label="Giá"
-            name="cost"
-            rules={[{ required: true, message: "Giá sản phẩm là bắt buộc" }]}
-          >
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Mô tả" name="pdescription">
-            <Input.TextArea />
-          </Form.Item>
-          <Form.Item label="Đá" name="gemstoneType">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Nhà sản xuất" name="manufacturer">
-            <Input />
-          </Form.Item>
-          <Form.Item label="Giá nhà sản xuất" name="manufactureCost">
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Carat" name="carat">
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Chỉ" name="chi">
-            <InputNumber min={0} />
-          </Form.Item>
-          <Form.Item label="Hình ảnh">
-            <Upload
-              name="image"
-              beforeUpload={() => false}
-              onChange={handleFileChange}
-              showUploadList={false}
-            >
-              <Button icon={<UploadOutlined />}>Chọn hình ảnh</Button>
+          <Form.Item label="Ảnh" rules={[{ required: true, message: "hãy nhập ảnh sản phẩm" }]}>
+            <Upload beforeUpload={() => false} showUploadList={false} onChange={handleFileChange}>
+              <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
             {imgUrl && (
               <Image

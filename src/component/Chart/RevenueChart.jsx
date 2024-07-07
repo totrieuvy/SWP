@@ -13,14 +13,7 @@ import api from "../../config/axios";
 import { Spin } from "antd";
 
 // Register the required components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip);
 
 const RevenueChart = ({ startDate, endDate }) => {
   const [data, setData] = useState({});
@@ -42,6 +35,7 @@ const RevenueChart = ({ startDate, endDate }) => {
   useEffect(() => {
     fetchData(startDate, endDate);
   }, [startDate, endDate]);
+
 
   const daysArray = [];
   const start = new Date(startDate);
@@ -79,6 +73,7 @@ const RevenueChart = ({ startDate, endDate }) => {
     "December",
   ];
 
+
   const options = {
     scales: {
       x: {
@@ -89,7 +84,7 @@ const RevenueChart = ({ startDate, endDate }) => {
         ticks: {
           callback: function (value, index) {
             const date = new Date(daysArray[value]);
-            return `${months[date.getMonth()]} ${date.getDate()}`;
+            return `${months[date.getMonth()]}`;
           },
         },
       },

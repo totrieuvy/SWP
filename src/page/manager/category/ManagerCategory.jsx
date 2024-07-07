@@ -50,6 +50,7 @@ function ManagerCategory() {
     setDataSource(response.data);
   };
   React.useEffect(() => {
+    document.title = "Thể loại sản phẩm";
     fetchCategory();
   }, []);
   return (

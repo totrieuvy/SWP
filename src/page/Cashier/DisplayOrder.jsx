@@ -8,6 +8,10 @@ function DisplayOrder() {
   const [order, setOrder] = useState([]);
   const [orderStatus, setOrderStatus] = useState("NotClear");
 
+  React.useEffect(() => {
+    document.title = "Mua lại";
+  }, []);
+
   const childToParent = (childdata) => {
     setData(childdata);
   };
@@ -18,12 +22,7 @@ function DisplayOrder() {
 
   return (
     <div className="parent">
-      <Order
-        orderID={data}
-        setOrder={setOrder}
-        setOrderStatus={setOrderStatus}
-        orderStatus={orderStatus}
-      />
+      <Order orderID={data} setOrder={setOrder} setOrderStatus={setOrderStatus} orderStatus={orderStatus} />
       <CustomerSearch childToParent={childToParent} />
       <Total clear={clearOrder} order={order} id={data} />
     </div>

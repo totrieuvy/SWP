@@ -9,9 +9,7 @@ const CustomerSignupChart = ({ startDate, endDate }) => {
 
   const fetchData = async (startDate, endDate) => {
     try {
-      const response = await api.get(
-        `/api/Dashboard/customer-signups?startTime=${startDate}&endTime=${endDate}`
-      );
+      const response = await api.get(`/api/Dashboard/customer-signups?startTime=${startDate}&endTime=${endDate}`);
       setData(response.data);
       setLoading(false);
     } catch (error) {
@@ -28,7 +26,7 @@ const CustomerSignupChart = ({ startDate, endDate }) => {
     labels: data.map((item) => item.staffName),
     datasets: [
       {
-        label: "Number of Signups",
+        label: "Số khách đã đăng kí",
         data: data.map((item) => item.numberSignUp),
         backgroundColor: [
           "rgba(255, 99, 132, 0.6)", // Red
