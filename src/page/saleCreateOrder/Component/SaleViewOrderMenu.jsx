@@ -100,10 +100,15 @@ function SaleViewOrderMenu({ currentOrder, closeOrder }) {
       <div className="SaleSelectCustomer">
         <Form>
           <Form.Item
+            name="email"
             rules={[
               {
                 required: true,
                 message: "Hãy nhập email",
+              },
+              {
+                type: "email",
+                message: "Email không hợp lệ",
               },
             ]}
           >
