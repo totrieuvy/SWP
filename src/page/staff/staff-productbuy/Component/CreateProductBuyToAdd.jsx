@@ -1,5 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { Form, Input, InputNumber, Checkbox, Button, Select } from "antd";
+import {
+  Form,
+  Input,
+  InputNumber,
+  Checkbox,
+  Button,
+  Select,
+  Modal,
+} from "antd";
 import CustomWebcam from "./CustomWebcam";
 import api from "../../../../config/axios";
 import { Option } from "antd/es/mentions";
@@ -13,6 +21,8 @@ function CreateProductBuyToAdd({ appendOrder }) {
     id: null,
     name: "",
   });
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [formValues, setFormValues] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,7 +30,7 @@ function CreateProductBuyToAdd({ appendOrder }) {
         const response = await api.get(`api/category`);
         setCategory(response.data);
       } catch (error) {
-        console.error("Error fetching the order", error);
+        console.error("Lỗi khi lấy danh mục", error);
       }
     };
 
@@ -59,28 +69,42 @@ function CreateProductBuyToAdd({ appendOrder }) {
     setImage(data);
   };
 
+  const showConfirmModal = (values) => {
+    setFormValues(values);
+    setIsModalVisible(true);
+  };
+
+  const handleOk = async () => {
+    setIsModalVisible(false);
+    await onFinish(formValues);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   return (
     <div className="CreateProductBuyToAdd">
       <CustomWebcam setImageData={getImageData} />
-      <Form layout="vertical" onFinish={onFinish}>
+      <Form layout="vertical" onFinish={showConfirmModal}>
         <Form.Item
-          label="Name"
+          label="Tên"
           name="name"
-          rules={[{ required: true, message: "Please enter the name" }]}
+          rules={[{ required: true, message: "Vui lòng nhập tên" }]}
         >
           <Input />
         </Form.Item>
 
         <Form.Item>
           <Checkbox onChange={(e) => setNoMetal(e.target.checked)}>
-            No Metal
+            Không kim loại
           </Checkbox>
         </Form.Item>
 
         <Form.Item
-          label="Category"
+          label="Danh mục"
           name="category_id"
-          rules={[{ required: true, message: "Please input!" }]}
+          rules={[{ required: true, message: "Vui lòng chọn danh mục" }]}
         >
           <Select
             onChange={(value, option) =>
@@ -96,22 +120,25 @@ function CreateProductBuyToAdd({ appendOrder }) {
         </Form.Item>
 
         <Form.Item
-          label="Metal Type"
+          label="Loại kim loại"
           name="metalType"
           rules={[
-            { required: !noMetal, message: "Please enter the metal type" },
+            { required: !noMetal, message: "Vui lòng nhập loại kim loại" },
           ]}
         >
           <Select disabled={noMetal}>
-            <Option value="Gold">Gold</Option>
+            <Option value="Vàng">Vàng</Option>
           </Select>
         </Form.Item>
 
         <Form.Item
-          label="Metal Weight"
+          label="Trọng lượng kim loại"
           name="metalWeight"
           rules={[
-            { required: !noMetal, message: "Please enter the metal weight" },
+            {
+              required: !noMetal,
+              message: "Vui lòng nhập trọng lượng kim loại",
+            },
           ]}
         >
           <InputNumber disabled={noMetal} />
@@ -119,32 +146,32 @@ function CreateProductBuyToAdd({ appendOrder }) {
 
         <Form.Item>
           <Checkbox onChange={(e) => setNoGemstone(e.target.checked)}>
-            No Gemstone
+            Không có đá quý
           </Checkbox>
         </Form.Item>
 
         <Form.Item
-          label="Gemstone Type"
+          label="Loại đá quý"
           name="gemstoneType"
           rules={[
             {
               required: !noGemstone,
-              message: "Please enter the gemstone type",
+              message: "Vui lòng nhập loại đá quý",
             },
           ]}
         >
           <Select disabled={noGemstone}>
-            <Option value="Diamond">Diamond</Option>
+            <Option value="Kim cương">Kim cương</Option>
           </Select>
         </Form.Item>
 
         <Form.Item
-          label="Gemstone Weight"
+          label="Trọng lượng đá quý"
           name="gemstoneWeight"
           rules={[
             {
               required: !noGemstone,
-              message: "Please enter the gemstone weight",
+              message: "Vui lòng nhập trọng lượng đá quý",
             },
           ]}
         >
@@ -153,10 +180,19 @@ function CreateProductBuyToAdd({ appendOrder }) {
 
         <Form.Item>
           <Button type="primary" htmlType="submit">
-            Submit
+            Gửi
           </Button>
         </Form.Item>
       </Form>
+
+      <Modal
+        title="Xác nhận"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <p>Bạn có chắc chắn muốn thêm sản phẩm này không?</p>
+      </Modal>
     </div>
   );
 }

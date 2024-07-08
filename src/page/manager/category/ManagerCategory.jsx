@@ -1,9 +1,20 @@
-import { Button, Popconfirm, Table, notification } from "antd";
+import {
+  Button,
+  Popconfirm,
+  Table,
+  notification,
+  Modal,
+  Form,
+  Input,
+} from "antd";
 import api from "../../../config/axios";
-import React from "react";
+import React, { useState } from "react";
 
 function ManagerCategory() {
-  const [dataSource, setDataSource] = React.useState([]);
+  const [dataSource, setDataSource] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
+
   const columns = [
     {
       title: "Tên",
@@ -16,27 +27,36 @@ function ManagerCategory() {
       key: "description",
     },
     {
-      title: "Xóa",
-      dataIndex: "staffID",
-      key: "staffID",
-      render: (id) => (
-        <Popconfirm
-          title="Xóa nhân viên"
-          description="Bạn có chắc muốn xóa nhân viên không?"
-          onConfirm={() => handleDeleteCategory(id)}
-          okText="Đồng ý"
-          cancelText="Không"
-        >
-          <Button danger>Xóa</Button>
-        </Popconfirm>
+      title: "Hành động",
+      key: "action",
+      render: (text, record) => (
+        <div>
+          <Button type="primary" onClick={() => handleEdit(record)}>
+            Sửa
+          </Button>{" "}
+          {/* Space for better alignment */}
+          <Popconfirm
+            title="Xóa thể loại"
+            onConfirm={() => handleDeleteCategory(record.id)}
+            okText="Đồng ý"
+            cancelText="Không"
+          >
+            <Button danger>Xóa</Button>
+          </Popconfirm>
+        </div>
       ),
     },
   ];
+
+  const handleEdit = (record) => {
+    setEditingCategory(record);
+    setModalVisible(true);
+  };
+
   const handleDeleteCategory = async (id) => {
     await api.delete(`/api/category/${id}`);
 
     const listAfterDelete = dataSource.filter((category) => category.id !== id);
-
     setDataSource(listAfterDelete);
 
     notification.success({
@@ -44,18 +64,87 @@ function ManagerCategory() {
       description: "Xóa thể loại thành công",
     });
   };
+
+  const handleUpdateCategory = async (values) => {
+    const { name, description } = values;
+    await api.put(`/api/category/${editingCategory.id}`, {
+      name,
+      description,
+    });
+
+    // Update the local data source
+    const updatedDataSource = dataSource.map((category) =>
+      category.id === editingCategory.id
+        ? { ...category, name, description }
+        : category
+    );
+    setDataSource(updatedDataSource);
+    setModalVisible(false);
+
+    notification.success({
+      message: "Thành công",
+      description: "Cập nhật thể loại thành công",
+    });
+  };
+
+  const handleCancel = () => {
+    setModalVisible(false);
+    setEditingCategory(null);
+  };
+
+  const showModal = () => {
+    return (
+      <Modal
+        title="Cập nhật thể loại"
+        visible={modalVisible}
+        onCancel={handleCancel}
+        footer={null}
+      >
+        <Form
+          initialValues={{
+            name: editingCategory?.name,
+            description: editingCategory?.description,
+          }}
+          onFinish={handleUpdateCategory}
+        >
+          <Form.Item
+            label="Tên"
+            name="name"
+            rules={[{ required: true, message: "Vui lòng nhập tên thể loại!" }]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Mô tả"
+            name="description"
+            rules={[{ required: true, message: "Vui lòng nhập mô tả!" }]}
+          >
+            <Input.TextArea />
+          </Form.Item>
+          <Form.Item>
+            <Button type="primary" htmlType="submit">
+              Cập nhật
+            </Button>
+          </Form.Item>
+        </Form>
+      </Modal>
+    );
+  };
+
   const fetchCategory = async () => {
     const response = await api.get("/api/category");
-    console.log(response.data);
     setDataSource(response.data);
   };
+
   React.useEffect(() => {
     document.title = "Thể loại sản phẩm";
     fetchCategory();
   }, []);
+
   return (
     <div className="ManagerCategory">
       <Table dataSource={dataSource} columns={columns} />
+      {modalVisible && showModal()}
     </div>
   );
 }
