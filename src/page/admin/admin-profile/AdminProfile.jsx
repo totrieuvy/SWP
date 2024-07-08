@@ -85,7 +85,16 @@ function AdminProfile() {
                       <Form.Item label="Tên" name="username">
                         <Input disabled={!isEditing} />
                       </Form.Item>
-                      <Form.Item label="Email" name="email">
+                      <Form.Item
+                        label="Email"
+                        name="email"
+                        rules={[
+                          {
+                            type: "email",
+                            message: "Phải nhập đúng định dạng email!",
+                          },
+                        ]}
+                      >
                         <Input disabled={!isEditing} />
                       </Form.Item>
                       <Form.Item label="Vai trò" name="role">
