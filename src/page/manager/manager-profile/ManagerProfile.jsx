@@ -89,7 +89,16 @@ function ManagerProfile() {
                     <Form.Item label="Tên đăng nhập" name="username">
                       <Input disabled={!isEditing} />
                     </Form.Item>
-                    <Form.Item label="Email" name="email">
+                    <Form.Item
+                      label="Email"
+                      name="email"
+                      rules={[
+                        {
+                          type: "email",
+                          message: "Phải nhập đúng định dạng email!",
+                        },
+                      ]}
+                    >
                       <Input disabled={!isEditing} />
                     </Form.Item>
                     <Form.Item label="Tên tài khoản" name="accountName">

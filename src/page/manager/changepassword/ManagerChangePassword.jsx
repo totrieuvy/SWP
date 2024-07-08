@@ -55,6 +55,14 @@ function ManagerChangePassword() {
               required: true,
               message: "Hãy nhập mật khẩu mới!",
             },
+            ({ getFieldValue }) => ({
+              validator(_, value) {
+                if (!value || getFieldValue("oldPassword") !== value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject(new Error("Mật khẩu mới không được trùng mật khẩu cũ!"));
+              },
+            }),
           ]}
         >
           <Input.Password />

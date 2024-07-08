@@ -24,6 +24,7 @@ function StaffProfile() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchStaffProfile();
+      console.log(data);
       setStaffProfile(data);
       form.setFieldsValue(data);
     };
@@ -43,7 +44,7 @@ function StaffProfile() {
         email: updatedProfile.email,
         username: updatedProfile.username,
         accountName: updatedProfile.accountName,
-        phone: updatedProfile.phone,
+        phoneNumber: updatedProfile.phoneNumber,
       });
       setStaffProfile(updatedProfile);
       setIsEditing(false);
@@ -89,10 +90,28 @@ function StaffProfile() {
                     <Form.Item label="Tên tài khoản" name="accountName">
                       <Input disabled={!isEditing} />
                     </Form.Item>
-                    <Form.Item label="Số điện thoại" name="phoneNumber">
+                    <Form.Item
+                      label="Số điện thoại"
+                      name="phoneNumber"
+                      rules={[
+                        {
+                          pattern: /^0\d{9,10}$/,
+                          message: "Số điện thoại phải có 10 hoặc 11 chữ số và bắt đầu bằng số 0!",
+                        },
+                      ]}
+                    >
                       <Input disabled={!isEditing} />
                     </Form.Item>
-                    <Form.Item label="Email" name="email">
+                    <Form.Item
+                      label="Email"
+                      name="email"
+                      rules={[
+                        {
+                          type: "email",
+                          message: "Phải nhập đúng định dạng email!",
+                        },
+                      ]}
+                    >
                       <Input disabled={!isEditing} />
                     </Form.Item>
                     <Form.Item label="Lương" name="salary">

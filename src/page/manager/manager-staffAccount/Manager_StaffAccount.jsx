@@ -89,6 +89,7 @@ function Manager_StaffAccount() {
       const response = await api.get("/api/staff-accounts");
       const responseWithStatusTrue = response.data.filter((item) => item.status === 1);
       setDataSource(responseWithStatusTrue);
+      console.log(responseWithStatusTrue);
       setLoading(false);
     } catch (error) {
       console.error("Không thể lấy dữ liệu nhân viên", error);
@@ -123,7 +124,7 @@ function Manager_StaffAccount() {
   };
 
   const handleFinish = async (values) => {
-    values.startDate = dayjs(values.startDate).toISOString(); // Convert to ISO string
+    values.startDate = dayjs(values.startDate).toISOString();
     console.log(values);
     try {
       if (visible === 1) {
@@ -184,6 +185,10 @@ function Manager_StaffAccount() {
                 required: true,
                 message: "Hãy nhập số điện thoại!",
               },
+              {
+                pattern: /^0\d{9,10}$/,
+                message: "Số điện thoại phải có 10 hoặc 11 chữ số và bắt đầu bằng số 0!",
+              },
             ]}
           >
             <Input />
@@ -195,6 +200,10 @@ function Manager_StaffAccount() {
               {
                 required: true,
                 message: "Hãy nhập email!",
+              },
+              {
+                type: "email",
+                message: "Phải nhập đúng định dạng email!",
               },
             ]}
           >
@@ -252,17 +261,11 @@ function Manager_StaffAccount() {
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            label="Lương:"
-            name="salary"
-            rules={[
-              {
-                required: true,
-                message: "Hãy nhập lương!",
-              },
-            ]}
-          >
-            <Input />
+          <Form.Item label="Vai trò:" name="role" initialValue={"ROLE_STAFF"}>
+            <Input readOnly />
+          </Form.Item>
+          <Form.Item label="Lương:" name="salary" initialValue={2000000}>
+            <Input readOnly />
           </Form.Item>
         </Form>
       </Modal>
