@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { AudioOutlined } from "@ant-design/icons";
-import { Button, Input, List } from "antd";
+import { Button, Input, List, message as antdMessage } from "antd";
 import { Html5QrcodeScanner } from "html5-qrcode";
 import CreateCustomerForm from "../../../component/Form/CreateCustomerForm";
 import api from "../../../config/axios";
 
 const { Search } = Input;
+
 const suffix = (
   <AudioOutlined
     style={{
@@ -22,6 +23,7 @@ function CustomerSearch({ childToParent }) {
   const [isScanning, setIsScanning] = useState(false);
   const [visible, setVisible] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
+  const [selectedCustomer, setSelectedCustomer] = useState(null); // State to hold selected customer
   const formRef = useRef(null);
 
   const startScan = () => {
@@ -78,8 +80,11 @@ function CustomerSearch({ childToParent }) {
   };
 
   const handleSelectCustomer = (customer) => {
-    console.log("Selected customer:", customer);
-    // You can perform actions here based on the selected customer
+    setSelectedCustomer(customer);
+    antdMessage.success(
+      `Khách hàng: ${customer.email} - Lượng điểm: ${customer.pointAmount}`,
+      60
+    );
   };
 
   return (
@@ -107,7 +112,7 @@ function CustomerSearch({ childToParent }) {
                 >
                   <List.Item.Meta
                     title={customer.email}
-                    description={`Phone: ${customer.phoneNumber}`}
+                    description={`Points: ${customer.pointAmount}`}
                   />
                 </List.Item>
               )}
