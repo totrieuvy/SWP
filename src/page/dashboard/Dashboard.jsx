@@ -97,6 +97,7 @@ const Dashboard = () => {
         getItem("Thống kê hà hoàng", "admin/analytic", <AppstoreAddOutlined />),
 
         getItem("Quản lý nhân sự", "personnel", <HeartOutlined />, [
+          getItem("Tổng quan nhân sự", "admin/statictic/account"),
           getItem("Quản lí", "admin/manager"),
           getItem("Nhân viên", "admin/staff"),
         ]),

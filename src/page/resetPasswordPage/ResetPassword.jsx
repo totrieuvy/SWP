@@ -73,7 +73,7 @@ function ResetPassword() {
                   },
                   {
                     type: "email",
-                    message: "Please enter a valid email address.",
+                    message: "hãy nhập đúng dạng email",
                   },
                 ]}
               >
