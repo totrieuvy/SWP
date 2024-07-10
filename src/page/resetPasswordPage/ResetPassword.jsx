@@ -76,6 +76,7 @@ function ResetPassword() {
                   },
                   {
                     type: "email",
+
                     message: "Phải nhập đúng định dạng email.",
                   },
                 ]}
