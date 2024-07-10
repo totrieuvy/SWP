@@ -5,6 +5,10 @@ import api from "../../../config/axios";
 function ProductBoard() {
   const [data, setData] = useState([]);
 
+  React.useEffect(() => {
+    document.title = "Danh sách sản phẩm";
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
       try {

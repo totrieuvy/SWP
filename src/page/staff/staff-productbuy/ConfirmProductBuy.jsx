@@ -23,39 +23,33 @@ function ConfirmProductBuy() {
       render: (text, record, index) => index + 1,
     },
     {
-      title: "Image",
+      title: "Ảnh",
       dataIndex: "image",
       key: "image",
-      render: (text, record) => (
-        <img
-          src={`${record.image}`}
-          alt="product"
-          style={{ width: 100, height: 100 }}
-        />
-      ),
+      render: (text, record) => <img src={`${record.image}`} alt="product" style={{ width: 100, height: 100 }} />,
     },
     {
-      title: "Category",
+      title: "Thể loại",
       dataIndex: "category",
       key: "category",
     },
     {
-      title: "Name",
+      title: "Tên sản phẩm",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Metal Type",
+      title: "Loại kim loại",
       dataIndex: "metalType",
       key: "metalType",
     },
     {
-      title: "Gemstone Type",
+      title: "Loại đá",
       dataIndex: "gemstoneType",
       key: "gemstoneType",
     },
     {
-      title: "Calculated Price",
+      title: "Giá",
       dataIndex: "calculatedPrice",
       key: "calculatedPrice",
       render: (text, record) => `$${(record.calculatedPrice || 0).toFixed(2)}`,
@@ -74,10 +68,7 @@ function ConfirmProductBuy() {
   const confirmHandler = async () => {
     const orderRequest = {
       paymentType: "cash", // or set this dynamically if needed
-      totalAmount: data.reduce(
-        (total, item) => total + item.calculatedPrice,
-        0
-      ),
+      totalAmount: data.reduce((total, item) => total + item.calculatedPrice, 0),
       status: 0, // or set this dynamically if needed
       staff_ID: user.id,
     };
@@ -88,10 +79,7 @@ function ConfirmProductBuy() {
     };
     console.log(requestBody);
     try {
-      const response = await api.post(
-        "/api/order/initialize-PB-order",
-        requestBody
-      );
+      const response = await api.post("/api/order/initialize-PB-order", requestBody);
       return response.data; // Assuming response has a message field
     } catch (error) {
       console.error("Error confirming order:", error);
@@ -105,10 +93,7 @@ function ConfirmProductBuy() {
     };
     console.log(requestBody);
     try {
-      const response = await api.patch(
-        "/api/order/process-payment-PB",
-        requestBody
-      );
+      const response = await api.patch("/api/order/process-payment-PB", requestBody);
       return response.data;
     } catch (error) {
       console.error("Error confirming order:", error);
@@ -119,9 +104,7 @@ function ConfirmProductBuy() {
     <div className="ConfirmProductBuy">
       <h1>Confirm Order</h1>
       <h2>Staff: {user.id}</h2>
-      {alertMessage && (
-        <Alert message={alertMessage} type="info" showIcon closable />
-      )}
+      {alertMessage && <Alert message={alertMessage} type="info" showIcon closable />}
       <section className="confirmDivider">
         <div className="productBuyConfirmation">
           <Table

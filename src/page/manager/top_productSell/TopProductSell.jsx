@@ -1,31 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import api from "../../../config/axios";
 import { Spin } from "antd";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const TopProductSell = () => {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
   const [totalRevenue, setTotalRevenue] = useState(0);
   const [totalUnits, setTotalUnits] = useState(0);
   const [loading, setLoading] = useState(true);
+
+  React.useEffect(() => {
+    document.title = "Sản phẩm bán chạy";
+  }, []);
 
   useEffect(() => {
     api
@@ -34,19 +23,11 @@ const TopProductSell = () => {
         const data = response.data;
 
         // Sort data by unitSold descending and select top 5
-        const sortedData = data
-          .sort((a, b) => b.unitSold - a.unitSold)
-          .slice(0, 5);
+        const sortedData = data.sort((a, b) => b.unitSold - a.unitSold).slice(0, 5);
 
         // Calculate total units and total revenue from top 5 products
-        const totalUnitsTop5 = sortedData.reduce(
-          (sum, item) => sum + item.unitSold,
-          0
-        );
-        const totalRevenueTop5 = sortedData.reduce(
-          (sum, item) => sum + item.revenueSold,
-          0
-        );
+        const totalUnitsTop5 = sortedData.reduce((sum, item) => sum + item.unitSold, 0);
+        const totalRevenueTop5 = sortedData.reduce((sum, item) => sum + item.revenueSold, 0);
 
         const labels = sortedData.map((item) => item.product_Name);
         const unitSoldDataTop5 = sortedData.map((item) => item.unitSold);
@@ -65,7 +46,6 @@ const TopProductSell = () => {
         setTotalRevenue(totalRevenueTop5);
         setTotalUnits(totalUnitsTop5);
         setLoading(false);
-        document.title = "Những sản phẩm bán chạy";
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
@@ -95,8 +75,6 @@ const TopProductSell = () => {
         },
       },
     },
-    // Adjust the height of the chart here
-    height: 450, // Adjust this value as needed
   };
 
   return (
@@ -107,15 +85,15 @@ const TopProductSell = () => {
         <>
           <div className="top-product-sell-stats">
             <div>
-              <h3>Total Revenue Sold</h3>
+              <h3>Tổng doanh thu</h3>
               <p>{totalRevenue.toLocaleString()} VND</p>
             </div>
             <div>
-              <h3>Total Units Sold</h3>
+              <h3>Tổng số lượng</h3>
               <p>{totalUnits}</p>
             </div>
           </div>
-          <div className="bar-chart">
+          <div className="bar-chart" style={{ width: "1100px", height: "600px" }}>
             <Bar data={chartData} options={options} />
           </div>
         </>

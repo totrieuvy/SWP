@@ -28,24 +28,28 @@ function ResetPassword() {
       if (response.status === 200) {
         if (response.data == "Is your email correct?") {
           notification.error({
-            message: "No such email in database",
-            description: "Please check your email if it is correct",
+            message: "Email không tồn tại",
+            description: "Hãy kiểm tra lại email của bạn!",
           });
         } else {
           notification.success({
-            message: "Email sent successfully",
-            description: "Please check your email for instructions to reset your password.",
+            message: "Gửi email thành công",
+            description: "Hãy kiểm tra email của bạn và làm theo hướng dẫn để đổi mật khẩu",
           });
         }
       }
     } catch (error) {
       console.log(error);
       notification.error({
-        message: "Error",
-        description: "Failed to send email. Please try again later.",
+        message: "Thất bại",
+        description: "Gửi email thất bại!",
       });
     }
   };
+
+  React.useEffect(() => {
+    document.title = "Đổi mật khẩu";
+  }, []);
 
   return (
     <div className="ResetPassword">
@@ -57,10 +61,9 @@ function ResetPassword() {
 
         <div className="reset__form">
           <div className="reset__form__left">
-            <h3 className="reset__form__left__welcome__1">RESET YOUR PASSWORD</h3>
+            <h3 className="reset__form__left__welcome__1">ĐỔI MẬT KHẨU</h3>
             <h5 className="reset__form__left__welcome__2">
-              Enter the email associated with your account and we will send an email with instructions to reset your
-              password.
+              Nhập email của bạn và làm theo hướng dẫn của chúng tôi để đổi mật khẩu
             </h5>
 
             <Form className="reset__form__left__form" form={formVariable} onFinish={handleFinish} method="post">
@@ -69,11 +72,12 @@ function ResetPassword() {
                 rules={[
                   {
                     required: true,
-                    message: "Please input your email!",
+                    message: "Bắt buộc nhập email",
                   },
                   {
                     type: "email",
-                    message: "hãy nhập đúng dạng email",
+
+                    message: "Phải nhập đúng định dạng email.",
                   },
                 ]}
               >
@@ -82,14 +86,14 @@ function ResetPassword() {
 
               <Form.Item>
                 <Button type="primary" className="reset__form__left__buttonReset" htmlType="submit">
-                  Reset Password
+                  Đổi mật khẩu
                 </Button>
               </Form.Item>
             </Form>
             <div className="reset__form__left__back">
               <Button className="reset__form__left__back__button" type="link">
                 <ArrowLeftOutlined />
-                <Link to="/Login">Back to log in</Link>
+                <Link to="/Login">Quay lại đăng nhập</Link>
               </Button>
             </div>
           </div>

@@ -56,6 +56,7 @@ import StaffPerformance from "./page/manager/staff-performance/StaffPerformance"
 import SaleComparision from "./page/manager/sales_comparision/SaleComparision";
 import Statistic_Account from "./page/admin/statisticAccount/StatisticAccount";
 
+
 const PrivateProute = ({ role }) => {
   console.log(role);
   const user = useSelector(selectUser);
@@ -126,6 +127,7 @@ function App() {
           <Route path="statictic/account" element={<Statistic_Account />} />
 
           <Route path="topproductsell" element={<TopProductSells />} />
+          <Route path="statictic/account" element={<Statistic_Account />} />
         </Route>
       </Route>
       <Route path="staff" element={<PrivateProute role={"ROLE_STAFF"} />}>

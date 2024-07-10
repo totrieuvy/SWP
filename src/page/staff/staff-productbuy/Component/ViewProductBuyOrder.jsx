@@ -12,39 +12,33 @@ function ViewProductBuyOrder({ data }) {
       render: (text, record, index) => index + 1,
     },
     {
-      title: "Image",
+      title: "Ảnh",
       dataIndex: "image",
       key: "image",
-      render: (text, record) => (
-        <img
-          src={`${record.image}`}
-          alt="product"
-          style={{ width: 100, height: 100 }}
-        />
-      ),
+      render: (text, record) => <img src={`${record.image}`} alt="product" style={{ width: 100, height: 100 }} />,
     },
     {
-      title: "Category",
+      title: "Thể loại",
       dataIndex: "category",
       key: "category",
     },
     {
-      title: "Name",
+      title: "Tên sản phẩm",
       dataIndex: "name",
       key: "name",
     },
     {
-      title: "Metal Type",
+      title: "Loại kim loại",
       dataIndex: "metalType",
       key: "metalType",
     },
     {
-      title: "Gemstone Type",
+      title: "Loại đá quý",
       dataIndex: "gemstoneType",
       key: "gemstoneType",
     },
     {
-      title: "Calculated Price",
+      title: "Giá",
       dataIndex: "calculatedPrice",
       key: "calculatedPrice",
       render: (text, record) => `$${(record.calculatedPrice || 0).toFixed(2)}`,
@@ -70,19 +64,13 @@ function ViewProductBuyOrder({ data }) {
       console.log({ order: transformedData });
 
       // Convert JSON data to byte array
-      const requestData = new TextEncoder().encode(
-        JSON.stringify(transformedData)
-      );
+      const requestData = new TextEncoder().encode(JSON.stringify(transformedData));
 
-      const response = await api.post(
-        "/api/productBuy/create-ProductBuys",
-        requestData,
-        {
-          headers: {
-            "Content-Type": "application/octet-stream",
-          },
-        }
-      );
+      const response = await api.post("/api/productBuy/create-ProductBuys", requestData, {
+        headers: {
+          "Content-Type": "application/octet-stream",
+        },
+      });
 
       if (response.data) {
         navigate("/staff/confirm-productbuy", {
@@ -121,11 +109,7 @@ function ViewProductBuyOrder({ data }) {
         pagination={false}
       />
       <section className="ProductBuyInitializeButton">
-        <Button
-          type="primary"
-          onClick={handleOrder}
-          className="fullWidthButton"
-        >
+        <Button type="primary" onClick={handleOrder} className="fullWidthButton">
           Tạo
         </Button>
       </section>

@@ -11,14 +11,12 @@ import { DatePicker } from "antd";
 import CustomerSignupChart from "../../../component/Chart/CustomerSignUpChart";
 import TopProductSell from "../../../page/manager/top_productSell/TopProductSell";
 import TransactionTotal from "../../../page/manager/transaction/transaction-total/TransactionTotal";
+import CustomerBuyTrend from "../../../component/Chart/CustomerBuyTrend";
 
 const { RangePicker } = DatePicker;
 
 function Analytic() {
-  const [dateRange, setDateRange] = useState([
-    moment().startOf("year"),
-    moment().endOf("year"),
-  ]);
+  const [dateRange, setDateRange] = useState([moment().startOf("year"), moment().endOf("year")]);
 
   const handleDateChange = (dates) => {
     if (dates && dates.length === 2) {
@@ -26,18 +24,21 @@ function Analytic() {
     }
   };
 
+  React.useEffect(() => {
+    document.title = "Thống kê tổng quan";
+  }, []);
+
   return (
     <>
-      <RangePicker
-        format="YYYY-MM-DD"
-        onChange={handleDateChange}
-        style={{ marginBottom: "20px" }}
-      />
+      <RangePicker format="YYYY-MM-DD" onChange={handleDateChange} style={{ marginBottom: "20px" }} />
       <div className="adminAnalytic">
         <div className="div1">
           <CategoryTotalPieChart />
 
-          <RevenueChart />
+          <RevenueChart
+            startDate={dateRange[0].format("YYYY-MM-DD")}
+            endDate={dateRange[1].format("YYYY-MM-DD")}
+          />
         </div>
         <div className="div2">
           <TotalQuantitySoldBarChart
@@ -58,6 +59,7 @@ function Analytic() {
             startDate={dateRange[0].format("YYYY-MM-DD")}
             endDate={dateRange[1].format("YYYY-MM-DD")}
           />
+          <CustomerBuyTrend />
           <LoyaltyMemberBarChart
             startDate={dateRange[0].format("YYYY-MM-DD")}
             endDate={dateRange[1].format("YYYY-MM-DD")}

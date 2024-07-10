@@ -21,6 +21,7 @@ import "./ManagerProduct.css";
 import { useForm } from "antd/es/form/Form";
 import { convertUrlToFile } from "../../../utils/convertUrlToFile";
 import { convertFileToImg } from "../../../utils/convertFileToImg";
+import PromoCreateForm from "../../../page/promoCreate/Component/PromoCreateform";
 
 const { Option } = Select;
 function ManagerProduct() {
@@ -31,6 +32,12 @@ function ManagerProduct() {
   const [imageFile, setImageFile] = useState(null);
   const [oldData, setOldData] = useState({});
   const [imgUrl, setImgUrl] = useState("");
+  const [isPromoCreateFormVisible, setIsPromoCreateFormVisible] =
+    useState(false); // State for PromoCreateForm visibility
+  const [isAdjustRatioFormVisible, setIsAdjustRatioFormVisible] =
+    useState(false);
+  const [ratioForm] = useForm();
+
   const fetchData = async () => {
     try {
       const response = await api.get("/api/productSell");
@@ -40,9 +47,9 @@ function ManagerProduct() {
       console.error("Error fetching data:", error);
     }
   };
+
   useEffect(() => {
     document.title = "Danh sách sản phẩm";
-
     fetchData();
   }, []);
 
@@ -119,7 +126,9 @@ function ManagerProduct() {
       title: "Ảnh",
       dataIndex: "image",
       key: "image",
-      render: (image) => <img src={image} alt="product" style={{ width: 50 }} />,
+      render: (image) => (
+        <img src={image} alt="product" style={{ width: 50 }} />
+      ),
     },
     {
       title: "Carat",
@@ -127,7 +136,6 @@ function ManagerProduct() {
       key: "carat",
       sorter: (a, b) => a.carat - b.carat,
     },
-
     {
       title: "Chỉ",
       dataIndex: "chi",
@@ -171,7 +179,9 @@ function ManagerProduct() {
   const handleDeleteProductSell = async (productID) => {
     await api.delete(`/api/productSell/${productID}`);
 
-    const listAfterDelete = data.filter((product) => product.productID !== productID);
+    const listAfterDelete = data.filter(
+      (product) => product.productID !== productID
+    );
 
     setData(listAfterDelete);
 
@@ -180,7 +190,18 @@ function ManagerProduct() {
       description: "Xóa sản phẩm thành công",
     });
   };
-
+  const handleAdjustRatio = async (values) => {
+    try {
+      const response = await api.post(
+        `/api/productSell/adjust-ratio/${values.ratio}`
+      );
+      message.success("Pricing ratio adjusted successfully");
+    } catch (error) {
+      message.error("Failed to adjust pricing ratio");
+      console.error("Error during API call:", error);
+    }
+    setIsAdjustRatioFormVisible(false);
+  };
   useEffect(() => {
     if (visible === 1) {
       formVariable.resetFields();
@@ -250,70 +271,125 @@ function ManagerProduct() {
         formData.append("pdescription", values.pdescription);
 
         // Send PUT request to update product
-        const response = await api.put(`/api/productSell/${oldData.productID}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
-        console.log(response);
-        fetchData(); // Refresh data after update
+        const response = await api.put(
+          `/api/productSell/${oldData.productID}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        // Update the product list
+        const updatedData = data.map((product) =>
+          product.productID === oldData.productID ? response.data : product
+        );
+
+        setData(updatedData);
+
         notification.success({
-          message: "Success",
-          description: "Product updated successfully",
+          message: "Thành công",
+          description: "Cập nhật sản phẩm thành công",
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error during API call:", error);
     }
 
-    formVariable.resetFields();
-    handleCloseModal();
+    setVisible(0);
   };
 
   return (
-    <div className="productList">
+    <div>
+      <h1>Quản lý sản phẩm</h1>
       <Button type="primary" onClick={handleOpenModal}>
         Thêm sản phẩm
       </Button>
-      <Table columns={columns} dataSource={data} />
+      <Button
+        type="primary"
+        style={{ marginLeft: "20px" }}
+        onClick={() => setIsPromoCreateFormVisible(true)}
+      >
+        Add Promotion
+      </Button>
+      <Button
+        type="primary"
+        style={{ marginLeft: "20px" }}
+        onClick={() => setIsAdjustRatioFormVisible(true)}
+      >
+        Adjust Pricing Ratio
+      </Button>
+      <Table
+        dataSource={data}
+        columns={columns}
+        rowKey={(record) => record.productID}
+      />
       <Modal
-        footer={false}
-        title={visible == 1 ? "Thêm sản phẩm" : "Cập nhật sản phẩm"}
-        open={visible > 0}
-        onCancel={handleCloseModal}
+        title={visible === 1 ? "Thêm sản phẩm" : "Cập nhật sản phẩm"}
+        open={visible !== 0}
         onOk={handleOk}
+        onCancel={handleCloseModal}
       >
         <Form form={formVariable} onFinish={onFinish} layout="vertical">
-          <Form.Item name="pname" label="Product Name" rules={[{ required: true }]}>
+          <Form.Item name="pname" label="Tên sản phẩm" rules={[{ required: true, message: "hãy nhập tên sản phẩm" }]}>
             <Input />
           </Form.Item>
-          <Form.Item name="pdescription" label="Product Description">
+          <Form.Item
+            name="pdescription"
+            label="Mô tả sản phẩm"
+            rules={[{ required: true, message: "hãy nhập mô tả sản phẩm" }]}
+          >
             <Input.TextArea />
           </Form.Item>
 
-          <Form.Item name="productCode" label="Product Code" rules={[{ required: true }]}>
+          <Form.Item
+            name="productCode"
+            label="Mã sản phẩm"
+            rules={[{ required: true, message: "hãy nhập mã sản phẩm" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="metalType" label="Metal Type">
+          <Form.Item
+            name="metalType"
+            label="Loại kim loại"
+            rules={[{ required: true, message: "hãy nhập loại kim loại" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="gemstoneType" label="Gemstone Type">
+          <Form.Item
+            name="gemstoneType"
+            label="Loại đá quý"
+            rules={[{ required: true, message: "hãy nhập loại đá quý" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="manufacturer" label="Manufacturer">
+          <Form.Item
+            name="manufacturer"
+            label="Nhà sản xuất"
+            rules={[{ required: true, message: "hãy nhập nhà sản xuất" }]}
+          >
             <Input />
           </Form.Item>
-          <Form.Item name="manufactureCost" label="Manufacture Cost">
+          <Form.Item
+            name="manufactureCost"
+            label="Giá nhà sản xuất"
+            rules={[{ required: true, message: "hãy nhập giá nhà sản xuất" }]}
+          >
             <InputNumber min={0} />
           </Form.Item>
-          <Form.Item name="chi" label="CHI">
+          <Form.Item name="chi" label="Chỉ" rules={[{ required: true, message: "hãy nhập số chỉ" }]}>
             <InputNumber min={0} />
           </Form.Item>
-          <Form.Item name="carat" label="Carat">
+          <Form.Item name="carat" label="Carat" rules={[{ required: true, message: "hãy nhập số carat" }]}>
             <InputNumber min={0} />
           </Form.Item>
 
-          <Form.Item name="category_id" label="Category" rules={[{ required: true }]}>
+          <Form.Item
+            name="category_id"
+            label="Category"
+            rules={[{ required: true, message: "hãy chọn loại sản phẩm" }]}
+          >
             <Select placeholder="Select a category">
               {category.map((category) => (
                 <Option key={category.id} value={category.id}>
@@ -322,24 +398,42 @@ function ManagerProduct() {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item label="Image">
+          <Form.Item label="Ảnh" rules={[{ required: true, message: "hãy nhập ảnh sản phẩm" }]}>
             <Upload beforeUpload={() => false} showUploadList={false} onChange={handleFileChange}>
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
-            {visible == 2 && !imgUrl ? (
-              <div>
-                <Image width={100} height={100} src={oldData.image} />
-              </div>
-            ) : (
-              <div>
-                <Image src={imgUrl} />
-              </div>
+            {imgUrl && (
+              <Image
+                src={imgUrl}
+                alt="product"
+                style={{ width: 100, marginTop: 10 }}
+              />
             )}
           </Form.Item>
-          <Form.Item style={{ textAlign: "center" }}>
-            <Button type="primary" htmlType="submit">
-              Submit
-            </Button>
+        </Form>
+      </Modal>
+
+      <Modal
+        footer={null}
+        title="Create Promotion"
+        open={isPromoCreateFormVisible}
+        onCancel={() => setIsPromoCreateFormVisible(false)}
+      >
+        <PromoCreateForm />
+      </Modal>
+      <Modal
+        title="Adjust Pricing Ratio"
+        open={isAdjustRatioFormVisible}
+        onCancel={() => setIsAdjustRatioFormVisible(false)}
+        onOk={() => ratioForm.submit()}
+      >
+        <Form form={ratioForm} onFinish={handleAdjustRatio} layout="vertical">
+          <Form.Item
+            label="Ratio"
+            name="ratio"
+            rules={[{ required: true, message: "Please input the ratio!" }]}
+          >
+            <InputNumber min={0} />
           </Form.Item>
         </Form>
       </Modal>

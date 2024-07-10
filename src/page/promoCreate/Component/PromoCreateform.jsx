@@ -1,6 +1,13 @@
-import React from "react";
-import { Button, Cascader, DatePicker, Form, Input, InputNumber, Mentions, Select, TreeSelect } from "antd";
-
+import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Cascader,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  message,
+} from "antd";
 import api from "../../../config/axios";
 
 const { RangePicker } = DatePicker;
@@ -42,9 +49,9 @@ const PromoCreateForm = () => {
           children: products
             .filter((product) => product.category_id === category.id)
             .map((product) => ({
-              label: product.name,
-              value: product.id,
-              key: `product-${product.id}-${product.category_id}`, // Ensure unique keys for products
+              label: product.pname,
+              value: product.productID,
+              key: `product-${product.productID}`, // Ensure unique keys for products
             })),
         }));
 
@@ -57,12 +64,35 @@ const PromoCreateForm = () => {
     fetchCategoriesAndProducts();
   }, []);
 
+  const onFinish = async (values) => {
+    try {
+      const [startDate, endDate] = values.RangePicker;
+      const productSell_IDs = values.Product.map((item) => item[1]);
+
+      const payload = {
+        code: values.Name,
+        description: values.description,
+        startDate: startDate.format("YYYY-MM-DD"),
+        endDate: endDate.format("YYYY-MM-DD"),
+        discount: values.percentage,
+        productSell_IDs,
+      };
+
+      await api.post("/api/promotion/create", payload);
+      message.success("Promotion created successfully!");
+    } catch (error) {
+      console.error("Error creating promotion:", error);
+      message.error("Failed to create promotion.");
+    }
+  };
+
   return (
     <Form
       {...formItemLayout}
       style={{
         maxWidth: 600,
       }}
+      onFinish={onFinish}
     >
       <Form.Item
         label="Tên"

@@ -134,6 +134,7 @@ function AdminAccountManager() {
     }
     formVariable.resetFields();
     handleCloseModal();
+
   };
 
   return (
