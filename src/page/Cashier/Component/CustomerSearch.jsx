@@ -23,7 +23,7 @@ function CustomerSearch({ childToParent }) {
   const [isScanning, setIsScanning] = useState(false);
   const [visible, setVisible] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedCustomer, setSelectedCustomer] = useState(null); // State to hold selected customer
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
   const formRef = useRef(null);
 
   const startScan = () => {

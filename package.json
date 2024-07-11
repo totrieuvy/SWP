@@ -15,6 +15,7 @@
     "@nivo/bar": "^0.84.0",
     "@nivo/core": "^0.87.0",
     "@nivo/pie": "^0.84.0",
+    "@stomp/stompjs": "^7.0.0",
     "antd": "^5.17.3",
     "bootstrap": "^5.3.3",
     "chart.js": "^4.4.3",
@@ -30,6 +31,7 @@
     "react-webcam": "^7.2.0",
     "redux-persist": "^6.0.0",
     "sass": "^1.77.2",
+    "sockjs-client": "^1.6.1",
     "swiper": "^10.0.0"
   },
   "devDependencies": {

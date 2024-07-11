@@ -24,6 +24,7 @@ function Login() {
       let token = response.data.token;
       let role = response.data.role;
       localStorage.setItem("token", token);
+      localStorage.setItem("role", role);
       dispatch(login(response.data));
 
       if (role === "ROLE_ADMIN") {
@@ -74,7 +75,8 @@ function Login() {
   useEffect(() => {
     document.title = "Đăng nhập";
     const storedAttempts = parseInt(localStorage.getItem("loginAttempts")) || 0;
-    const storedLockoutEnd = parseInt(localStorage.getItem("lockoutEndTime")) || null;
+    const storedLockoutEnd =
+      parseInt(localStorage.getItem("lockoutEndTime")) || null;
 
     setAttempts(storedAttempts);
     setLockoutEndTime(storedLockoutEnd);
@@ -104,6 +106,8 @@ function Login() {
         let token = response.data.token;
         let role = response.data.role;
         localStorage.setItem("token", token);
+        localStorage.setItem("role", role);
+
         console.log(response);
         console.log(response.data);
         dispatch(login(response.data));
@@ -143,9 +147,17 @@ function Login() {
 
         <div className="login__form">
           <div className="login__form__left">
-            <h3 className="login__form__left__welcome__1">Chào mừng đã trở lại </h3>
-            <h5 className="login__form__left__welcome__2">Chọn cách thức đăng nhập</h5>
-            <Form className="login__form__left__form" form={formVariable} onFinish={handleFinish}>
+            <h3 className="login__form__left__welcome__1">
+              Chào mừng đã trở lại{" "}
+            </h3>
+            <h5 className="login__form__left__welcome__2">
+              Chọn cách thức đăng nhập
+            </h5>
+            <Form
+              className="login__form__left__form"
+              form={formVariable}
+              onFinish={handleFinish}
+            >
               <Form.Item
                 name="username"
                 rules={[
@@ -166,10 +178,17 @@ function Login() {
                   },
                 ]}
               >
-                <Input.Password prefix={<LockOutlined />} placeholder="Mật khẩu" type="password" />
+                <Input.Password
+                  prefix={<LockOutlined />}
+                  placeholder="Mật khẩu"
+                  type="password"
+                />
               </Form.Item>
 
-              <Link className="login__form__left__forgotpass" to="/resetPassword">
+              <Link
+                className="login__form__left__forgotpass"
+                to="/resetPassword"
+              >
                 Quên mật khẩu?
               </Link>
 
@@ -184,13 +203,21 @@ function Login() {
                 </Button>
               </Form.Item>
             </Form>
-            <p className="login__form__left__email">Hoặc đăng nhập bằng tài khoản Google</p>
-            <button disabled={isLockedOut} className="login__form__left__google" onClick={handleLoginGoogle}>
+            <p className="login__form__left__email">
+              Hoặc đăng nhập bằng tài khoản Google
+            </p>
+            <button
+              disabled={isLockedOut}
+              className="login__form__left__google"
+              onClick={handleLoginGoogle}
+            >
               <img src="/images/google.png" alt="Google" />
               <p>Google</p>
             </button>
           </div>
-          <div className="login__form__right">{/* <img src="/images/login.jpg" alt="Login" /> */}</div>
+          <div className="login__form__right">
+            {/* <img src="/images/login.jpg" alt="Login" /> */}
+          </div>
         </div>
       </div>
     </div>

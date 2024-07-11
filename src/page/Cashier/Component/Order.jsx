@@ -66,7 +66,13 @@ const columns = (discountCodes, handleDiscountChange) => [
   },
 ];
 
-function Order({ orderID, setOrder, orderStatus, setOrderStatus }) {
+function Order({
+  orderID,
+  availableOrders,
+  setOrder,
+  orderStatus,
+  setOrderStatus,
+}) {
   const [data, setData] = useState([]);
   const [discountCodes, setDiscountCodes] = useState([]);
 
@@ -74,33 +80,47 @@ function Order({ orderID, setOrder, orderStatus, setOrderStatus }) {
     document.title = "Xác nhận đơn hàng";
   }, []);
 
-  useEffect(() => {
-    const fetchOrder = async () => {
-      try {
-        const response = await api.get(`/api/order/${orderID}`);
-        // Initialize discount field for each product
-        const orderData = response.data.map((product) => ({
-          ...product,
-          promotion_id: product.promotion_id && product.promotion_id.length > 0 ? product.promotion_id[0] : [],
-        }));
-        setData(orderData);
-        setOrder(orderData);
-      } catch (error) {
-        console.error("Error fetching the order", error);
-      }
-    };
-    const fetchDiscountCodes = async () => {
-      try {
-        const response = await api.get("/api/promotion/product-sell-ids");
-        setDiscountCodes(response.data);
-      } catch (error) {
-        console.error("Error fetching discount codes", error);
-      }
-    };
+  const fetchOrder = async (id) => {
+    try {
+      const response = await api.get(`/api/order/${id}`);
+      // Initialize discount field for each product
+      const orderData = response.data.map((product) => ({
+        ...product,
+        promotion_id:
+          product.promotion_id && product.promotion_id.length > 0
+            ? product.promotion_id[0]
+            : [],
+      }));
+      setData(orderData);
+      setOrder(orderData);
+    } catch (error) {
+      console.error("Error fetching the order", error);
+    }
+  };
 
-    fetchOrder();
-    fetchDiscountCodes();
+  const fetchDiscountCodes = async () => {
+    try {
+      const response = await api.get("/api/promotion/product-sell-ids");
+      setDiscountCodes(response.data);
+    } catch (error) {
+      console.error("Error fetching discount codes", error);
+    }
+  };
+
+  useEffect(() => {
+    console.log("orderID changed:", orderID);
+    if (orderID) {
+      fetchOrder(orderID);
+      fetchDiscountCodes();
+    }
   }, [orderID]);
+
+  useEffect(() => {
+    if (availableOrders.length > 0) {
+      // Fetch the first available order
+      fetchOrder(availableOrders[0]);
+    }
+  }, [availableOrders]);
 
   useEffect(() => {
     if (orderStatus === "Clear") {
@@ -110,14 +130,19 @@ function Order({ orderID, setOrder, orderStatus, setOrderStatus }) {
   }, [orderStatus]);
 
   const handleDiscountChange = (productID, value) => {
-    const updatedData = data.map((item) => (item.productID === productID ? { ...item, promotion_id: [value] } : item));
+    const updatedData = data.map((item) =>
+      item.productID === productID ? { ...item, promotion_id: [value] } : item
+    );
     setData(updatedData);
     setOrder(updatedData);
   };
 
   return (
     <div className="bill">
-      <Table columns={columns(discountCodes, handleDiscountChange)} dataSource={data} />
+      <Table
+        columns={columns(discountCodes, handleDiscountChange)}
+        dataSource={data}
+      />
     </div>
   );
 }
