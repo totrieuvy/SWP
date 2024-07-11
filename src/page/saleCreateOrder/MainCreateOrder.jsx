@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "antd";
+import { Button, message } from "antd";
 import SaleViewOrderMenu from "./Component/SaleViewOrderMenu";
 import SaleProductMenu from "./Component/SaleProductMenu";
 import "./style.css";
@@ -61,7 +61,11 @@ function MainCreateOrder() {
         `/api/productSell/get-by-code?productCode=${code}`
       );
       const product = response.data;
-      addProductToOrder(product);
+      if (product.status === false) {
+        message.error("Product is out of stock");
+      } else {
+        addProductToOrder(product);
+      }
     } catch (error) {
       console.error("Error fetching product by code:", error);
     }
@@ -101,6 +105,15 @@ function MainCreateOrder() {
     );
   };
 
+  const handleSerialNumberSubmit = () => {
+    if (manualSerialNumber) {
+      fetchProductByCode(manualSerialNumber);
+      setManualSerialNumber("");
+    } else {
+      message.error("Please enter a serial number");
+    }
+  };
+
   return (
     <div className="saleCreateOrderContainer">
       <SaleViewOrderMenu closeOrder={setOrder} currentOrder={currOrder} />
@@ -128,6 +141,13 @@ function MainCreateOrder() {
             <p>Serial Number: {manualSerialNumber.slice(-16)}</p>
           )}
         </div>
+        <Button
+          type="primary"
+          onClick={handleSerialNumberSubmit}
+          style={{ marginTop: "10px" }}
+        >
+          Submit Serial Number
+        </Button>
       </div>
     </div>
   );

@@ -44,14 +44,17 @@ function Total({ clear, order, id }) {
   const transformData = (inputArray) => {
     console.log(inputArray);
     return inputArray.flatMap((item) => {
-      if (item.promotion_id.length === 0) {
+      const promotionIDs = Array.isArray(item.promotion_id)
+        ? item.promotion_id
+        : [];
+      if (promotionIDs.length === 0) {
         return {
           productSell_ID: item.productID,
           promotion_ID: 0,
           quantity: item.quantity,
         };
       } else {
-        return item.promotion_id.map((promo) => ({
+        return promotionIDs.map((promo) => ({
           productSell_ID: item.productID,
           promotion_ID: parseInt(promo),
           quantity: item.quantity,
@@ -166,7 +169,7 @@ function Total({ clear, order, id }) {
       <hr />
       <section className="totalAmount">
         <p className="totalTitle">Tổng giá</p>
-        <p className="totalTitle subTotalValue">{parseInt(total) * 100}đ</p>
+        <p className="totalTitle subTotalValue">{parseInt(total)}đ</p>
       </section>
       <hr />
       <section className="selectPayment">

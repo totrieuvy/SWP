@@ -1,4 +1,4 @@
-import { Table, Image, QRCode, Input, Button, Form } from "antd";
+import { Table, Image, QRCode, Input, Button, Form, message } from "antd";
 import React, { useEffect, useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
 import api from "../../../config/axios";
@@ -58,6 +58,10 @@ function SaleViewOrderMenu({ currentOrder, closeOrder }) {
   };
 
   const handleSubmitOrder = async () => {
+    if (currentOrder.length === 0) {
+      message.error("Không có sản phẩm nào trong đơn hàng");
+      return;
+    }
     const data = {
       orderRequest: {
         paymentType: "none",
