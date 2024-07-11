@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AdminAccountStaff.scss";
-import { Button, DatePicker, Form, Input, Modal, Popconfirm, Spin, Table, notification } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Modal, Popconfirm, Spin, Table, notification } from "antd";
 import api from "../../../config/axios";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
@@ -14,9 +14,14 @@ function AdminAccountStaff() {
 
   const columns = [
     {
-      title: "Tên",
+      title: "Tên đăng nhập",
       dataIndex: "username",
       key: "username",
+    },
+    {
+      title: "Tên tài khoản",
+      dataIndex: "accountName",
+      key: "accountName",
     },
     {
       title: "Email",
@@ -115,6 +120,7 @@ function AdminAccountStaff() {
 
   const handleCloseModal = () => {
     setVisible(0);
+    formVariable.resetFields();
   };
 
   const handleOK = () => {
@@ -140,7 +146,6 @@ function AdminAccountStaff() {
           role: "ROLE_STAFF",
           email: values.email,
           username: values.username,
-          password: values.password,
           accountName: values.accountName,
         });
         console.log(response);
@@ -155,6 +160,12 @@ function AdminAccountStaff() {
     }
     formVariable.resetFields();
     handleCloseModal();
+  };
+
+  const handleChange = (e) => {
+    const { value } = e.target;
+    const numericValue = value.replace(/[^0-9]/g, "");
+    formVariable.setFieldsValue({ salary: numericValue });
   };
 
   return (
@@ -196,6 +207,10 @@ function AdminAccountStaff() {
                 required: true,
                 message: "Hãy nhập email!",
               },
+              {
+                type: "email",
+                message: "Phải nhập đúng định dạng email!",
+              },
             ]}
           >
             <Input />
@@ -212,18 +227,22 @@ function AdminAccountStaff() {
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            label="Mật khẩu:"
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Hãy nhập mật khẩu!",
-              },
-            ]}
-          >
-            <Input.Password />
-          </Form.Item>
+          {visible === 1 ? (
+            <Form.Item
+              label="Mật khẩu:"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Hãy nhập mật khẩu!",
+                },
+              ]}
+            >
+              <Input.Password />
+            </Form.Item>
+          ) : (
+            ""
+          )}
           <Form.Item
             label="Ngày bắt đầu làm việc (YYYY-MM-DD):"
             name="startDate"
@@ -258,7 +277,7 @@ function AdminAccountStaff() {
               },
             ]}
           >
-            <Input />
+            <Input onChange={handleChange} />
           </Form.Item>
         </Form>
       </Modal>

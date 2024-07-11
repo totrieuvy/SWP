@@ -14,9 +14,14 @@ function Manager_StaffAccount() {
 
   const columns = [
     {
-      title: "Tên",
+      title: "Tên đăng nhập",
       dataIndex: "username",
       key: "username",
+    },
+    {
+      title: "Tên tài khoản",
+      dataIndex: "accountName",
+      key: "accountName",
     },
     {
       title: "Email",
@@ -158,6 +163,12 @@ function Manager_StaffAccount() {
     handleCloseModal();
   };
 
+  const handleChange = (e) => {
+    const { value } = e.target;
+    const numericValue = value.replace(/[^0-9]/g, "");
+    formVariable.setFieldsValue({ salary: numericValue });
+  };
+
   return (
     <div className="Manager_StaffAccount">
       {loading ? (
@@ -264,8 +275,17 @@ function Manager_StaffAccount() {
           <Form.Item label="Vai trò:" name="role" initialValue={"ROLE_STAFF"}>
             <Input readOnly />
           </Form.Item>
-          <Form.Item label="Lương:" name="salary" initialValue={2000000}>
-            <Input readOnly />
+          <Form.Item
+            label="Lương:"
+            name="salary"
+            rules={[
+              {
+                required: true,
+                message: "Hãy nhập lương!",
+              },
+            ]}
+          >
+            <Input onChange={handleChange} />
           </Form.Item>
         </Form>
       </Modal>

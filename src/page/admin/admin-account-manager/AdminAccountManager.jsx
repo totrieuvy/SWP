@@ -134,7 +134,6 @@ function AdminAccountManager() {
     }
     formVariable.resetFields();
     handleCloseModal();
-
   };
 
   return (
@@ -210,22 +209,6 @@ function AdminAccountManager() {
           >
             <Input />
           </Form.Item>
-          {visible === 2 ? (
-            <Form.Item
-              label={"Mật khẩu"}
-              name={"apassword"}
-              rules={[
-                {
-                  required: true,
-                  message: "Hãy nhập mật khẩu!",
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
-          ) : (
-            ""
-          )}
         </Form>
       </Modal>
     </div>

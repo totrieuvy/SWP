@@ -86,13 +86,26 @@ function ManagerProfile() {
                   }}
                 >
                   <Form form={form} layout="vertical">
-                    <Form.Item label="Tên đăng nhập" name="username">
+                    <Form.Item
+                      label="Tên đăng nhập"
+                      name="username"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Tên đăng nhập không được trống!",
+                        },
+                      ]}
+                    >
                       <Input disabled={!isEditing} />
                     </Form.Item>
                     <Form.Item
                       label="Email"
                       name="email"
                       rules={[
+                        {
+                          required: true,
+                          message: "Email không được trống!",
+                        },
                         {
                           type: "email",
                           message: "Phải nhập đúng định dạng email!",
@@ -101,7 +114,16 @@ function ManagerProfile() {
                     >
                       <Input disabled={!isEditing} />
                     </Form.Item>
-                    <Form.Item label="Tên tài khoản" name="accountName">
+                    <Form.Item
+                      label="Tên tài khoản"
+                      name="accountName"
+                      rules={[
+                        {
+                          required: true,
+                          message: "Tên tài khoản không được trống!",
+                        },
+                      ]}
+                    >
                       <Input disabled={!isEditing} />
                     </Form.Item>
                   </Form>
