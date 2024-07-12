@@ -9,7 +9,7 @@ import {
   message,
 } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
-import api from "../../config/axios";
+import api from "../../../config/axios";
 
 const { Option } = Select;
 

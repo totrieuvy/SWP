@@ -5,7 +5,7 @@ import SaleProductMenu from "./Component/SaleProductMenu";
 import "./style.css";
 import ChooseCategory from "./Component/ChooseCategory";
 import { Html5QrcodeScanner } from "html5-qrcode";
-import api from "../../config/axios";
+import api from "../../../config/axios";
 
 function MainCreateOrder() {
   const [category, setCategory] = useState("");

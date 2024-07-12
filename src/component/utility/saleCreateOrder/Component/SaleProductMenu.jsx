@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../../../config/axios";
+import api from "../../../../config/axios";
 import ProductCard from "./ProductCard";
 
 function SaleProductMenu({ category, setOrder }) {

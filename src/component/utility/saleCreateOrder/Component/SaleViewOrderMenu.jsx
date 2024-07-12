@@ -1,7 +1,7 @@
 import { Table, Image, QRCode, Input, Button, Form, message } from "antd";
 import React, { useEffect, useState } from "react";
 import { UserOutlined } from "@ant-design/icons";
-import api from "../../../config/axios";
+import api from "../../../../config/axios";
 
 const columns = [
   {

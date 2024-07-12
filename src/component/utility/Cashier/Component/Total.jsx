@@ -10,7 +10,7 @@ import {
   notification,
   Popconfirm,
 } from "antd";
-import api from "../../../config/axios";
+import api from "../../../../config/axios";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
 function Total({ clear, order, currentOrderID, availableOrders }) {
