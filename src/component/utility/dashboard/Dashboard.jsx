@@ -10,7 +10,7 @@ import {
 import { Breadcrumb, Layout, Menu, theme } from "antd";
 import { Link, useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { logout, selectUser } from "../../redux/features/counterSlice";
+import { logout, selectUser } from "../../../redux/features/counterSlice";
 import "./Dashboard.scss";
 import React from "react";
 
