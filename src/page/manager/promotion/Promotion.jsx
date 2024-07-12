@@ -1,7 +1,7 @@
 import { Spin, Table, Tag, Button, Modal, message } from "antd";
 import api from "../../../config/axios";
 import React, { useEffect, useState } from "react";
-import PromoCreateForm from "../../../page/promoCreate/Component/PromoCreateform";
+import PromoCreateForm from "../../../component/utility/promoCreate/Component/PromoCreateform";
 
 function Promotion() {
   const [dataSource, setDataSource] = useState([]);

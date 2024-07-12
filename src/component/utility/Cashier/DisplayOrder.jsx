@@ -3,7 +3,7 @@ import Order from "./Component/Order";
 import Total from "./Component/Total";
 import "./Component/style.css";
 import CustomerSearch from "./Component/CustomerSearch";
-import WebSocket from "../../config/WebSocket";
+import WebSocket from "../../../config/WebSocket";
 
 function DisplayOrder() {
   const [data, setData] = useState("");

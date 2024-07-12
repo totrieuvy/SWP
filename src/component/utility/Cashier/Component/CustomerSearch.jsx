@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import { AudioOutlined } from "@ant-design/icons";
 import { Button, Input, List, message as antdMessage } from "antd";
 import { Html5QrcodeScanner } from "html5-qrcode";
-import CreateCustomerForm from "../../../component/Form/CreateCustomerForm";
-import api from "../../../config/axios";
+import CreateCustomerForm from "../../../Form/CreateCustomerForm";
+import api from "../../../../config/axios";
 
 const { Search } = Input;
 

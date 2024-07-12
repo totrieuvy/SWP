@@ -21,7 +21,7 @@ import "./ManagerProduct.css";
 import { useForm } from "antd/es/form/Form";
 import { convertUrlToFile } from "../../../utils/convertUrlToFile";
 import { convertFileToImg } from "../../../utils/convertFileToImg";
-import PromoCreateForm from "../../../page/promoCreate/Component/PromoCreateform";
+import PromoCreateForm from "../../../component/utility/promoCreate/Component/PromoCreateform";
 
 const { Option } = Select;
 function ManagerProduct() {

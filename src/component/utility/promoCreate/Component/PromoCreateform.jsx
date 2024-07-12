@@ -8,7 +8,7 @@ import {
   InputNumber,
   message,
 } from "antd";
-import api from "../../../config/axios";
+import api from "../../../../config/axios";
 
 const { RangePicker } = DatePicker;
 
