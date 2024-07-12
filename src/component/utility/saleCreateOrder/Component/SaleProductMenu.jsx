@@ -14,7 +14,7 @@ function SaleProductMenu({ category, setOrder }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`api/productSell`);
+        const response = await api.get(`api/productSell/active`);
         const fetchedData = response.data;
         setData(fetchedData);
 
