@@ -1,4 +1,4 @@
-import ProductBoard from "../../../page/productList/component/productBoard";
+import ProductBoard from "../../../component/utility/productList/component/productBoard";
 import React from "react";
 import "./style.css";
 function StaffProduct() {

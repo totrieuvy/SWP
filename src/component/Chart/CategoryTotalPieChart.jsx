@@ -78,7 +78,7 @@ function CategoryTotalPieChart() {
 
   return (
     <div className="pieCategory">
-      <h2>Biểu đồ tròn bán theo thể loại</h2>
+      <h2>Sales by Category</h2>
       {isLoading ? (
         <Spin size="large" /> // Display Spin component while loading
       ) : (

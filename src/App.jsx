@@ -1,11 +1,11 @@
 import React from "react";
-import DisplayGold from "./page/Gold/DisplayGold";
+import DisplayGold from "./component/utility/Gold/DisplayGold";
 import { Navigate, Outlet, Route, Routes } from "react-router-dom";
-import Policy from "./page/policy/Policy";
+import Policy from "./component/utility/policy/Policy";
 import Login from "./page/loginPage/Login";
-import Register from "./page/registerStaffPage/RegisterStaff";
-import ResetPassword from "./page/resetPasswordPage/ResetPassword";
-import ChangePassword from "./page/changePassword/ChangePassword";
+import Register from "./component/utility/registerStaffPage/RegisterStaff";
+import ResetPassword from "./component/utility/resetPasswordPage/ResetPassword";
+import ChangePassword from "./component/utility/changePassword/ChangePassword";
 import Home from "./page/homePages/home/Home";
 
 import Staff from "./page/staff/staff-page/Staff";
@@ -16,12 +16,12 @@ import { notification } from "antd";
 import AdminAccountManager from "./page/admin/admin-account-manager/AdminAccountManager";
 import ChangePasswordAdmin from "./page/admin/changepasswordadmin/ChangePasswordAdmin";
 import ManagerProfile from "./page/manager/manager-profile/ManagerProfile";
-import ProductList from "./page/productList/ProductList";
-import CreateProduct from "./page/promoCreate/CreateProduct";
-import ListCustomer from "./page/Customer/listCustomer/ListCustomer";
-import UpdateCustomer from "./page/Customer/updateCustomer/UpdateCustomer";
-import QR from "./page/QRCodeScan/QR";
-import Dashboard from "./page/dashboard/Dashboard";
+import ProductList from "./component/utility/productList/ProductList";
+import CreateProduct from "./component/utility/promoCreate/CreateProduct";
+import ListCustomer from "./component/utility/Customer/listCustomer/ListCustomer";
+import UpdateCustomer from "./component/utility/Customer/updateCustomer/UpdateCustomer";
+import QR from "./component/utility/QRCodeScan/QR";
+import Dashboard from "./component/utility/dashboard/Dashboard";
 import AdminProfile from "./page/admin/admin-profile/AdminProfile";
 import AdminProduct from "./page/admin/admin-product/AdminProduct";
 import AdminCategory from "./page/admin/category/AdminCategory";
@@ -31,11 +31,11 @@ import StaffProfile from "./page/staff/staff-profile/StaffProfile";
 import StaffCategory from "./page/staff/staff-category/StaffCategory";
 import StaffProduct from "./page/staff/staff-product/StaffProduct";
 import StaffChangePassword from "./page/staff/staff-changepassword/StaffChangePassword";
-import MainCreateOrder from "./page/saleCreateOrder/MainCreateOrder";
-import DisplayOrder from "./page/Cashier/DisplayOrder";
+import MainCreateOrder from "./component/utility/saleCreateOrder/MainCreateOrder";
+import DisplayOrder from "./component/utility/Cashier/DisplayOrder";
 import VNPay from "./page/VNPAY/VNPay";
-import OrderSuccess from "./page/defaultComponent/OrderSuccess";
-import OrderFail from "./page/defaultComponent/OrderFail";
+import OrderSuccess from "./component/utility/defaultComponent/OrderSuccess";
+import OrderFail from "./component/utility/defaultComponent/OrderFail";
 import ProductBuy from "./page/staff/staff-productbuy/ProductBuy";
 import ManagerProduct from "./page/manager/product/ManagerProduct";
 import ListStaffWithSchedule from "./page/manager/schedule/assign-staff/ListStaffWithSchedule";
@@ -55,7 +55,6 @@ import StaffPerformance from "./page/manager/staff-performance/StaffPerformance"
 
 import SaleComparision from "./page/manager/sales_comparision/SaleComparision";
 import Statistic_Account from "./page/admin/statisticAccount/StatisticAccount";
-
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -111,8 +110,14 @@ function App() {
           {/* <Route path="transaction/detail/:orderID/:orderType" element={<TransactionDetail />} /> */}
           salecomparision
           <Route path="salecomparision" element={<SaleComparision />} />
-          <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
-          <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
+          <Route
+            path="transaction/detail/:orderID/OUTGOING"
+            element={<Transaction_ProductBuy />}
+          />
+          <Route
+            path="transaction/detail/:orderID/INGOING"
+            element={<Transaction_ProductSell />}
+          />
         </Route>
       </Route>
       <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>

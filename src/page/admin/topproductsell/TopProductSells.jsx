@@ -1,10 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from "chart.js";
 import api from "../../../config/axios";
 import { Spin } from "antd";
 
-ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const TopProductSells = () => {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
@@ -16,13 +31,17 @@ const TopProductSells = () => {
     api
       .get("/api/Dashboard/top-selling-products-all")
       .then((response) => {
-        document.title = "Những sản phẩm bán chạy";
         const data = response.data;
 
-        const totalRevenue = data.reduce((sum, item) => sum + item.revenueSold, 0);
+        const totalRevenue = data.reduce(
+          (sum, item) => sum + item.revenueSold,
+          0
+        );
         const totalUnits = data.reduce((sum, item) => sum + item.unitSold, 0);
 
-        const sortedData = data.sort((a, b) => b.unitSold - a.unitSold).slice(0, 10);
+        const sortedData = data
+          .sort((a, b) => b.unitSold - a.unitSold)
+          .slice(0, 10);
 
         const labels = sortedData.map((item) => item.product_Name);
         const unitSoldData = sortedData.map((item) => item.unitSold);
@@ -41,6 +60,7 @@ const TopProductSells = () => {
         setTotalRevenue(totalRevenue);
         setTotalUnits(totalUnits);
         setLoading(false);
+        document.title = "Những sản phẩm bán chạy";
       })
       .catch((error) => {
         console.error("Error fetching data: ", error);
@@ -49,7 +69,7 @@ const TopProductSells = () => {
   }, []);
 
   const options = {
-    maintainAspectRatio: false,
+    responsive: true,
     plugins: {
       legend: {
         position: "top",
@@ -79,15 +99,15 @@ const TopProductSells = () => {
         <>
           <div className="top-product-sell-stats">
             <div>
-              <h3>Tổng doanh thu</h3>
+              <h3>Total Revenue Sold</h3>
               <p>{totalRevenue.toLocaleString()} VND</p>
             </div>
             <div>
-              <h3>Tổng số lượng</h3>
+              <h3>Total Units Sold</h3>
               <p>{totalUnits}</p>
             </div>
           </div>
-          <div className="bar-chart" style={{ width: "1100px", height: "600px" }}>
+          <div className="bar-chart">
             <Bar data={chartData} options={options} />
           </div>
         </>
