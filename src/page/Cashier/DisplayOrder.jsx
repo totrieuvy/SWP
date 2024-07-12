@@ -4,13 +4,16 @@ import Total from "./Component/Total";
 import "./Component/style.css";
 import CustomerSearch from "./Component/CustomerSearch";
 import WebSocket from "../../config/WebSocket";
+
 function DisplayOrder() {
   const [data, setData] = useState("");
   const [order, setOrder] = useState([]);
   const [orderStatus, setOrderStatus] = useState("NotClear");
   const [availableOrders, setAvailableOrders] = useState([]);
   const [scannedOrderID, setScannedOrderID] = useState("");
-
+  const [claimedOrderId, setClaimedOrderId] = useState(null);
+  const userID = localStorage.getItem("userID");
+  const [currentOrderID, setCurrentOrderID] = useState(null);
   React.useEffect(() => {
     document.title = "Mua lại";
   }, []);
@@ -18,10 +21,12 @@ function DisplayOrder() {
   const childToParent = (childdata) => {
     setScannedOrderID(childdata);
   };
+
   const clearOrder = () => {
     setOrder([]);
     setOrderStatus("Clear");
   };
+
   useEffect(() => {
     document.title = "Mua lại";
 
@@ -29,18 +34,30 @@ function DisplayOrder() {
     WebSocket.connect(
       (orderId) => {
         setAvailableOrders((prev) => [...prev, orderId]);
+        if (!currentOrderID) {
+          setCurrentOrderID(orderId);
+        }
       },
-      (orderId) => {
-        setAvailableOrders((prev) => prev.filter((id) => id !== orderId));
+      (response) => {
+        if (response.success) {
+          setClaimedOrderId(response.orderId);
+          setCurrentOrderID(response.orderId);
+          setAvailableOrders((prev) =>
+            prev.filter((id) => id !== response.orderId)
+          );
+        } else {
+          console.log(`Failed to claim order: ${response.message}`);
+        }
       }
     );
-
     // Clean up WebSocket connection
     return () => {
       WebSocket.disconnect();
     };
   }, []);
-
+  const claimOrder = (orderId) => {
+    WebSocket.claimOrder(orderId);
+  };
   useEffect(() => {
     console.log("Available orders updated:", availableOrders);
   }, [availableOrders]);
@@ -56,23 +73,23 @@ function DisplayOrder() {
   useEffect(() => {
     console.log("Order updated:", order);
   }, [order]);
+
   return (
     <div className="parent">
       <Order
-        orderID={scannedOrderID}
+        orderID={currentOrderID}
         availableOrders={availableOrders}
         setOrder={setOrder}
         setOrderStatus={setOrderStatus}
         orderStatus={orderStatus}
       />
       <CustomerSearch childToParent={childToParent} />
+
       <Total
         clear={clearOrder}
         order={order}
-        id={
-          scannedOrderID ||
-          (availableOrders.length > 0 ? availableOrders[0] : null)
-        }
+        currentOrderID={currentOrderID}
+        availableOrders={availableOrders}
       />
     </div>
   );

@@ -82,6 +82,7 @@ function Order({
 
   const fetchOrder = async (id) => {
     try {
+      console.log("orderjsx" + id);
       const response = await api.get(`/api/order/${id}`);
       // Initialize discount field for each product
       const orderData = response.data.map((product) => ({

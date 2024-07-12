@@ -62,12 +62,13 @@ function MainCreateOrder() {
       );
       const product = response.data;
       if (product.status === false) {
-        message.error("Product is out of stock");
+        message.error("Sản phẩm hết hàng");
       } else {
         addProductToOrder(product);
       }
     } catch (error) {
       console.error("Error fetching product by code:", error);
+      message.error("Lỗi khi lấy thông tin sản phẩm");
     }
   };
 
