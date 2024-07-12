@@ -132,6 +132,10 @@ function AdminCategory() {
                     ? Promise.reject(new Error("Mô tả phải nhiều hơn 5 từ!"))
                     : Promise.resolve(),
               },
+              {
+                validator: (_, value) =>
+                  value && /\d/.test(value) ? Promise.reject(new Error("Không được chứa số!")) : Promise.resolve(),
+              },
             ]}
           >
             <TextArea rows={4} />

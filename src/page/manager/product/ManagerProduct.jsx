@@ -32,10 +32,8 @@ function ManagerProduct() {
   const [imageFile, setImageFile] = useState(null);
   const [oldData, setOldData] = useState({});
   const [imgUrl, setImgUrl] = useState("");
-  const [isPromoCreateFormVisible, setIsPromoCreateFormVisible] =
-    useState(false); // State for PromoCreateForm visibility
-  const [isAdjustRatioFormVisible, setIsAdjustRatioFormVisible] =
-    useState(false);
+  const [isPromoCreateFormVisible, setIsPromoCreateFormVisible] = useState(false); // State for PromoCreateForm visibility
+  const [isAdjustRatioFormVisible, setIsAdjustRatioFormVisible] = useState(false);
   const [ratioForm] = useForm();
 
   const fetchData = async () => {
@@ -68,10 +66,15 @@ function ManagerProduct() {
 
   const columns = [
     {
-      title: "Tên",
+      title: "Tên sản phẩm",
       dataIndex: "pname",
       key: "pname",
       sorter: (a, b) => a.name.localeCompare(b.name),
+    },
+    {
+      title: "Mã sản phẩm",
+      dataIndex: "productCode",
+      key: "productCode",
     },
     {
       title: "Giá",
@@ -126,9 +129,7 @@ function ManagerProduct() {
       title: "Ảnh",
       dataIndex: "image",
       key: "image",
-      render: (image) => (
-        <img src={image} alt="product" style={{ width: 50 }} />
-      ),
+      render: (image) => <img src={image} alt="product" style={{ width: 50 }} />,
     },
     {
       title: "Carat",
@@ -179,9 +180,7 @@ function ManagerProduct() {
   const handleDeleteProductSell = async (productID) => {
     await api.delete(`/api/productSell/${productID}`);
 
-    const listAfterDelete = data.filter(
-      (product) => product.productID !== productID
-    );
+    const listAfterDelete = data.filter((product) => product.productID !== productID);
 
     setData(listAfterDelete);
 
@@ -192,9 +191,7 @@ function ManagerProduct() {
   };
   const handleAdjustRatio = async (values) => {
     try {
-      const response = await api.post(
-        `/api/productSell/adjust-ratio/${values.ratio}`
-      );
+      const response = await api.post(`/api/productSell/adjust-ratio/${values.ratio}`);
       message.success("Pricing ratio adjusted successfully");
     } catch (error) {
       message.error("Failed to adjust pricing ratio");
@@ -270,21 +267,13 @@ function ManagerProduct() {
         formData.append("pname", values.pname);
         formData.append("pdescription", values.pdescription);
 
-        // Send PUT request to update product
-        const response = await api.put(
-          `/api/productSell/${oldData.productID}`,
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        const response = await api.put(`/api/productSell/${oldData.productID}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
-        // Update the product list
-        const updatedData = data.map((product) =>
-          product.productID === oldData.productID ? response.data : product
-        );
+        const updatedData = data.map((product) => (product.productID === oldData.productID ? response.data : product));
 
         setData(updatedData);
 
@@ -306,25 +295,13 @@ function ManagerProduct() {
       <Button type="primary" onClick={handleOpenModal}>
         Thêm sản phẩm
       </Button>
-      <Button
-        type="primary"
-        style={{ marginLeft: "20px" }}
-        onClick={() => setIsPromoCreateFormVisible(true)}
-      >
+      <Button type="primary" style={{ marginLeft: "20px" }} onClick={() => setIsPromoCreateFormVisible(true)}>
         Add Promotion
       </Button>
-      <Button
-        type="primary"
-        style={{ marginLeft: "20px" }}
-        onClick={() => setIsAdjustRatioFormVisible(true)}
-      >
+      <Button type="primary" style={{ marginLeft: "20px" }} onClick={() => setIsAdjustRatioFormVisible(true)}>
         Adjust Pricing Ratio
       </Button>
-      <Table
-        dataSource={data}
-        columns={columns}
-        rowKey={(record) => record.productID}
-      />
+      <Table dataSource={data} columns={columns} rowKey={(record) => record.productID} />
       <Modal
         title={visible === 1 ? "Thêm sản phẩm" : "Cập nhật sản phẩm"}
         open={visible !== 0}
@@ -421,13 +398,7 @@ function ManagerProduct() {
             >
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
-            {imgUrl && (
-              <Image
-                src={imgUrl}
-                alt="product"
-                style={{ width: 100, marginTop: 10 }}
-              />
-            )}
+            {imgUrl && <Image src={imgUrl} alt="product" style={{ width: 100, marginTop: 10 }} />}
           </Form.Item>
         </Form>
       </Modal>
@@ -447,6 +418,7 @@ function ManagerProduct() {
         onOk={() => ratioForm.submit()}
       >
         <Form form={ratioForm} onFinish={handleAdjustRatio} layout="vertical">
+
           <Form.Item
             label="Ratio"
             name="ratio"
