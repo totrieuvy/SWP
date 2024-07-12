@@ -52,15 +52,15 @@ const Dashboard = () => {
   useEffect(() => {
     if (user.role === "ROLE_STAFF") {
       setItems([
+        getItem("Hồ sơ", "profile", <UserOutlined />, [
+          getItem("Hồ sơ cá nhân", `staff/profile/${user.id}`),
+          getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
+        ]),
         getItem("Thể loại", "staff/category", <ProfileOutlined />),
         getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
         getItem("Tạo đơn hàng", "staff/create", <ProfileOutlined />),
         getItem("Mua lại", "staff/initialize-productbuy", <ProfileOutlined />),
         getItem("Xác nhận đơn hàng", "staff/confirm-order", <ProfileOutlined />),
-        getItem("Hồ sơ", "profile", <UserOutlined />, [
-          getItem("Hồ sơ cá nhân", `staff/profile/${user.id}`),
-          getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
-        ]),
       ]);
     } else if (user.role === "ROLE_MANAGER") {
       setItems([
@@ -73,17 +73,15 @@ const Dashboard = () => {
           getItem("Xem lịch của tất cả nhân viên", "manager/staff/view"),
           getItem("Lịch làm việc", "manager/staff/assign"),
         ]),
-        getItem("Quản lí đơn hàng", "manager/transaction", <ProfileOutlined />, [
+        getItem("Thống kê", "manager/transaction", <HeartOutlined />, [
           getItem("Tổng đơn hàng", "manager/transaction/total"),
+          getItem("Chính sách ưu đãi", "manager/promotion"),
+          getItem("Sản phẩm bán chạy nhất", "manager/topproductsell"),
+          getItem("So sánh sản phẩm", "manager/salecomparision"),
         ]),
         getItem("Thể loại", "manager/category", <AppstoreAddOutlined />),
         getItem("Sản phẩm", "manager/product", <HeartOutlined />),
         getItem("Khách hàng", "manager/customer/view", <UserOutlined />),
-        getItem("So sánh sản phẩm", "manager/salecomparision", <ProfileOutlined />),
-        getItem("Lịch làm việc", "manager/staff/assign", <UserOutlined />),
-        getItem("Xem lịch của tất cả nhân viên", "manager/staff/view", <UserOutlined />),
-        getItem("Chính sách ưu đãi", "manager/promotion", <ProfileOutlined />),
-        getItem("Sản phẩm bán chạy nhất", "manager/topproductsell", <HeartOutlined />),
       ]);
     } else if (user.role === "ROLE_ADMIN") {
       setItems([
@@ -91,16 +89,16 @@ const Dashboard = () => {
           getItem("Hồ sơ", `admin/profile/${user.id}`),
           getItem("Đổi mật khẩu", "admin/changepassword"),
         ]),
-        getItem("Sản phẩm", "admin/product", <AppstoreAddOutlined />),
-        getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
-        getItem("Thống kê tổng quát", "admin/analytic", <AppstoreAddOutlined />),
-
         getItem("Quản lý nhân sự", "personnel", <HeartOutlined />, [
           getItem("Tổng quan nhân sự", "admin/statictic/account"),
           getItem("Quản lí", "admin/manager"),
           getItem("Nhân viên", "admin/staff"),
         ]),
-        getItem("Thống kê", "statistics", <BarChartOutlined />, [getItem("Sản phẩm bán chạy", `admin/topproductsell`)]),
+        getItem("Sản phẩm", "admin/product", <AppstoreAddOutlined />),
+        getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
+        getItem("Thống kê tổng quát", "admin/analytic", <AppstoreAddOutlined />),
+
+        getItem("Sản phẩm bán chạy", "admin/topproductsell", <BarChartOutlined />),
       ]);
     }
   }, [user.role]);
