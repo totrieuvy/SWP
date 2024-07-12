@@ -1,12 +1,4 @@
-import {
-  Button,
-  Popconfirm,
-  Table,
-  notification,
-  Modal,
-  Form,
-  Input,
-} from "antd";
+import { Button, Popconfirm, Table, notification, Modal, Form, Input } from "antd";
 import api from "../../../config/axios";
 import React, { useState } from "react";
 
@@ -74,9 +66,7 @@ function ManagerCategory() {
 
     // Update the local data source
     const updatedDataSource = dataSource.map((category) =>
-      category.id === editingCategory.id
-        ? { ...category, name, description }
-        : category
+      category.id === editingCategory.id ? { ...category, name, description } : category
     );
     setDataSource(updatedDataSource);
     setModalVisible(false);
@@ -94,12 +84,7 @@ function ManagerCategory() {
 
   const showModal = () => {
     return (
-      <Modal
-        title="Cập nhật thể loại"
-        visible={modalVisible}
-        onCancel={handleCancel}
-        footer={null}
-      >
+      <Modal title="Cập nhật thể loại" visible={modalVisible} onCancel={handleCancel} footer={null}>
         <Form
           initialValues={{
             name: editingCategory?.name,
@@ -108,16 +93,34 @@ function ManagerCategory() {
           onFinish={handleUpdateCategory}
         >
           <Form.Item
-            label="Tên"
+            label="Tên loại sản phẩm"
             name="name"
-            rules={[{ required: true, message: "Vui lòng nhập tên thể loại!" }]}
+            rules={[
+              { required: true, message: "Hãy nhập tên loại sản phẩm!" },
+              {
+                validator: (_, value) =>
+                  value && /\d/.test(value) ? Promise.reject(new Error("Không được chứa số!")) : Promise.resolve(),
+              },
+            ]}
           >
             <Input />
           </Form.Item>
           <Form.Item
             label="Mô tả"
             name="description"
-            rules={[{ required: true, message: "Vui lòng nhập mô tả!" }]}
+            rules={[
+              { required: true, message: "Vui lòng nhập mô tả!" },
+              {
+                validator: (_, value) =>
+                  value && value.split(" ").length <= 5
+                    ? Promise.reject(new Error("Mô tả phải nhiều hơn 5 từ!"))
+                    : Promise.resolve(),
+              },
+              {
+                validator: (_, value) =>
+                  value && /\d/.test(value) ? Promise.reject(new Error("Không được chứa số!")) : Promise.resolve(),
+              },
+            ]}
           >
             <Input.TextArea />
           </Form.Item>

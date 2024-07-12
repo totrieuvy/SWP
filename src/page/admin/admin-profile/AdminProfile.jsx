@@ -1,4 +1,4 @@
-import { Card, Button, Row, Col, Form, Input, Spin } from "antd";
+import { Card, Button, Row, Col, Form, Input, Spin, notification } from "antd";
 import React, { useState } from "react";
 import api from "../../../config/axios";
 import { useSelector } from "react-redux";
@@ -30,7 +30,7 @@ function AdminProfile() {
     };
 
     fetchData();
-    document.title = "Thông tin quản lí";
+    document.title = "Thông tin admin";
   }, [form]);
 
   const handleEditProfile = () => {
@@ -46,6 +46,10 @@ function AdminProfile() {
         accountname: updatedProfile.accountname,
       });
       setAdminProfile(updatedProfile);
+      notification.success({
+        message: "Thành công",
+        description: "Cập nhật thông tin thành công",
+      });
       setIsEditing(false);
     } catch (error) {
       console.error("Error saving profile:", error);
@@ -82,7 +86,7 @@ function AdminProfile() {
                     }}
                   >
                     <Form form={form} layout="vertical">
-                      <Form.Item label="Tên" name="username">
+                      <Form.Item label="Tên đăng nhập" name="username">
                         <Input disabled={!isEditing} />
                       </Form.Item>
                       <Form.Item

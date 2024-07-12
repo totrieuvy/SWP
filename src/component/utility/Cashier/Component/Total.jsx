@@ -10,16 +10,16 @@ import {
   notification,
   Popconfirm,
 } from "antd";
-import api from "../../../config/axios";
+import api from "../../../../config/axios";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
-function Total({ clear, order, id }) {
+function Total({ clear, order, currentOrderID, availableOrders }) {
   const [payMethod, setPayMethod] = useState("");
   const [subTotal, setSubTotal] = useState("0");
   const [discount, setDiscount] = useState("0");
   const [cash, setCash] = useState("0");
   const [total, setTotal] = useState("0");
-  const [orderInfo, setOrderInfo] = useState(`Thanh toán hóa đơn`);
+  const [orderInfo, setOrderInfo] = useState("Thanh toán hóa đơn");
 
   const [alertApi, contextHolder] = notification.useNotification();
 
@@ -44,14 +44,17 @@ function Total({ clear, order, id }) {
   const transformData = (inputArray) => {
     console.log(inputArray);
     return inputArray.flatMap((item) => {
-      if (item.promotion_id.length === 0) {
+      const promotionIDs = Array.isArray(item.promotion_id)
+        ? item.promotion_id
+        : [];
+      if (promotionIDs.length === 0) {
         return {
           productSell_ID: item.productID,
           promotion_ID: 0,
           quantity: item.quantity,
         };
       } else {
-        return item.promotion_id.map((promo) => ({
+        return promotionIDs.map((promo) => ({
           productSell_ID: item.productID,
           promotion_ID: parseInt(promo),
           quantity: item.quantity,
@@ -77,17 +80,19 @@ function Total({ clear, order, id }) {
         setDiscount(result.discount_Price);
         setSubTotal(result.subTotal);
         setTotal(result.total);
-        setOrderInfo(`Thanh toan ${id}`);
-        console.log(id);
+        if (currentOrderID) {
+          setOrderInfo(`Thanh toán ${currentOrderID}`);
+        }
+        console.log(availableOrders);
       }
     };
     fetchData();
-  }, [order, id]);
-
+  }, [order, currentOrderID, availableOrders]);
   const handlePayment = async (e) => {
     e.preventDefault();
     const amount = parseInt(total) * 100; // Convert total to integer and then multiply
-    console.log(amount);
+    console.log(currentOrderID);
+
     if (payMethod === "vnpay") {
       try {
         const response = await api.post(`/vnpay/submitOrder`, null, {
@@ -109,11 +114,11 @@ function Total({ clear, order, id }) {
     } else if (payMethod === "cash") {
       try {
         const payData = {
-          orderID: id,
+          orderID: currentOrderID,
           amount: parseFloat(cash),
           total: parseFloat(total),
         };
-
+        console.log(payData);
         const response = await api.patch("/api/order/cash-confirm", payData);
 
         if (response.status === 200) {
@@ -144,14 +149,6 @@ function Total({ clear, order, id }) {
     }
   };
 
-  const confirm = (e) => {
-    console.log(e);
-  };
-  const cancel = (e) => {
-    console.log(e);
-    message.error("Click on No");
-  };
-
   return (
     <div className="total">
       <section className="subTotal">
@@ -166,7 +163,7 @@ function Total({ clear, order, id }) {
       <hr />
       <section className="totalAmount">
         <p className="totalTitle">Tổng giá</p>
-        <p className="totalTitle subTotalValue">{parseInt(total) * 100}đ</p>
+        <p className="totalTitle subTotalValue">{parseInt(total)}đ</p>
       </section>
       <hr />
       <section className="selectPayment">
@@ -200,7 +197,6 @@ function Total({ clear, order, id }) {
           title="Xác nhận thanh toán"
           description="Thanh toán hóa đơn?"
           onConfirm={handlePayment}
-          onCancel={cancel}
           okText="Chấp nhận"
           cancelText="Không"
         >

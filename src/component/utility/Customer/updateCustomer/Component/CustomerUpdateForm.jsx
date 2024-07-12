@@ -8,7 +8,7 @@ import {
   Select,
   Space,
 } from "antd";
-import api from "../../../../config/axios";
+import api from "../../../../../config/axios";
 import { useLocation, useNavigate } from "react-router-dom";
 const { Option } = Select;
 const formItemLayout = {

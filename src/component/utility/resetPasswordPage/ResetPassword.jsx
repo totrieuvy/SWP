@@ -3,7 +3,7 @@ import { Button, Form, Input, notification } from "antd";
 import { MailOutlined, ArrowLeftOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import "./ResetPassword.css";
-import api from "../../config/axios";
+import api from "../../../config/axios";
 import { useForm } from "antd/es/form/Form";
 
 function ResetPassword() {
@@ -34,7 +34,8 @@ function ResetPassword() {
         } else {
           notification.success({
             message: "Gửi email thành công",
-            description: "Hãy kiểm tra email của bạn và làm theo hướng dẫn để đổi mật khẩu",
+            description:
+              "Hãy kiểm tra email của bạn và làm theo hướng dẫn để đổi mật khẩu",
           });
         }
       }
@@ -63,10 +64,16 @@ function ResetPassword() {
           <div className="reset__form__left">
             <h3 className="reset__form__left__welcome__1">ĐỔI MẬT KHẨU</h3>
             <h5 className="reset__form__left__welcome__2">
-              Nhập email của bạn và làm theo hướng dẫn của chúng tôi để đổi mật khẩu
+              Nhập email của bạn và làm theo hướng dẫn của chúng tôi để đổi mật
+              khẩu
             </h5>
 
-            <Form className="reset__form__left__form" form={formVariable} onFinish={handleFinish} method="post">
+            <Form
+              className="reset__form__left__form"
+              form={formVariable}
+              onFinish={handleFinish}
+              method="post"
+            >
               <Form.Item
                 name="email"
                 rules={[
@@ -85,7 +92,11 @@ function ResetPassword() {
               </Form.Item>
 
               <Form.Item>
-                <Button type="primary" className="reset__form__left__buttonReset" htmlType="submit">
+                <Button
+                  type="primary"
+                  className="reset__form__left__buttonReset"
+                  htmlType="submit"
+                >
                   Đổi mật khẩu
                 </Button>
               </Form.Item>
@@ -97,7 +108,9 @@ function ResetPassword() {
               </Button>
             </div>
           </div>
-          <div className="reset__form__right">{/* <img src="./images/Login.jpg" alt="Reset Password" /> */}</div>
+          <div className="reset__form__right">
+            {/* <img src="./images/Login.jpg" alt="Reset Password" /> */}
+          </div>
         </div>
       </div>
     </div>

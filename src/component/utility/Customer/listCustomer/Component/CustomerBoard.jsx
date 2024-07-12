@@ -1,5 +1,5 @@
 import { Table, Button, Space } from "antd";
-import api from "../../../../config/axios";
+import api from "../../../../../config/axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 function CustomerBoard() {

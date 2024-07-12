@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import "./Staff.scss";
-import Dashboard from "../../dashboard/Dashboard";
+import Dashboard from "../../../component/utility/dashboard/Dashboard";
 import { Outlet } from "react-router-dom";
 
 function Staff() {

@@ -52,16 +52,15 @@ const Dashboard = () => {
   useEffect(() => {
     if (user.role === "ROLE_STAFF") {
       setItems([
-        getItem("Hồ sơ", "profile", <UserOutlined />, [
-          getItem("Hồ sơ cá nhân", `staff/profile/${user.id}`),
-          getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
-        ]),
         getItem("Thể loại", "staff/category", <ProfileOutlined />),
         getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
         getItem("Tạo đơn hàng", "staff/create", <ProfileOutlined />),
         getItem("Mua lại", "staff/initialize-productbuy", <ProfileOutlined />),
         getItem("Xác nhận đơn hàng", "staff/confirm-order", <ProfileOutlined />),
-        getItem("Năng suất của bạn", "staff/performance", <ProfileOutlined />),
+        getItem("Hồ sơ", "profile", <UserOutlined />, [
+          getItem("Hồ sơ cá nhân", `staff/profile/${user.id}`),
+          getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
+        ]),
       ]);
     } else if (user.role === "ROLE_MANAGER") {
       setItems([

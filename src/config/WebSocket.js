@@ -7,24 +7,38 @@ class WebSocketService {
     this.client = null;
   }
 
-  connect(newOrderCallback, claimedOrderCallback) {
-    // Check if the user has ROLE_STAFF
-    const userRoles = localStorage.getItem('role') || '[]';
-    if (!userRoles.includes('ROLE_STAFF')) {
-      console.log('User does not have ROLE_STAFF. WebSocket connection not initiated.');
+  connect(newOrderCallback, claimResponseCallback) {
+    const userID = localStorage.getItem('userId'); // Get userID from localStorage
+    if (!userID) {
+      console.log('User ID not found. WebSocket connection not initiated.');
       return;
     }
 
-    // Create a SockJS instance
     const socket = new SockJS(this.url);
-
-    // Initialize the Stomp client
     this.client = Stomp.over(socket);
 
     this.client.connect({}, () => {
       console.log('Connected to WebSocket');
       this.subscribeToNewOrders(newOrderCallback);
-      this.subscribeToClaimedOrders(claimedOrderCallback);
+      this.subscribeToClaimResponses(claimResponseCallback, userID);
+    });
+  }
+
+  claimOrder(orderId) {
+    const userID = localStorage.getItem('userID');
+    if (!this.client || !userID) return;
+    this.client.publish({
+      destination: '/app/claim',
+      body: JSON.stringify({ orderId, userId: userID })
+    });
+  }
+
+  releaseOrder(orderId) {
+    const userID = localStorage.getItem('userID');
+    if (!this.client || !userID) return;
+    this.client.publish({
+      destination: '/app/release',
+      body: JSON.stringify({ orderId, userId: userID })
     });
   }
 
@@ -37,18 +51,24 @@ class WebSocketService {
 
   subscribeToNewOrders(callback) {
     if (!this.client) return;
-    this.client.subscribe('/topic/new-order', message => {
-      const orderId = JSON.parse(message["body"]);
+    this.client.subscribe('/topic/new-order', this.debounce((message) => {
+      const orderId = JSON.parse(message.body);
+      console.log('New order received:', orderId);
       if (callback) callback(orderId);
-    });
+    }, 500)); // Adjust debounce delay as needed
   }
-
-  subscribeToClaimedOrders(callback) {
+  debounce(func, delay) {
+    let debounceTimer;
+    return function(...args) {
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => func.apply(this, args), delay);
+    };
+  }
+  subscribeToClaimResponses(callback, userID) {
     if (!this.client) return;
-    this.client.subscribe('/topic/order-claimed', message => {
-
-      const orderId = JSON.parse(message["body"]);
-      if (callback) callback(orderId);
+    this.client.subscribe(`/user/${userID}/queue/claim-responses`, (message) => {
+      const response = JSON.parse(message.body);
+      callback(response);
     });
   }
 }

@@ -63,10 +63,15 @@ function AdminProduct() {
 
   const columns = [
     {
-      title: "Tên",
+      title: "Tên sản phẩm",
       dataIndex: "pname",
       key: "pname",
       sorter: (a, b) => a.name.localeCompare(b.name),
+    },
+    {
+      title: "Mã sản phẩm",
+      dataIndex: "productCode",
+      key: "productCode",
     },
     {
       title: "Giá",

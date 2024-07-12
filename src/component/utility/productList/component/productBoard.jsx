@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Space, Table, Tag } from "antd";
-import api from "../../../config/axios";
+import api from "../../../../config/axios";
 
 function ProductBoard() {
   const [data, setData] = useState([]);
@@ -78,7 +78,9 @@ function ProductBoard() {
       title: "Ảnh",
       dataIndex: "image",
       key: "image",
-      render: (imageURL) => <img src={imageURL} alt="product" style={{ width: 50 }} />,
+      render: (imageURL) => (
+        <img src={imageURL} alt="product" style={{ width: 50 }} />
+      ),
     },
     {
       title: "Carat",

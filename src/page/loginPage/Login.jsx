@@ -23,8 +23,10 @@ function Login() {
       const response = await api.post("/api/account/login", values);
       let token = response.data.token;
       let role = response.data.role;
+      let id = response.data.id;
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
+      localStorage.setItem("userId", id);
       dispatch(login(response.data));
 
       if (role === "ROLE_ADMIN") {
@@ -105,8 +107,10 @@ function Login() {
         console.log(response);
         let token = response.data.token;
         let role = response.data.role;
+        let id = response.data.role;
         localStorage.setItem("token", token);
         localStorage.setItem("role", role);
+        localStorage.setItem("userId", id);
 
         console.log(response);
         console.log(response.data);

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import api from "../../../config/axios";
+import api from "../../../../config/axios";
 import { Table, Select } from "antd";
 
 const { Option } = Select;
@@ -82,6 +82,7 @@ function Order({
 
   const fetchOrder = async (id) => {
     try {
+      console.log("orderjsx" + id);
       const response = await api.get(`/api/order/${id}`);
       // Initialize discount field for each product
       const orderData = response.data.map((product) => ({
