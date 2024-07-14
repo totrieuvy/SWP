@@ -24,7 +24,7 @@ function Anklet({ numberOfSlides = 5 }) {
     }
   };
 
-  const filterAnklet = diamondProducts.filter((data) => data.category_name === "Anklet");
+  const filterAnklet = diamondProducts.filter((data) => data.category_name === "Vòng chân");
   console.log(filterAnklet);
 
   useEffect(() => {

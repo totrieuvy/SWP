@@ -56,6 +56,7 @@ import StaffPerformance from "./page/manager/staff-performance/StaffPerformance"
 import SaleComparision from "./page/manager/sales_comparision/SaleComparision";
 import Statistic_Account from "./page/admin/statisticAccount/StatisticAccount";
 import Performance from "./page/staff/performance/Performance";
+import CheckGuarantee from "./page/manager/checkGuarantee/CheckGuarantee";
 import ViewGuarantee from "./component/utility/viewGuarantee/ViewGuarantee";
 import ViewGuaranteeByDate from "./component/utility/viewGuarantee/ViewGuaranteeByDate";
 
@@ -113,6 +114,9 @@ function App() {
           {/* <Route path="transaction/detail/:orderID/:orderType" element={<TransactionDetail />} /> */}
           salecomparision
           <Route path="salecomparision" element={<SaleComparision />} />
+          <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
+          <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
+          <Route path="check/guarantee" element={<CheckGuarantee />} />
           <Route
             path="transaction/detail/:orderID/OUTGOING"
             element={<Transaction_ProductBuy />}

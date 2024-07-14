@@ -24,7 +24,7 @@ function GoldPage({ numberOfSlides = 5 }) {
     }
   };
 
-  const filterGoldPage = diamondProducts.filter((data) => data.category_name === "Gold");
+  const filterGoldPage = diamondProducts.filter((data) => data.category_name === "Kim cương");
   console.log(filterGoldPage);
 
   useEffect(() => {
@@ -44,7 +44,7 @@ function GoldPage({ numberOfSlides = 5 }) {
   return (
     <div className="GoldPage container">
       <div className="GoldPage__advertise">
-        <h2 className="GoldPage__advertise__text">Vàng</h2>
+        <h2 className="GoldPage__advertise__text">Kim cương</h2>
         <div className="GoldPage__product">
           <Swiper
             autoplay={{

@@ -24,7 +24,7 @@ function Earring({ numberOfSlides = 5 }) {
     }
   };
 
-  const filterEarring = diamondProducts.filter((data) => data.category_name === "Earring");
+  const filterEarring = diamondProducts.filter((data) => data.category_name === "Bông tai");
   console.log(filterEarring);
 
   useEffect(() => {

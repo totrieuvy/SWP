@@ -283,9 +283,17 @@ function Manager_StaffAccount() {
                 required: true,
                 message: "Hãy nhập lương!",
               },
+              {
+                validator(_, value) {
+                  if (value < 1000000 || value > 20000000) {
+                    return Promise.reject(new Error("Lương phải nằm trong khoảng từ 1,000,000 đến 20,000,000!"));
+                  }
+                  return Promise.resolve();
+                },
+              },
             ]}
           >
-            <Input onChange={handleChange} />
+            <Input onChange={handleChange} min={1000000} max={20000000} />
           </Form.Item>
         </Form>
       </Modal>

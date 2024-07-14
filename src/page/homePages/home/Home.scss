@@ -1,0 +1,89 @@
+.Home {
+  background-color: #fff !important;
+  height: 100dvh;
+
+  .Home__jewelry {
+    width: 100%;
+    height: 10dvh;
+    background-color: #fff;
+    padding: 20px 0px;
+  }
+
+  .jewelry {
+    margin-left: 3px;
+    color: red;
+  }
+
+  .Home__jewelry {
+    display: flex;
+    justify-content: center;
+  }
+
+  .ProductCategory__title {
+    text-align: center;
+    background-color: #fff !important;
+  }
+  .swiper-wrapper {
+    background-color: #fff;
+  }
+
+  .Product__card {
+    width: 20rem !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #fff;
+    border: 1px solid #ddd;
+  }
+
+  .Product__card__image {
+    width: 100%;
+    height: 12rem;
+    object-fit: cover;
+  }
+
+  .card__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card__name,
+  .card__carat,
+  .card__chi,
+  .card__cost {
+    margin-bottom: 5px;
+    color: #000;
+  }
+
+  .ProductCategory__swiper .swiper-slide {
+    background-color: #fff !important;
+  }
+
+  .ant-btn-primary {
+    background-color: #1890ff;
+    border-color: #1890ff;
+    color: #fff;
+  }
+
+  .product-modal-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .product-modal-image {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  }
+
+  .product-modal-title {
+    margin-top: 10px;
+    color: #000;
+  }
+
+  .product-modal-detail {
+    color: #000;
+  }
+}

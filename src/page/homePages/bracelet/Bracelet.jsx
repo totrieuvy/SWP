@@ -24,7 +24,7 @@ function Bracelet({ numberOfSlides = 5 }) {
     }
   };
 
-  const filterBracelet = diamondProducts.filter((data) => data.category_name === "Bracelet");
+  const filterBracelet = diamondProducts.filter((data) => data.category_name === "Vòng đeo tay");
   console.log(filterBracelet);
 
   React.useEffect(() => {
