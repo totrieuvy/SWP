@@ -19,7 +19,7 @@ function Total({ clear, order, currentOrderID, availableOrders }) {
   const [discount, setDiscount] = useState("0");
   const [cash, setCash] = useState("0");
   const [total, setTotal] = useState("0");
-  const [orderInfo, setOrderInfo] = useState("Thanh toán hóa đơn");
+  const [orderInfo, setOrderInfo] = useState("Thanh toan");
 
   const [alertApi, contextHolder] = notification.useNotification();
 
@@ -52,12 +52,14 @@ function Total({ clear, order, currentOrderID, availableOrders }) {
           productSell_ID: item.productID,
           promotion_ID: 0,
           quantity: item.quantity,
+          orderDetail_ID: item.orderDetail_ID,
         };
       } else {
         return promotionIDs.map((promo) => ({
           productSell_ID: item.productID,
           promotion_ID: parseInt(promo),
           quantity: item.quantity,
+          orderDetail_ID: item.orderDetail_ID,
         }));
       }
     });
@@ -81,7 +83,7 @@ function Total({ clear, order, currentOrderID, availableOrders }) {
         setSubTotal(result.subTotal);
         setTotal(result.total);
         if (currentOrderID) {
-          setOrderInfo(`Thanh toán ${currentOrderID}`);
+          setOrderInfo(`Thanh toan ${currentOrderID}`);
         }
         console.log(availableOrders);
       }
@@ -90,7 +92,7 @@ function Total({ clear, order, currentOrderID, availableOrders }) {
   }, [order, currentOrderID, availableOrders]);
   const handlePayment = async (e) => {
     e.preventDefault();
-    const amount = parseInt(total) * 100; // Convert total to integer and then multiply
+    const amount = parseInt(total); // Convert total to integer and then multiply
     console.log(currentOrderID);
 
     if (payMethod === "vnpay") {

@@ -35,6 +35,7 @@ function DisplayOrder() {
       (orderId) => {
         setAvailableOrders((prev) => [...prev, orderId]);
         if (!currentOrderID) {
+          console.log(orderId);
           setCurrentOrderID(orderId);
         }
       },

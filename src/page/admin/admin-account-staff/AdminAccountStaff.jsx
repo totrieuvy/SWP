@@ -1,6 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./AdminAccountStaff.scss";
-import { Button, DatePicker, Form, Input, InputNumber, Modal, Popconfirm, Spin, Table, notification } from "antd";
+import {
+  Button,
+  DatePicker,
+  Form,
+  Input,
+  InputNumber,
+  Modal,
+  Popconfirm,
+  Spin,
+  Table,
+  notification,
+} from "antd";
 import api from "../../../config/axios";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
@@ -66,8 +77,7 @@ function AdminAccountStaff() {
       key: "staffID",
       render: (staffID) => (
         <Popconfirm
-          title="Xóa nhân viên"
-          description="Bạn có chắc muốn xóa nhân viên không?"
+          title="Bạn có chắc muốn xóa nhân viên không?"
           onConfirm={() => handleDeleteStaff(staffID)}
           okText="Đồng ý"
           cancelText="Không"
@@ -80,7 +90,9 @@ function AdminAccountStaff() {
 
   const handleDeleteStaff = async (staffID) => {
     await api.delete(`/api/staff-accounts/${staffID}`);
-    const listAfterDelete = dataSource.filter((staff) => staff.staffID !== staffID);
+    const listAfterDelete = dataSource.filter(
+      (staff) => staff.staffID !== staffID
+    );
     setDataSource(listAfterDelete);
     notification.success({
       message: "Thành công",
@@ -91,7 +103,9 @@ function AdminAccountStaff() {
   const fetchListStaff = async () => {
     try {
       const response = await api.get("/api/staff-accounts");
-      const responseWithStatusTrue = response.data.filter((item) => item.status === 1);
+      const responseWithStatusTrue = response.data.filter(
+        (item) => item.status === 1
+      );
       setDataSource(responseWithStatusTrue);
       setLoading(false);
     } catch (error) {
@@ -133,21 +147,37 @@ function AdminAccountStaff() {
     try {
       if (visible === 1) {
         const response = await api.post("/api/account/register", values);
-        setDataSource([...dataSource, { ...values, staffID: response.data.staffID }]);
-        notification.success({
-          message: "Thành công",
-          description: "Thêm nhân viên thành công",
-        });
+        console.log(response);
+        // Check the status code or response data to handle duplicate entry case
+        if (response.status === 200) {
+          // assuming 200 OK for successful registration
+          setDataSource([
+            ...dataSource,
+            { ...values, staffID: response.data.staffID },
+          ]);
+          notification.success({
+            message: "Thành công",
+            description: "Thêm nhân viên thành công",
+          });
+        } else {
+          notification.error({
+            message: "Lỗi",
+            description: "Thông tin tài khoản bị trùng lặp",
+          });
+        }
       } else if (visible === 2) {
-        const response = await api.put(`/api/staff-accounts/${oldData.staffID}`, {
-          phoneNumber: values.phoneNumber,
-          salary: values.salary,
-          startDate: values.startDate,
-          role: "ROLE_STAFF",
-          email: values.email,
-          username: values.username,
-          accountName: values.accountName,
-        });
+        const response = await api.put(
+          `/api/staff-accounts/${oldData.staffID}`,
+          {
+            phoneNumber: values.phoneNumber,
+            salary: values.salary,
+            startDate: values.startDate,
+            role: "ROLE_STAFF",
+            email: values.email,
+            username: values.username,
+            accountName: values.accountName,
+          }
+        );
         console.log(response);
         fetchListStaff();
         notification.success({
@@ -156,16 +186,21 @@ function AdminAccountStaff() {
         });
       }
     } catch (error) {
-      console.log(error);
+      console.error("Error:", error);
+      if (error.response && error.response.status === 400) {
+        notification.error({
+          message: "Lỗi",
+          description: "Thông tin tài khoản bị trùng lặp",
+        });
+      } else {
+        notification.error({
+          message: "Lỗi",
+          description: "Đã xảy ra lỗi khi thực hiện thao tác",
+        });
+      }
     }
     formVariable.resetFields();
     handleCloseModal();
-  };
-
-  const handleChange = (e) => {
-    const { value } = e.target;
-    const numericValue = value.replace(/[^0-9]/g, "");
-    formVariable.setFieldsValue({ salary: numericValue });
   };
 
   return (
@@ -174,26 +209,40 @@ function AdminAccountStaff() {
         <Spin size="large" />
       ) : (
         <>
-          <Button type="primary" className="Manager_StaffAccount_Button" onClick={handleOpenModal}>
+          <Button
+            type="primary"
+            className="Manager_StaffAccount_Button"
+            onClick={handleOpenModal}
+          >
             Thêm nhân viên
           </Button>
           <Table dataSource={dataSource} columns={columns} />
         </>
       )}
       <Modal
-        title={visible === 1 ? "Thêm nhân viên" : "Cập nhật thông tin nhân viên"}
-        open={visible > 0}
+        title={
+          visible === 1 ? "Thêm nhân viên" : "Cập nhật thông tin nhân viên"
+        }
+        visible={visible > 0}
         onCancel={handleCloseModal}
         onOk={handleOK}
       >
-        <Form form={formVariable} labelCol={{ span: 24 }} onFinish={handleFinish}>
+        <Form
+          form={formVariable}
+          labelCol={{ span: 24 }}
+          onFinish={handleFinish}
+        >
           <Form.Item
             label="Số điện thoại:"
             name="phoneNumber"
             rules={[
               {
                 required: true,
-                message: "Hãy nhập số điện thoại!!",
+                message: "Hãy nhập số điện thoại!",
+              },
+              {
+                pattern: /^[0-9]*$/,
+                message: "Số điện thoại chỉ được chứa các ký tự số!",
               },
             ]}
           >
@@ -275,9 +324,15 @@ function AdminAccountStaff() {
                 required: true,
                 message: "Hãy nhập lương!",
               },
+              {
+                type: "number",
+                min: 1000000,
+                max: 10000000,
+                message: "Lương phải từ 1,000,000 đến 10,000,000 VND!",
+              },
             ]}
           >
-            <Input onChange={handleChange} />
+            <InputNumber min={1000000} max={10000000} />
           </Form.Item>
         </Form>
       </Modal>
