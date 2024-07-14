@@ -53,7 +53,18 @@ const ChatBox = () => {
   }, []);
 
   useEffect(scrollToBottom, [messages]);
-
+  const getRoleColor = (role) => {
+    switch (role) {
+      case "ROLE_STAFF":
+        return "#1890ff"; // Blue
+      case "ROLE_MANAGER":
+        return "#fa8c16"; // Orange
+      case "ROLE_ADMIN":
+        return "#52c41a"; // Green
+      default:
+        return "#f0f0f0"; // Default light gray
+    }
+  };
   const sendMessage = () => {
     if (message.trim()) {
       WebSocketService.sendMessage(message);
@@ -79,10 +90,15 @@ const ChatBox = () => {
         <List
           dataSource={messages}
           renderItem={(msg, index) => {
-            const userInfo = userMap[msg.senderId] || {
+            const userInfo = userMap[msg.sender] || {
               role: "Unknown",
               accountName: "Unknown User",
             };
+            const isCurrentUser = msg.sender === localStorage.getItem("userId");
+            const backgroundColor = isCurrentUser
+              ? "#f0f0f0"
+              : getRoleColor(userInfo.role);
+
             return (
               <List.Item
                 key={index}
@@ -95,22 +111,20 @@ const ChatBox = () => {
               >
                 <div
                   style={{
-                    background:
-                      msg.senderId === localStorage.getItem("userId")
-                        ? "#1890ff"
-                        : "#f0f0f0",
-                    color:
-                      msg.senderId === localStorage.getItem("userId")
-                        ? "white"
-                        : "black",
+                    background: backgroundColor,
+                    color: isCurrentUser ? "white" : "black",
                     padding: "8px 12px",
                     borderRadius: "18px",
                     maxWidth: "70%",
                   }}
                 >
                   <Text strong>
-                    {userMap[msg.sender].accountName} (ID: {msg.sender},{" "}
-                    {msg.role})
+                    {isCurrentUser
+                      ? `Tôi :`
+                      : `${userMap[msg.sender].accountName} (ID: ${
+                          msg.sender
+                        },${" "}
+                    ${msg.role})`}
                   </Text>
                   : <Text>{msg.content}</Text>
                 </div>
