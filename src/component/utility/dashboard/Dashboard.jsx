@@ -64,6 +64,8 @@ const Dashboard = () => {
           getItem("Khách hàng", `staff/trace/by-customer`),
           getItem("Thời gian", "staff/trace/by-date", <ProfileOutlined />),
         ]),
+        getItem("Chat", "staff/chat", <ProfileOutlined />),
+
         getItem("Mua lại", "staff/initialize-productbuy", <ProfileOutlined />),
         getItem(
           "Xác nhận đơn hàng",
@@ -96,6 +98,7 @@ const Dashboard = () => {
         getItem("Thể loại", "manager/category", <AppstoreAddOutlined />),
         getItem("Sản phẩm", "manager/product", <HeartOutlined />),
         getItem("Khách hàng", "manager/customer/view", <UserOutlined />),
+        getItem("Chat", "manager/chat", <ProfileOutlined />),
       ]);
     } else if (user.role === "ROLE_ADMIN") {
       setItems([
@@ -108,6 +111,8 @@ const Dashboard = () => {
           getItem("Quản lí", "admin/manager"),
           getItem("Nhân viên", "admin/staff"),
         ]),
+        getItem("Chat", "admin/chat", <ProfileOutlined />),
+
         getItem("Sản phẩm", "admin/product", <AppstoreAddOutlined />),
         getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
         getItem(

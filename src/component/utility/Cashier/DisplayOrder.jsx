@@ -12,14 +12,16 @@ function DisplayOrder() {
   const [availableOrders, setAvailableOrders] = useState([]);
   const [scannedOrderID, setScannedOrderID] = useState("");
   const [claimedOrderId, setClaimedOrderId] = useState(null);
+  const [customerID, setCustomerID] = useState(0);
   const userID = localStorage.getItem("userID");
   const [currentOrderID, setCurrentOrderID] = useState(null);
   React.useEffect(() => {
     document.title = "Mua lại";
   }, []);
 
-  const childToParent = (childdata) => {
+  const childToParent = (childdata, id) => {
     setScannedOrderID(childdata);
+    setCustomerID(id);
   };
 
   const clearOrder = () => {
@@ -49,7 +51,8 @@ function DisplayOrder() {
         } else {
           console.log(`Failed to claim order: ${response.message}`);
         }
-      }
+      },
+      null
     );
     // Clean up WebSocket connection
     return () => {
@@ -91,6 +94,7 @@ function DisplayOrder() {
         order={order}
         currentOrderID={currentOrderID}
         availableOrders={availableOrders}
+        customerID={customerID}
       />
     </div>
   );
