@@ -24,7 +24,7 @@ function RingPage({ numberOfSlides = 5 }) {
     }
   };
 
-  const filterRingPage = diamondProducts.filter((data) => data.category_name === "Ring");
+  const filterRingPage = diamondProducts.filter((data) => data.category_name === "Nhẫn");
   console.log(filterRingPage);
 
   useEffect(() => {

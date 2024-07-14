@@ -54,7 +54,8 @@ const Dashboard = () => {
       setItems([
         getItem("Hồ sơ", "profile", <UserOutlined />, [
           getItem("Hồ sơ cá nhân", `staff/profile/${user.id}`),
-          getItem("Đổi mật khẩu", "staff/changepassword", <ProfileOutlined />),
+          getItem("Đổi mật khẩu", "staff/changepassword"),
+          getItem("Xem năng suất", "staff/performance"),
         ]),
         getItem("Thể loại", "staff/category", <ProfileOutlined />),
         getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
@@ -79,6 +80,7 @@ const Dashboard = () => {
           getItem("Sản phẩm bán chạy nhất", "manager/topproductsell"),
           getItem("So sánh sản phẩm", "manager/salecomparision"),
         ]),
+        getItem("Kiểm tra bảo hành", "manager/check/guarantee", <HeartOutlined />),
         getItem("Thể loại", "manager/category", <AppstoreAddOutlined />),
         getItem("Sản phẩm", "manager/product", <HeartOutlined />),
         getItem("Khách hàng", "manager/customer/view", <UserOutlined />),
