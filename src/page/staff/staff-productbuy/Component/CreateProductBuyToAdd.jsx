@@ -13,6 +13,7 @@ import api from "../../../../config/axios";
 import { Option } from "antd/es/mentions";
 
 function CreateProductBuyToAdd({ appendOrder }) {
+  const [form] = Form.useForm();
   const [noMetal, setNoMetal] = useState(false);
   const [noGemstone, setNoGemstone] = useState(false);
   const [image, setImage] = useState("");
@@ -27,7 +28,7 @@ function CreateProductBuyToAdd({ appendOrder }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`api/category`);
+        const response = await api.get("/api/category");
         setCategory(response.data);
       } catch (error) {
         console.error("Lỗi khi lấy danh mục", error);
@@ -83,10 +84,30 @@ function CreateProductBuyToAdd({ appendOrder }) {
     setIsModalVisible(false);
   };
 
+  const handleNoMetalChange = (e) => {
+    setNoMetal(e.target.checked);
+    if (e.target.checked) {
+      form.setFieldsValue({
+        metalType: "Không",
+        metalWeight: 0,
+      });
+    }
+  };
+
+  const handleNoGemstoneChange = (e) => {
+    setNoGemstone(e.target.checked);
+    if (e.target.checked) {
+      form.setFieldsValue({
+        gemstoneType: "Không",
+        gemstoneWeight: 0,
+      });
+    }
+  };
+
   return (
     <div className="CreateProductBuyToAdd">
       <CustomWebcam setImageData={getImageData} />
-      <Form layout="vertical" onFinish={showConfirmModal}>
+      <Form form={form} layout="vertical" onFinish={showConfirmModal}>
         <Form.Item
           label="Tên"
           name="name"
@@ -96,9 +117,7 @@ function CreateProductBuyToAdd({ appendOrder }) {
         </Form.Item>
 
         <Form.Item>
-          <Checkbox onChange={(e) => setNoMetal(e.target.checked)}>
-            Không kim loại
-          </Checkbox>
+          <Checkbox onChange={handleNoMetalChange}>Không kim loại</Checkbox>
         </Form.Item>
 
         <Form.Item
@@ -128,26 +147,29 @@ function CreateProductBuyToAdd({ appendOrder }) {
         >
           <Select disabled={noMetal}>
             <Option value="Vàng">Vàng</Option>
+            <Option value="Không">Không</Option>
           </Select>
         </Form.Item>
 
         <Form.Item
-          label="Trọng lượng kim loại"
+          label="Trọng lượng kim loại (Chi)"
           name="metalWeight"
           rules={[
             {
               required: !noMetal,
-              message: "Vui lòng nhập trọng lượng kim loại",
+              type: "number",
+              min: 0,
+              max: 100,
+              message:
+                "Vui lòng nhập trọng lượng kim loại lớn hơn 0 hoặc bé hơn 100",
             },
           ]}
         >
-          <InputNumber disabled={noMetal} />
+          <InputNumber disabled={noMetal} min={0} max={100} />
         </Form.Item>
 
         <Form.Item>
-          <Checkbox onChange={(e) => setNoGemstone(e.target.checked)}>
-            Không có đá quý
-          </Checkbox>
+          <Checkbox onChange={handleNoGemstoneChange}>Không có đá quý</Checkbox>
         </Form.Item>
 
         <Form.Item
@@ -162,20 +184,24 @@ function CreateProductBuyToAdd({ appendOrder }) {
         >
           <Select disabled={noGemstone}>
             <Option value="Kim cương">Kim cương</Option>
+            <Option value="Không">Không</Option>
           </Select>
         </Form.Item>
 
         <Form.Item
-          label="Trọng lượng đá quý"
+          label="Trọng lượng đá quý (Carat)"
           name="gemstoneWeight"
           rules={[
             {
               required: !noGemstone,
-              message: "Vui lòng nhập trọng lượng đá quý",
+              type: "number",
+              min: 0,
+              max: 2,
+              message: "Vui lòng nhập trọng lượng đá quý từ 1 đến 2",
             },
           ]}
         >
-          <InputNumber disabled={noGemstone} />
+          <InputNumber disabled={noGemstone} min={0} max={2} />
         </Form.Item>
 
         <Form.Item>

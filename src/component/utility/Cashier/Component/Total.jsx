@@ -52,12 +52,14 @@ function Total({ clear, order, currentOrderID, availableOrders }) {
           productSell_ID: item.productID,
           promotion_ID: 0,
           quantity: item.quantity,
+          orderDetail_ID: item.orderDetail_ID,
         };
       } else {
         return promotionIDs.map((promo) => ({
           productSell_ID: item.productID,
           promotion_ID: parseInt(promo),
           quantity: item.quantity,
+          orderDetail_ID: item.orderDetail_ID,
         }));
       }
     });
