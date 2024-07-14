@@ -58,6 +58,7 @@ import Statistic_Account from "./page/admin/statisticAccount/StatisticAccount";
 import Performance from "./page/staff/performance/Performance";
 import ViewGuarantee from "./component/utility/viewGuarantee/ViewGuarantee";
 import ViewGuaranteeByDate from "./component/utility/viewGuarantee/ViewGuaranteeByDate";
+import ChatBox from "./component/utility/chat/Chatbox";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -102,6 +103,7 @@ function App() {
           <Route path="changepassword" element={<ManagerChangePassword />} />
           <Route path="product" element={<ManagerProduct />} />
           <Route path="staff" element={<Manager_StaffAccount />} />
+          <Route path="chat" element={<ChatBox />} />
           <Route path="staff/assign" element={<ListStaffWithSchedule />} />
           <Route path="staff/assign-to" element={<AssignStaffForm />} />
           <Route path="staff/assign-to-many" element={<AssignMany />} />
@@ -133,6 +135,7 @@ function App() {
           <Route path="staff" element={<AdminAccountStaff />} />
           <Route path="analytic" element={<Analytic />} />
           <Route path="statictic/account" element={<Statistic_Account />} />
+          <Route path="chat" element={<ChatBox />} />
 
           <Route path="topproductsell" element={<TopProductSells />} />
           <Route path="statictic/account" element={<Statistic_Account />} />
@@ -150,6 +153,7 @@ function App() {
           <Route path="confirm-productbuy" element={<ConfirmProductBuy />} />
           <Route path="trace/by-customer" element={<ViewGuarantee />} />
           <Route path="trace/by-date" element={<ViewGuaranteeByDate />} />
+          <Route path="chat" element={<ChatBox />} />
 
           <Route path="product" element={<StaffProduct />} />
           <Route path="changepassword" element={<StaffChangePassword />} />

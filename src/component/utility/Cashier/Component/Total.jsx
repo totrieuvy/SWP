@@ -13,7 +13,7 @@ import {
 import api from "../../../../config/axios";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
-function Total({ clear, order, currentOrderID, availableOrders }) {
+function Total({ clear, order, currentOrderID, availableOrders, customerID }) {
   const [payMethod, setPayMethod] = useState("");
   const [subTotal, setSubTotal] = useState("0");
   const [discount, setDiscount] = useState("0");
@@ -95,59 +95,88 @@ function Total({ clear, order, currentOrderID, availableOrders }) {
     const amount = parseInt(total); // Convert total to integer and then multiply
     console.log(currentOrderID);
 
-    if (payMethod === "vnpay") {
-      try {
-        const response = await api.post(`/vnpay/submitOrder`, null, {
-          params: {
-            amount: amount,
-            orderInfo: orderInfo,
-          },
-        });
+    const updateOrderData = {
+      order_ID: currentOrderID,
+      customer_ID: customerID, // Replace with actual customer ID
+      staff_ID: order.staffID, // Replace with actual staff ID
+      paymenttype: payMethod,
+    };
 
-        if (response.request.responseURL) {
-          window.location.href = response.data;
-        } else {
-          alert("Failed to create order");
-        }
-      } catch (error) {
-        console.error("Error creating order:", error);
-        alert("Error creating order");
+    try {
+      // Call the update-order API
+      const updateResponse = await api.put(
+        "/api/order/update-order",
+        updateOrderData
+      );
+      if (updateResponse.status !== 200) {
+        openNotification(
+          `Thất bại: ${updateResponse.status}`,
+          updateResponse.data,
+          <CloseCircleOutlined style={{ color: "red" }} />
+        );
+        return;
       }
-    } else if (payMethod === "cash") {
-      try {
-        const payData = {
-          orderID: currentOrderID,
-          amount: parseFloat(cash),
-          total: parseFloat(total),
-        };
-        console.log(payData);
-        const response = await api.patch("/api/order/cash-confirm", payData);
 
-        if (response.status === 200) {
-          openNotification(
-            "Thành công",
-            response.data,
-            <CheckCircleOutlined style={{ color: "green" }} />
-          );
-          clear();
-        } else {
-          openNotification(
-            `Thất bại: ${response.status}`,
-            response.data,
-            <CloseCircleOutlined style={{ color: "red" }} />
-          );
+      if (payMethod === "vnpay") {
+        try {
+          const response = await api.post(`/vnpay/submitOrder`, null, {
+            params: {
+              amount: amount,
+              orderInfo: orderInfo,
+            },
+          });
+
+          if (response.request.responseURL) {
+            window.location.href = response.data;
+          } else {
+            alert("Failed to create order");
+          }
+        } catch (error) {
+          console.error("Error creating order:", error);
+          alert("Error creating order");
         }
-      } catch (error) {
-        if (error.response) {
-          openNotification(
-            `Thất bại: ${error.response.status}`,
-            error.response.data,
-            <CloseCircleOutlined style={{ color: "red" }} />
-          );
-        } else {
-          console.error("Error:", error.message);
+      } else if (payMethod === "cash") {
+        try {
+          const payData = {
+            orderID: currentOrderID,
+            amount: parseFloat(cash),
+            total: parseFloat(total),
+          };
+          console.log(payData);
+          const response = await api.patch("/api/order/cash-confirm", payData);
+
+          if (response.status === 200) {
+            openNotification(
+              "Thành công",
+              response.data,
+              <CheckCircleOutlined style={{ color: "green" }} />
+            );
+            clear();
+          } else {
+            openNotification(
+              `Thất bại: ${response.status}`,
+              response.data,
+              <CloseCircleOutlined style={{ color: "red" }} />
+            );
+          }
+        } catch (error) {
+          if (error.response) {
+            openNotification(
+              `Thất bại: ${error.response.status}`,
+              error.response.data,
+              <CloseCircleOutlined style={{ color: "red" }} />
+            );
+          } else {
+            console.error("Error:", error.message);
+          }
         }
       }
+    } catch (error) {
+      openNotification(
+        `Thất bại: ${error.response ? error.response.status : "Unknown error"}`,
+        error.response ? error.response.data : error.message,
+        <CloseCircleOutlined style={{ color: "red" }} />
+      );
     }
   };
 
