@@ -56,6 +56,8 @@ import StaffPerformance from "./page/manager/staff-performance/StaffPerformance"
 import SaleComparision from "./page/manager/sales_comparision/SaleComparision";
 import Statistic_Account from "./page/admin/statisticAccount/StatisticAccount";
 import Performance from "./page/staff/performance/Performance";
+import ViewGuarantee from "./component/utility/viewGuarantee/ViewGuarantee";
+import ViewGuaranteeByDate from "./component/utility/viewGuarantee/ViewGuaranteeByDate";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -111,8 +113,14 @@ function App() {
           {/* <Route path="transaction/detail/:orderID/:orderType" element={<TransactionDetail />} /> */}
           salecomparision
           <Route path="salecomparision" element={<SaleComparision />} />
-          <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
-          <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
+          <Route
+            path="transaction/detail/:orderID/OUTGOING"
+            element={<Transaction_ProductBuy />}
+          />
+          <Route
+            path="transaction/detail/:orderID/INGOING"
+            element={<Transaction_ProductSell />}
+          />
         </Route>
       </Route>
       <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>
@@ -140,6 +148,8 @@ function App() {
           <Route path="confirm-order" element={<DisplayOrder />} />
           <Route path="initialize-productbuy" element={<ProductBuy />} />
           <Route path="confirm-productbuy" element={<ConfirmProductBuy />} />
+          <Route path="trace/by-customer" element={<ViewGuarantee />} />
+          <Route path="trace/by-date" element={<ViewGuaranteeByDate />} />
 
           <Route path="product" element={<StaffProduct />} />
           <Route path="changepassword" element={<StaffChangePassword />} />
