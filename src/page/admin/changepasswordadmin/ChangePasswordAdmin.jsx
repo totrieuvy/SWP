@@ -26,6 +26,7 @@ function ChangePasswordAdmin() {
         message: "Thất bại",
         description: error.response.data,
       });
+      formVariable.resetFields();
     }
   };
 
