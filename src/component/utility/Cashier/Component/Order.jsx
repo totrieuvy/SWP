@@ -45,19 +45,31 @@ const columns = (discountCodes, handleDiscountChange) => [
     title: "Giảm giá",
     dataIndex: "promotion_id",
     key: "promotion_id",
-    render: (text, record) => (
-      <Select
-        defaultValue={text || undefined}
-        onChange={(value) => handleDiscountChange(record.productID, value)}
-        style={{ width: 120 }}
-      >
-        {discountCodes.map((code) => (
-          <Option key={code.promotionID} value={code.promotionID}>
-            {code.code}
-          </Option>
-        ))}
-      </Select>
-    ),
+    render: (text, record) => {
+      const availableDiscounts = discountCodes.filter(
+        (code) =>
+          code.status &&
+          code.productSell_id.includes(record.productID.toString())
+      );
+
+      return (
+        <Select
+          defaultValue={text && text.length > 0 ? text[0] : undefined}
+          onChange={(value) => handleDiscountChange(record.productID, value)}
+          style={{ width: 120 }}
+        >
+          {availableDiscounts.length > 0 ? (
+            availableDiscounts.map((code) => (
+              <Option key={code.promotionID} value={code.promotionID}>
+                {code.code}
+              </Option>
+            ))
+          ) : (
+            <Option value="no-discount">No discounts available</Option>
+          )}
+        </Select>
+      );
+    },
   },
   {
     title: "Mô tả",
@@ -101,7 +113,7 @@ function Order({
 
   const fetchDiscountCodes = async () => {
     try {
-      const response = await api.get("/api/promotion/product-sell-ids");
+      const response = await api.get("api/promotion/product-sell-ids");
       setDiscountCodes(response.data);
     } catch (error) {
       console.error("Error fetching discount codes", error);

@@ -85,7 +85,7 @@ function CustomerSearch({ childToParent }) {
       `Khách hàng: ${customer.email} - Lượng điểm: ${customer.pointAmount}`,
       60
     );
-    childToParent(null, customer.id);
+    childToParent(null, customer.pk_CustomerID);
   };
 
   return (

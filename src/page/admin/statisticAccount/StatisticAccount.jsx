@@ -10,7 +10,7 @@ function Statistic_Account() {
 
   const fetchData = async () => {
     try {
-      const response = await api.get("/api/all");
+      const response = await api.get("/api/profile/all");
       console.log(response.data);
       setAccounts(response.data);
       setLoading(false);
@@ -43,7 +43,11 @@ function Statistic_Account() {
     labels: ["Chủ", "Quản lí", "Nhân viên"],
     datasets: [
       {
-        data: [roleCounts.ROLE_ADMIN, roleCounts.ROLE_MANAGER, roleCounts.ROLE_STAFF],
+        data: [
+          roleCounts.ROLE_ADMIN,
+          roleCounts.ROLE_MANAGER,
+          roleCounts.ROLE_STAFF,
+        ],
         backgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
         hoverBackgroundColor: ["#FF6384", "#36A2EB", "#FFCE56"],
       },

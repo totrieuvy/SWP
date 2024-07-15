@@ -85,7 +85,6 @@ function SaleViewOrderMenu({ currentOrder, closeOrder }) {
 
       console.log(response.data);
       if (!email.trim()) {
-        const response = await api.post("api/order/initialize-qr", data);
         const base64Data = response.data;
         const qrImageUrl = `data:image/png;base64,${base64Data}`;
         setQrImage(qrImageUrl);

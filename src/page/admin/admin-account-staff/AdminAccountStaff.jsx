@@ -10,6 +10,7 @@ import {
   Popconfirm,
   Spin,
   Table,
+  Tag,
   notification,
 } from "antd";
 import api from "../../../config/axios";
@@ -54,6 +55,17 @@ function AdminAccountStaff() {
       dataIndex: "startDate",
       key: "startDate",
       render: (startDate) => dayjs(startDate).format("YYYY-MM-DD"),
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => (
+        <Tag color={status === 1 ? "green" : "red"}>
+          {status === 1 ? "Đang hoạt động" : "Không hoạt động"}
+        </Tag>
+      ),
+      sorter: (a, b) => a.status - b.status,
     },
     {
       title: "Cập nhật",
@@ -102,11 +114,11 @@ function AdminAccountStaff() {
 
   const fetchListStaff = async () => {
     try {
-      const response = await api.get("/api/staff-accounts");
-      const responseWithStatusTrue = response.data.filter(
-        (item) => item.status === 1
+      const response = await api.get(
+        "/api/staff-accounts/all/no-listing-shift"
       );
-      setDataSource(responseWithStatusTrue);
+
+      setDataSource(response.data);
       setLoading(false);
     } catch (error) {
       console.error("Không thể lấy dữ liệu nhân viên", error);

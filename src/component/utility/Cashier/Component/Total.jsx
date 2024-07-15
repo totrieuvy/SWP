@@ -13,7 +13,14 @@ import {
 import api from "../../../../config/axios";
 import { CheckCircleOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
-function Total({ clear, order, currentOrderID, availableOrders, customerID }) {
+function Total({
+  clear,
+  order,
+  currentOrderID,
+  availableOrders,
+  customerID,
+  onFinishProcessing,
+}) {
   const [payMethod, setPayMethod] = useState("");
   const [subTotal, setSubTotal] = useState("0");
   const [discount, setDiscount] = useState("0");
@@ -90,20 +97,22 @@ function Total({ clear, order, currentOrderID, availableOrders, customerID }) {
     };
     fetchData();
   }, [order, currentOrderID, availableOrders]);
+  useEffect(() => {
+    console.log(customerID);
+  }, [customerID]);
   const handlePayment = async (e) => {
     e.preventDefault();
-    const amount = parseInt(total); // Convert total to integer and then multiply
+    const amount = parseInt(total);
     console.log(currentOrderID);
 
     const updateOrderData = {
       order_ID: currentOrderID,
-      customer_ID: customerID, // Replace with actual customer ID
-      staff_ID: order.staffID, // Replace with actual staff ID
+      customer_ID: customerID,
+      staff_ID: localStorage.getItem("userId"),
       paymenttype: payMethod,
     };
 
     try {
-      // Call the update-order API
       const updateResponse = await api.put(
         "/api/order/update-order",
         updateOrderData
@@ -127,6 +136,8 @@ function Total({ clear, order, currentOrderID, availableOrders, customerID }) {
           });
 
           if (response.request.responseURL) {
+            // Store current order info in localStorage before redirecting
+            localStorage.setItem("pendingOrderId", currentOrderID);
             window.location.href = response.data;
           } else {
             alert("Failed to create order");
@@ -152,6 +163,7 @@ function Total({ clear, order, currentOrderID, availableOrders, customerID }) {
               <CheckCircleOutlined style={{ color: "green" }} />
             );
             clear();
+            onFinishProcessing(); // Call onFinishProcessing here
           } else {
             openNotification(
               `Thất bại: ${response.status}`,

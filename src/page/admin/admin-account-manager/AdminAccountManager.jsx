@@ -8,6 +8,7 @@ import {
   Popconfirm,
   Spin,
   Table,
+  Tag,
   notification,
 } from "antd";
 import { useForm } from "antd/es/form/Form";
@@ -18,7 +19,6 @@ function AdminAccountManager() {
   const [loading, setLoading] = useState(true);
   const [dataSource, setDataSource] = useState([]);
   const [oldData, setOldData] = useState({});
-
   const columns = [
     {
       title: "Tên đăng nhập",
@@ -34,6 +34,17 @@ function AdminAccountManager() {
       title: "Tên tài khoản",
       dataIndex: "accountName",
       key: "accountName",
+    },
+    {
+      title: "Trạng thái",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => (
+        <Tag color={status === 1 ? "green" : "red"}>
+          {status === 1 ? "Đang hoạt động" : "Không hoạt động"}
+        </Tag>
+      ),
+      sorter: (a, b) => a.status - b.status,
     },
     {
       title: "Cập nhật",
