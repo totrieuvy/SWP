@@ -10,7 +10,7 @@ function Statistic_Account() {
 
   const fetchData = async () => {
     try {
-      const response = await api.get("/api/all");
+      const response = await api.get("/api/profile/all");
       console.log(response.data);
       setAccounts(response.data);
       setLoading(false);
