@@ -13,7 +13,8 @@ function TransactionTotal() {
       title: "Tên khách hàng",
       dataIndex: "cusName",
       key: "cusName",
-      render: (cusName) => (cusName ? cusName : "Không có thông tin khách hàng"),
+      render: (cusName) =>
+        cusName ? cusName : "Không có thông tin khách hàng",
     },
     {
       title: "Tổng tiền đã thanh toán",
@@ -48,8 +49,8 @@ function TransactionTotal() {
       dataIndex: "orderStatus",
       key: "orderStatus",
       render: (orderStatus) => (
-        <Tag color={orderStatus == 1 ? "green" : "red"}>
-          {orderStatus == 1 ? "Đã được thanh toán" : "Chưa được thanh toán"}
+        <Tag color={orderStatus == 3 ? "green" : "red"}>
+          {orderStatus == 3 ? "Đã được thanh toán" : "Chưa được thanh toán"}
         </Tag>
       ),
       sorter: (a, b) => a.orderStatus - b.orderStatus,
@@ -60,7 +61,9 @@ function TransactionTotal() {
       dataIndex: "orderID, orderType",
       key: "orderID, orderType",
       render: (text, record) => (
-        <Link to={`/manager/transaction/detail/${record.orderID}/${record.orderType}`}>
+        <Link
+          to={`/manager/transaction/detail/${record.orderID}/${record.orderType}`}
+        >
           <Button type="primary">Xem chi tiết</Button>
         </Link>
       ),
