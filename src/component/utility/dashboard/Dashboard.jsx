@@ -87,9 +87,12 @@ const Dashboard = () => {
           getItem("Sản phẩm bán chạy nhất", "manager/topproductsell"),
           getItem("So sánh sản phẩm", "manager/salecomparision"),
         ]),
+        getItem("Thống kê sản phẩm", "manager/product", <HeartOutlined />, [
+          getItem("Thể loại", "manager/category"),
+          getItem("Sản phẩm", "manager/product"),
+          getItem("Sản phẩm được xóa", "manager/inactive/product"),
+        ]),
         getItem("Kiểm tra bảo hành", "manager/check/guarantee", <HeartOutlined />),
-        getItem("Thể loại", "manager/category", <AppstoreAddOutlined />),
-        getItem("Sản phẩm", "manager/product", <HeartOutlined />),
         getItem("Khách hàng", "manager/customer/view", <UserOutlined />),
         getItem("Chat", "manager/chat", <ProfileOutlined />),
       ]);
@@ -104,9 +107,11 @@ const Dashboard = () => {
           getItem("Quản lí", "admin/manager"),
           getItem("Nhân viên", "admin/staff"),
         ]),
+        getItem("Thống kê sản phẩm", "viewproductadmin", <AppstoreAddOutlined />, [
+          getItem("Sản phẩm", "admin/product"),
+          getItem("Sản phẩm được xóa", "admin/inactive/product"),
+        ]),
         getItem("Chat", "admin/chat", <ProfileOutlined />),
-
-        getItem("Sản phẩm", "admin/product", <AppstoreAddOutlined />),
         getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
         getItem("Thống kê tổng quát", "admin/analytic", <AppstoreAddOutlined />),
 

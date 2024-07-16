@@ -61,6 +61,8 @@ import ViewGuarantee from "./component/utility/viewGuarantee/ViewGuarantee";
 import ViewGuaranteeByDate from "./component/utility/viewGuarantee/ViewGuaranteeByDate";
 import ChatBox from "./component/utility/chat/Chatbox";
 import StaffPerformanceRange from "./page/manager/staffPerformanceRange/StaffPerformanceRange";
+import InactiveProductSell from "./page/manager/inactiveProductSell/InactiveProductSell";
+import InactiveProductSellAdmin from "./page/manager/inactiveProductSell/InactiveProductSell";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -123,6 +125,7 @@ function App() {
           <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
           <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
           <Route path="staff/range" element={<StaffPerformanceRange />} />
+          <Route path="inactive/product" element={<InactiveProductSell />} />
         </Route>
       </Route>
       <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>
@@ -139,6 +142,7 @@ function App() {
 
           <Route path="topproductsell" element={<TopProductSells />} />
           <Route path="statictic/account" element={<Statistic_Account />} />
+          <Route path="inactive/product" element={<InactiveProductSellAdmin />} />
         </Route>
       </Route>
       <Route path="staff" element={<PrivateProute role={"ROLE_STAFF"} />}>
