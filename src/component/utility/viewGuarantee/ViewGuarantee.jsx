@@ -18,9 +18,7 @@ const ViewGuarantee = () => {
   const loadData = async (searchTerm) => {
     setLoading(true);
     try {
-      const response = await api.get(
-        `/api/order/search-customer-guarantee?search=${searchTerm}`
-      );
+      const response = await api.get(`/api/order/search-customer-guarantee?search=${searchTerm}`);
       setCustomers(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -67,33 +65,27 @@ const ViewGuarantee = () => {
   // Order Details and Guarantee Table Component
   const OrderDetailsAndGuaranteeTable = ({ orderDetails }) => {
     const columns = [
-      { title: "Product Name", dataIndex: "pname", key: "pname" },
+      { title: "Tên sản phẩm", dataIndex: "pname", key: "pname" },
       {
-        title: "Image",
+        title: "Ảnh",
         dataIndex: "image",
         key: "image",
-        render: (text) => (
-          <img
-            src={text}
-            alt="Product"
-            style={{ width: "50px", height: "50px" }}
-          />
-        ),
+        render: (text) => <img src={text} alt="Product" style={{ width: "50px", height: "50px" }} />,
       },
       {
-        title: "Price",
+        title: "Giá",
         dataIndex: "cost",
         key: "cost",
         render: (text) => `${text.toLocaleString()} VND`,
       },
-      { title: "Quantity", dataIndex: "quantity", key: "quantity" },
+      { title: "Số lượng", dataIndex: "quantity", key: "quantity" },
       {
-        title: "Guarantee End Date",
+        title: "Ngày hết hạn bảo hành",
         dataIndex: "guaranteeEndDate",
         key: "guaranteeEndDate",
         render: (text) => new Date(text).toLocaleDateString(),
       },
-      { title: "Coverage Type", dataIndex: "coverage", key: "coverage" },
+      { title: "Loại bảo hiểm", dataIndex: "coverage", key: "coverage" },
     ];
 
     return (
@@ -104,23 +96,18 @@ const ViewGuarantee = () => {
         expandable={{
           expandedRowRender: (record) => (
             <>
-              <p>Order Detail ID: {record.orderDetailID}</p>
-              <p>Product Code: {record.productCode}</p>
-              <p>Manufacturer: {record.manufacturer}</p>
-              <p>Gemstone Type: {record.gemstoneType}</p>
-              <p>Metal Type: {record.metalType}</p>
-              <p>Chi: {record.chi}</p>
+              <p>Mã hóa đơn: {record.orderDetailID}</p>
+              <p>Mã sản phẩm: {record.productCode}</p>
+              <p>Nhà sản xuất: {record.manufacturer}</p>
+              <p>Loại đá: {record.gemstoneType}</p>
+              <p>Loại kim loại: {record.metalType}</p>
+              <p>Chỉ: {record.chi}</p>
               <p>Carat: {record.carat}</p>
-              <p>Warranty Period (Months): {record.warrantyPeriodMonth}</p>
-              <p>Description: {record.pdescription}</p>
-              <p>Product Status: {record.pstatus ? "Active" : "Inactive"}</p>
-              <p>
-                Guarantee Status:{" "}
-                {record.guaranteeStatus ? "Active" : "Inactive"}
-              </p>
-              <p>
-                Manufacture Cost: {record.manufactureCost.toLocaleString()} VND
-              </p>
+              <p>THời hạn bảo hành (tháng): {record.warrantyPeriodMonth}</p>
+              <p>Mô tả: {record.pdescription}</p>
+              <p>Tình trạng sản phẩm: {record.pstatus ? "Còn hoạt động" : "Không còn hoạt động"}</p>
+              <p>Tình trạng bảo hành: {record.guaranteeStatus ? "Còn hoạt động" : "Không còn hoạt động"}</p>
+              <p>Giá nhà sản xuất: {record.manufactureCost.toLocaleString()} VND</p>
             </>
           ),
         }}
@@ -131,9 +118,9 @@ const ViewGuarantee = () => {
   // Customers Table Component
   const CustomersTable = ({ customers }) => {
     const columns = [
-      { title: "Customer ID", dataIndex: "customerID", key: "customerID" },
+      { title: "ID", dataIndex: "customerID", key: "customerID" },
       {
-        title: "Customer Name",
+        title: "Tên khách hàng",
         dataIndex: "customerName",
         key: "customerName",
       },
@@ -153,11 +140,7 @@ const ViewGuarantee = () => {
   return (
     <Layout>
       <Sider width={400} style={{ background: "#fff" }}>
-        <Search
-          placeholder="Search customers"
-          onSearch={handleSearch}
-          style={{ padding: "16px" }}
-        />
+        <Search placeholder="Tìm kiếm khách hàng" onSearch={handleSearch} style={{ padding: "16px" }} />
         <CustomersTable customers={customers} />
       </Sider>
       <Content style={{ padding: "20px" }}>
@@ -167,11 +150,7 @@ const ViewGuarantee = () => {
             <OrdersTable orders={selectedCustomer.orders} />
           </>
         )}
-        {selectedOrder && (
-          <OrderDetailsAndGuaranteeTable
-            orderDetails={selectedOrder.orderDetails}
-          />
-        )}
+        {selectedOrder && <OrderDetailsAndGuaranteeTable orderDetails={selectedOrder.orderDetails} />}
       </Content>
     </Layout>
   );

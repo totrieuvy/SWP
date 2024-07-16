@@ -88,7 +88,7 @@ function ManagerProduct() {
       key: "status",
       render: (status) => {
         let color = status ? "geekblue" : "volcano";
-        let text = status ? "IN STOCK" : "OUT OF STOCK";
+        let text = status ? "Còn hàng" : "hết hàng";
         return (
           <Tag color={color} key={text}>
             {text}
@@ -309,11 +309,7 @@ function ManagerProduct() {
         onCancel={handleCloseModal}
       >
         <Form form={formVariable} onFinish={onFinish} layout="vertical">
-          <Form.Item
-            name="pname"
-            label="Tên sản phẩm"
-            rules={[{ required: true, message: "hãy nhập tên sản phẩm" }]}
-          >
+          <Form.Item name="pname" label="Tên sản phẩm" rules={[{ required: true, message: "hãy nhập tên sản phẩm" }]}>
             <Input />
           </Form.Item>
           <Form.Item
@@ -359,18 +355,10 @@ function ManagerProduct() {
           >
             <InputNumber min={0} />
           </Form.Item>
-          <Form.Item
-            name="chi"
-            label="Chỉ"
-            rules={[{ required: true, message: "hãy nhập số chỉ" }]}
-          >
+          <Form.Item name="chi" label="Chỉ" rules={[{ required: true, message: "hãy nhập số chỉ" }]}>
             <InputNumber min={0} />
           </Form.Item>
-          <Form.Item
-            name="carat"
-            label="Carat"
-            rules={[{ required: true, message: "hãy nhập số carat" }]}
-          >
+          <Form.Item name="carat" label="Carat" rules={[{ required: true, message: "hãy nhập số carat" }]}>
             <InputNumber min={0} />
           </Form.Item>
 
@@ -387,15 +375,8 @@ function ManagerProduct() {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            label="Ảnh"
-            rules={[{ required: true, message: "hãy nhập ảnh sản phẩm" }]}
-          >
-            <Upload
-              beforeUpload={() => false}
-              showUploadList={false}
-              onChange={handleFileChange}
-            >
+          <Form.Item label="Ảnh" rules={[{ required: true, message: "hãy nhập ảnh sản phẩm" }]}>
+            <Upload beforeUpload={() => false} showUploadList={false} onChange={handleFileChange}>
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
             {imgUrl && <Image src={imgUrl} alt="product" style={{ width: 100, marginTop: 10 }} />}
@@ -418,12 +399,7 @@ function ManagerProduct() {
         onOk={() => ratioForm.submit()}
       >
         <Form form={ratioForm} onFinish={handleAdjustRatio} layout="vertical">
-
-          <Form.Item
-            label="Ratio"
-            name="ratio"
-            rules={[{ required: true, message: "Xin hãy nhập tỉ lệ!" }]}
-          >
+          <Form.Item label="Ratio" name="ratio" rules={[{ required: true, message: "Xin hãy nhập tỉ lệ!" }]}>
             <InputNumber min={0} />
           </Form.Item>
         </Form>
