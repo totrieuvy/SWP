@@ -59,6 +59,8 @@ const Dashboard = () => {
         ]),
         getItem("Thể loại", "staff/category", <ProfileOutlined />),
         getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
+        getItem("Kiểm định", "staff/appraise", <ProfileOutlined />),
+
         getItem("Tạo đơn hàng", "staff/create", <ProfileOutlined />),
         getItem("Xem lại hóa đơn", "profile", <ProfileOutlined />, [
           getItem("Khách hàng", `staff/trace/by-customer`),
@@ -94,7 +96,11 @@ const Dashboard = () => {
           getItem("Sản phẩm bán chạy nhất", "manager/topproductsell"),
           getItem("So sánh sản phẩm", "manager/salecomparision"),
         ]),
-        getItem("Kiểm tra bảo hành", "manager/check/guarantee", <HeartOutlined />),
+        getItem(
+          "Kiểm tra bảo hành",
+          "manager/check/guarantee",
+          <HeartOutlined />
+        ),
         getItem("Thể loại", "manager/category", <AppstoreAddOutlined />),
         getItem("Sản phẩm", "manager/product", <HeartOutlined />),
         getItem("Khách hàng", "manager/customer/view", <UserOutlined />),

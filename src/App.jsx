@@ -60,6 +60,7 @@ import CheckGuarantee from "./page/manager/checkGuarantee/CheckGuarantee";
 import ViewGuarantee from "./component/utility/viewGuarantee/ViewGuarantee";
 import ViewGuaranteeByDate from "./component/utility/viewGuarantee/ViewGuaranteeByDate";
 import ChatBox from "./component/utility/chat/Chatbox";
+import AppraisalPage from "./page/staff/staff-appraise/Appraise";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -116,8 +117,14 @@ function App() {
           {/* <Route path="transaction/detail/:orderID/:orderType" element={<TransactionDetail />} /> */}
           salecomparision
           <Route path="salecomparision" element={<SaleComparision />} />
-          <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
-          <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
+          <Route
+            path="transaction/detail/:orderID/OUTGOING"
+            element={<Transaction_ProductBuy />}
+          />
+          <Route
+            path="transaction/detail/:orderID/INGOING"
+            element={<Transaction_ProductSell />}
+          />
           <Route path="check/guarantee" element={<CheckGuarantee />} />
           <Route
             path="transaction/detail/:orderID/OUTGOING"
@@ -158,6 +165,7 @@ function App() {
           <Route path="trace/by-customer" element={<ViewGuarantee />} />
           <Route path="trace/by-date" element={<ViewGuaranteeByDate />} />
           <Route path="chat" element={<ChatBox />} />
+          <Route path="appraise" element={<AppraisalPage />} />
 
           <Route path="product" element={<StaffProduct />} />
           <Route path="changepassword" element={<StaffChangePassword />} />
