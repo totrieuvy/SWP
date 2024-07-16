@@ -43,9 +43,15 @@ const ChatBox = () => {
       return;
     }
 
-    WebSocketService.connect(null, null, (chatMessage) => {
-      setMessages((prevMessages) => [...prevMessages, chatMessage]);
-    });
+    WebSocketService.connect(
+      null,
+      null,
+      (chatMessage) => {
+        setMessages((prevMessages) => [...prevMessages, chatMessage]);
+      },
+      null,
+      null
+    );
 
     return () => {
       WebSocketService.disconnect();

@@ -7,10 +7,12 @@ import {
   Button,
   Select,
   Modal,
+  message,
 } from "antd";
 import CustomWebcam from "./CustomWebcam";
 import api from "../../../../config/axios";
 import { Option } from "antd/es/mentions";
+import WebSocket from "../../../../config/WebSocket";
 
 function CreateProductBuyToAdd({ appendOrder }) {
   const [form] = Form.useForm();
@@ -38,32 +40,18 @@ function CreateProductBuyToAdd({ appendOrder }) {
     fetchData();
   }, []);
 
-  const fetchPrice = async (values) => {
-    try {
-      const response = await api.post("/api/productBuy/calculate-cost", {
-        metalType: values.metalType,
-        gemstoneType: values.gemstoneType,
-        metalWeight: values.metalWeight,
-        gemstoneWeight: values.gemstoneWeight,
-      });
-      return response.data;
-    } catch (error) {
-      console.error(error);
-    }
-    return 0;
-  };
-
-  const onFinish = async (values) => {
-    const calculatedPrice = await fetchPrice(values);
+  const onFinish = (values) => {
     const productData = {
       ...values,
-      category_id: selectedCategory.id,
-      category: selectedCategory.name,
       image,
-      calculatedPrice: calculatedPrice * 1000,
+      metalWeight: 0,
+      gemstoneWeight: 0,
+      price: 0,
     };
-    console.log(productData);
-    appendOrder(productData);
+    WebSocket.initializeProduct(productData);
+    message.success("Product initialized for appraisal");
+    form.resetFields();
+    setImage("");
   };
 
   const getImageData = (data) => {
@@ -116,10 +104,6 @@ function CreateProductBuyToAdd({ appendOrder }) {
           <Input />
         </Form.Item>
 
-        <Form.Item>
-          <Checkbox onChange={handleNoMetalChange}>Không kim loại</Checkbox>
-        </Form.Item>
-
         <Form.Item
           label="Danh mục"
           name="category_id"
@@ -136,72 +120,6 @@ function CreateProductBuyToAdd({ appendOrder }) {
               </Option>
             ))}
           </Select>
-        </Form.Item>
-
-        <Form.Item
-          label="Loại kim loại"
-          name="metalType"
-          rules={[
-            { required: !noMetal, message: "Vui lòng nhập loại kim loại" },
-          ]}
-        >
-          <Select disabled={noMetal}>
-            <Option value="Vàng">Vàng</Option>
-            <Option value="Không">Không</Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item
-          label="Trọng lượng kim loại (Chi)"
-          name="metalWeight"
-          rules={[
-            {
-              required: !noMetal,
-              type: "number",
-              min: 0,
-              max: 100,
-              message:
-                "Vui lòng nhập trọng lượng kim loại lớn hơn 0 hoặc bé hơn 100",
-            },
-          ]}
-        >
-          <InputNumber disabled={noMetal} min={0} max={100} />
-        </Form.Item>
-
-        <Form.Item>
-          <Checkbox onChange={handleNoGemstoneChange}>Không có đá quý</Checkbox>
-        </Form.Item>
-
-        <Form.Item
-          label="Loại đá quý"
-          name="gemstoneType"
-          rules={[
-            {
-              required: !noGemstone,
-              message: "Vui lòng nhập loại đá quý",
-            },
-          ]}
-        >
-          <Select disabled={noGemstone}>
-            <Option value="Kim cương">Kim cương</Option>
-            <Option value="Không">Không</Option>
-          </Select>
-        </Form.Item>
-
-        <Form.Item
-          label="Trọng lượng đá quý (Carat)"
-          name="gemstoneWeight"
-          rules={[
-            {
-              required: !noGemstone,
-              type: "number",
-              min: 0,
-              max: 2,
-              message: "Vui lòng nhập trọng lượng đá quý từ 1 đến 2",
-            },
-          ]}
-        >
-          <InputNumber disabled={noGemstone} min={0} max={2} />
         </Form.Item>
 
         <Form.Item>
