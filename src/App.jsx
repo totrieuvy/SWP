@@ -60,6 +60,7 @@ import CheckGuarantee from "./page/manager/checkGuarantee/CheckGuarantee";
 import ViewGuarantee from "./component/utility/viewGuarantee/ViewGuarantee";
 import ViewGuaranteeByDate from "./component/utility/viewGuarantee/ViewGuaranteeByDate";
 import ChatBox from "./component/utility/chat/Chatbox";
+import StaffPerformanceRange from "./page/manager/staffPerformanceRange/StaffPerformanceRange";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -119,14 +120,9 @@ function App() {
           <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
           <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
           <Route path="check/guarantee" element={<CheckGuarantee />} />
-          <Route
-            path="transaction/detail/:orderID/OUTGOING"
-            element={<Transaction_ProductBuy />}
-          />
-          <Route
-            path="transaction/detail/:orderID/INGOING"
-            element={<Transaction_ProductSell />}
-          />
+          <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
+          <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
+          <Route path="staff/range" element={<StaffPerformanceRange />} />
         </Route>
       </Route>
       <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>

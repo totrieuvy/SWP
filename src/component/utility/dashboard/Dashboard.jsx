@@ -67,26 +67,19 @@ const Dashboard = () => {
         getItem("Chat", "staff/chat", <ProfileOutlined />),
 
         getItem("Mua lại", "staff/initialize-productbuy", <ProfileOutlined />),
-        getItem(
-          "Xác nhận đơn hàng",
-          "staff/confirm-order",
-          <ProfileOutlined />
-        ),
+        getItem("Xác nhận đơn hàng", "staff/confirm-order", <ProfileOutlined />),
       ]);
     } else if (user.role === "ROLE_MANAGER") {
       setItems([
         getItem("Hồ sơ", "profile", <UserOutlined />, [
           getItem("Thông tin cá nhân", `manager/profile/${user.id}`),
-          getItem(
-            "Đổi mật khẩu",
-            "manager/changepassword",
-            <ProfileOutlined />
-          ),
+          getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
         ]),
         getItem("Quản lí nhân sự", "manager/manage", <UserOutlined />, [
           getItem("Danh sách nhân viên", "manager/staff"),
           getItem("Xem lịch của tất cả nhân viên", "manager/staff/view"),
           getItem("Lịch làm việc", "manager/staff/assign"),
+          getItem("Năng suất theo giai đoạn", "manager/staff/range"),
         ]),
         getItem("Thống kê", "manager/transaction", <HeartOutlined />, [
           getItem("Tổng đơn hàng", "manager/transaction/total"),
@@ -115,17 +108,9 @@ const Dashboard = () => {
 
         getItem("Sản phẩm", "admin/product", <AppstoreAddOutlined />),
         getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
-        getItem(
-          "Thống kê tổng quát",
-          "admin/analytic",
-          <AppstoreAddOutlined />
-        ),
+        getItem("Thống kê tổng quát", "admin/analytic", <AppstoreAddOutlined />),
 
-        getItem(
-          "Sản phẩm bán chạy",
-          "admin/topproductsell",
-          <BarChartOutlined />
-        ),
+        getItem("Sản phẩm bán chạy", "admin/topproductsell", <BarChartOutlined />),
       ]);
     }
   }, [user.role]);
@@ -148,11 +133,7 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: "100vh" }} className="dashboard_overall">
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-      >
+      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <Menu
           theme="dark"
           defaultSelectedKeys={["profile"]}
@@ -165,10 +146,7 @@ const Dashboard = () => {
             item.children ? (
               <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
                 {item.children.map((subItem) => (
-                  <Menu.Item
-                    key={subItem.key}
-                    onClick={(e) => handleSelectKey(e.keyPath[1])}
-                  >
+                  <Menu.Item key={subItem.key} onClick={(e) => handleSelectKey(e.keyPath[1])}>
                     <Link to={`/${subItem.key}`}>{subItem.label}</Link>
                   </Menu.Item>
                 ))}
@@ -179,19 +157,14 @@ const Dashboard = () => {
               </Menu.Item>
             )
           )}
-          <LogoutOutlined
-            onClick={handleLogout}
-            className="Dashbroad__Logout"
-          />
+          <LogoutOutlined onClick={handleLogout} className="Dashbroad__Logout" />
         </Menu>
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <header></header>
         </Header>
-        <Content
-          style={{ margin: "0 16px", display: "flex", flexDirection: "column" }}
-        >
+        <Content style={{ margin: "0 16px", display: "flex", flexDirection: "column" }}>
           <Breadcrumb>
             {location.pathname.split("/").map((path, index) => (
               <Breadcrumb.Item key={path}>
