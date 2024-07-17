@@ -127,9 +127,7 @@ function AdminProduct() {
       title: "Ảnh",
       dataIndex: "image",
       key: "image",
-      render: (image) => (
-        <Image src={image} alt="product" style={{ width: 50 }} />
-      ),
+      render: (image) => <Image src={image} alt="product" style={{ width: 50 }} />,
     },
     {
       title: "Carat",
@@ -292,11 +290,7 @@ function AdminProduct() {
         destroyOnClose
       >
         <Form form={form} onFinish={onFinish} layout="vertical">
-          <Form.Item
-            name="pname"
-            label="Tên sản phẩm"
-            rules={[{ required: true, message: "Hãy nhập tên sản phẩm" }]}
-          >
+          <Form.Item name="pname" label="Tên sản phẩm" rules={[{ required: true, message: "Hãy nhập tên sản phẩm" }]}>
             <Input />
           </Form.Item>
           <Form.Item
@@ -326,13 +320,24 @@ function AdminProduct() {
           >
             <Input />
           </Form.Item>
-          <Form.Item
+          {/* <Form.Item
             name="cost"
             label="Giá sản phẩm"
-            rules={[{ required: true, message: "Hãy nhập giá sản phẩm" }]}
+            rules={[
+              { required: true, message: "Hãy nhập giá sản phẩm" },
+              {
+                validator: (_, value) => {
+                  const numberValue = parseFloat(value);
+                  if (!isNaN(numberValue) && numberValue > 0) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("Giá sản phẩm phải là một số lớn hơn 0"));
+                },
+              },
+            ]}
           >
             <InputNumber min={0} />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item
             name="metalType"
             label="Loại kim loại"
@@ -378,7 +383,15 @@ function AdminProduct() {
             label="Chỉ"
             rules={[
               { required: true, message: "Hãy nhập số chỉ" },
-              { type: "number", min: 0, max: 10, message: "Chỉ từ 0 đến 10" },
+              {
+                validator: (_, value) => {
+                  const numberValue = parseFloat(value);
+                  if (!isNaN(numberValue) && numberValue > 0 && numberValue < 10) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("Số chỉ phải là một số lớn hơn 0 và nhỏ hơn 10"));
+                },
+              },
             ]}
           >
             <InputNumber disabled={disableChi} min={0} max={10} />
@@ -387,8 +400,16 @@ function AdminProduct() {
             name="carat"
             label="Carat"
             rules={[
-              { required: true, message: "Hãy nhập số carat" },
-              { type: "number", min: 0, max: 2, message: "Carat từ 0 đến 2" },
+              { required: true, message: "Hãy nhập carat" },
+              {
+                validator: (_, value) => {
+                  const numberValue = parseFloat(value);
+                  if (!isNaN(numberValue) && numberValue > 0 && numberValue < 2) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("Số carat phải là một số lớn hơn 0 và nhỏ hơn 2"));
+                },
+              },
             ]}
           >
             <InputNumber disabled={disableCarat} min={0} max={2} />
@@ -406,23 +427,20 @@ function AdminProduct() {
             rules={[
               { required: true, message: "Hãy nhập giá nhà sản xuất" },
               {
-                type: "number",
-                min: 0,
-                message: "Giá nhà sản xuất không được nhỏ hơn 0",
+                validator: (_, value) => {
+                  const numberValue = parseFloat(value);
+                  if (!isNaN(numberValue) && numberValue > 0) {
+                    return Promise.resolve();
+                  }
+                  return Promise.reject(new Error("Giá nhà sản xuất phải là một số lớn hơn 0"));
+                },
               },
             ]}
           >
             <InputNumber min={0} />
           </Form.Item>
-          <Form.Item
-            label="Ảnh"
-            rules={[{ required: true, message: "hãy nhập ảnh sản phẩm" }]}
-          >
-            <Upload
-              beforeUpload={() => false}
-              showUploadList={false}
-              onChange={handleFileChange}
-            >
+          <Form.Item label="Ảnh" rules={[{ required: true, message: "hãy nhập ảnh sản phẩm" }]}>
+            <Upload beforeUpload={() => false} showUploadList={false} onChange={handleFileChange}>
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
             {visible == 2 && !imgUrl ? (

@@ -1,18 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./AdminAccountStaff.scss";
-import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Modal,
-  Popconfirm,
-  Spin,
-  Table,
-  Tag,
-  notification,
-} from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, Modal, Popconfirm, Spin, Table, Tag, notification } from "antd";
 import api from "../../../config/axios";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
@@ -61,9 +49,7 @@ function AdminAccountStaff() {
       dataIndex: "status",
       key: "status",
       render: (status) => (
-        <Tag color={status === 1 ? "green" : "red"}>
-          {status === 1 ? "Đang hoạt động" : "Không hoạt động"}
-        </Tag>
+        <Tag color={status === 1 ? "green" : "red"}>{status === 1 ? "Đang hoạt động" : "Không hoạt động"}</Tag>
       ),
       sorter: (a, b) => a.status - b.status,
     },
@@ -102,9 +88,7 @@ function AdminAccountStaff() {
 
   const handleDeleteStaff = async (staffID) => {
     await api.delete(`/api/staff-accounts/${staffID}`);
-    const listAfterDelete = dataSource.filter(
-      (staff) => staff.staffID !== staffID
-    );
+    const listAfterDelete = dataSource.filter((staff) => staff.staffID !== staffID);
     setDataSource(listAfterDelete);
     notification.success({
       message: "Thành công",
@@ -114,9 +98,7 @@ function AdminAccountStaff() {
 
   const fetchListStaff = async () => {
     try {
-      const response = await api.get(
-        "/api/staff-accounts/all/no-listing-shift"
-      );
+      const response = await api.get("/api/staff-accounts/all/no-listing-shift");
 
       setDataSource(response.data);
       setLoading(false);
@@ -163,10 +145,7 @@ function AdminAccountStaff() {
         // Check the status code or response data to handle duplicate entry case
         if (response.status === 200) {
           // assuming 200 OK for successful registration
-          setDataSource([
-            ...dataSource,
-            { ...values, staffID: response.data.staffID },
-          ]);
+          setDataSource([...dataSource, { ...values, staffID: response.data.staffID }]);
           notification.success({
             message: "Thành công",
             description: "Thêm nhân viên thành công",
@@ -178,18 +157,15 @@ function AdminAccountStaff() {
           });
         }
       } else if (visible === 2) {
-        const response = await api.put(
-          `/api/staff-accounts/${oldData.staffID}`,
-          {
-            phoneNumber: values.phoneNumber,
-            salary: values.salary,
-            startDate: values.startDate,
-            role: "ROLE_STAFF",
-            email: values.email,
-            username: values.username,
-            accountName: values.accountName,
-          }
-        );
+        const response = await api.put(`/api/staff-accounts/${oldData.staffID}`, {
+          phoneNumber: values.phoneNumber,
+          salary: values.salary,
+          startDate: values.startDate,
+          role: "ROLE_STAFF",
+          email: values.email,
+          username: values.username,
+          accountName: values.accountName,
+        });
         console.log(response);
         fetchListStaff();
         notification.success({
@@ -221,29 +197,19 @@ function AdminAccountStaff() {
         <Spin size="large" />
       ) : (
         <>
-          <Button
-            type="primary"
-            className="Manager_StaffAccount_Button"
-            onClick={handleOpenModal}
-          >
+          <Button type="primary" className="Manager_StaffAccount_Button" onClick={handleOpenModal}>
             Thêm nhân viên
           </Button>
           <Table dataSource={dataSource} columns={columns} />
         </>
       )}
       <Modal
-        title={
-          visible === 1 ? "Thêm nhân viên" : "Cập nhật thông tin nhân viên"
-        }
+        title={visible === 1 ? "Thêm nhân viên" : "Cập nhật thông tin nhân viên"}
         visible={visible > 0}
         onCancel={handleCloseModal}
         onOk={handleOK}
       >
-        <Form
-          form={formVariable}
-          labelCol={{ span: 24 }}
-          onFinish={handleFinish}
-        >
+        <Form form={formVariable} labelCol={{ span: 24 }} onFinish={handleFinish}>
           <Form.Item
             label="Số điện thoại:"
             name="phoneNumber"
@@ -339,7 +305,7 @@ function AdminAccountStaff() {
               {
                 type: "number",
                 min: 1000000,
-                max: 10000000,
+                max: 100000000,
                 message: "Lương phải từ 1,000,000 đến 10,000,000 VND!",
               },
             ]}

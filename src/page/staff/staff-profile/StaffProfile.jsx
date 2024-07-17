@@ -24,14 +24,15 @@ function StaffProfile() {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchStaffProfile();
-      console.log(data);
-      setStaffProfile(data);
-      form.setFieldsValue(data);
+      if (data) {
+        setStaffProfile(data);
+        form.setFieldsValue(data);
+      }
     };
 
     fetchData();
     document.title = "Thông tin nhân viên";
-  }, [form]);
+  }, [form, user.id]);
 
   const handleEditProfile = () => {
     setIsEditing(true);
@@ -54,6 +55,10 @@ function StaffProfile() {
       });
     } catch (error) {
       console.error("Error saving profile:", error);
+      notification.error({
+        message: "Lỗi",
+        description: "Đã có lỗi xảy ra khi cập nhật hồ sơ",
+      });
     }
   };
 

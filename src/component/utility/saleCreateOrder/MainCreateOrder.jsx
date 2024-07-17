@@ -57,9 +57,7 @@ function MainCreateOrder() {
 
   const fetchProductByCode = async (code) => {
     try {
-      const response = await api.get(
-        `/api/productSell/get-by-code?productCode=${code}`
-      );
+      const response = await api.get(`/api/productSell/get-by-code?productCode=${code}`);
       const product = response.data;
       if (product.status === false) {
         message.error("Sản phẩm hết hàng");
@@ -74,14 +72,10 @@ function MainCreateOrder() {
 
   const addProductToOrder = (product) => {
     setOrder((prevOrder) => {
-      const existingProduct = prevOrder.find(
-        (item) => item.productID === product.productID
-      );
+      const existingProduct = prevOrder.find((item) => item.productID === product.productID);
       if (existingProduct) {
         return prevOrder.map((item) =>
-          item.productID === product.productID
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
+          item.productID === product.productID ? { ...item, quantity: item.quantity + 1 } : item
         );
       } else {
         return [...prevOrder, { ...product, quantity: 1 }];
@@ -124,29 +118,15 @@ function MainCreateOrder() {
       </div>
       <div className="qrScanner">
         <div id="reader"></div>
-        <Button
-          type="primary"
-          onClick={handleRescan}
-          style={{ marginTop: "10px" }}
-        >
+        <Button type="primary" onClick={handleRescan} style={{ marginTop: "10px" }}>
           Rescan
         </Button>
-        <p className="center-text">Or enter the serial number manually:</p>
+        <p className="center-text">Hoặc nhập số serial theo cách thủ công:</p>
         <div className="center-input">
-          <input
-            type="text"
-            value={manualSerialNumber}
-            onChange={handleManualSerialNumberChange}
-          />
-          {manualSerialNumber && (
-            <p>Serial Number: {manualSerialNumber.slice(-16)}</p>
-          )}
+          <input type="text" value={manualSerialNumber} onChange={handleManualSerialNumberChange} />
+          {manualSerialNumber && <p>Serial Number: {manualSerialNumber.slice(-16)}</p>}
         </div>
-        <Button
-          type="primary"
-          onClick={handleSerialNumberSubmit}
-          style={{ marginTop: "10px" }}
-        >
+        <Button type="primary" onClick={handleSerialNumberSubmit} style={{ marginTop: "10px" }}>
           Submit Serial Number
         </Button>
       </div>
