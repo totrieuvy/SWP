@@ -94,6 +94,7 @@ const Dashboard = () => {
           getItem("Sản phẩm bán", "manager/product"),
           getItem("Sản phẩm bán được xóa", "manager/inactive/product"),
           getItem("Sản phẩm mua vào", "manager/productbuy"),
+          getItem("Sản phẩm mua vào được xóa", "manager/productbuy/inactive"),
         ]),
         getItem("Kiểm tra bảo hành", "manager/check/guarantee", <HeartOutlined />),
 
@@ -112,8 +113,10 @@ const Dashboard = () => {
           getItem("Nhân viên", "admin/staff"),
         ]),
         getItem("Thống kê sản phẩm", "viewproductadmin", <AppstoreAddOutlined />, [
-          getItem("Sản phẩm", "admin/product"),
-          getItem("Sản phẩm được xóa", "admin/inactive/product"),
+          getItem("Sản phẩm bán", "admin/product"),
+          getItem("Sản phẩm bán được xóa", "admin/inactive/product"),
+          getItem("Sản phẩm mua", "admin/productbuy"),
+          getItem("Sản phẩm bán được xóa", "admin/productbuy/inactive"),
         ]),
         getItem("Chat", "admin/chat", <ProfileOutlined />),
         getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
