@@ -63,6 +63,7 @@ import ChatBox from "./component/utility/chat/Chatbox";
 import StaffPerformanceRange from "./page/manager/staffPerformanceRange/StaffPerformanceRange";
 import InactiveProductSell from "./page/manager/inactiveProductSell/InactiveProductSell";
 import InactiveProductSellAdmin from "./page/manager/inactiveProductSell/InactiveProductSell";
+import ProductBuyManager from "./page/manager/productbuy/ProductBuyManager";
 import AppraisalPage from "./page/staff/staff-appraise/Appraise";
 
 const PrivateProute = ({ role }) => {
@@ -133,6 +134,7 @@ function App() {
           <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
           <Route path="staff/range" element={<StaffPerformanceRange />} />
           <Route path="inactive/product" element={<InactiveProductSell />} />
+          <Route path="productbuy" element={<ProductBuyManager />} />
         </Route>
       </Route>
       <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>

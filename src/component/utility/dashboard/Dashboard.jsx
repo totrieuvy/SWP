@@ -91,8 +91,9 @@ const Dashboard = () => {
         ]),
         getItem("Thống kê sản phẩm", "manager/product", <HeartOutlined />, [
           getItem("Thể loại", "manager/category"),
-          getItem("Sản phẩm", "manager/product"),
-          getItem("Sản phẩm được xóa", "manager/inactive/product"),
+          getItem("Sản phẩm bán", "manager/product"),
+          getItem("Sản phẩm bán được xóa", "manager/inactive/product"),
+          getItem("Sản phẩm mua vào", "manager/productbuy"),
         ]),
         getItem("Kiểm tra bảo hành", "manager/check/guarantee", <HeartOutlined />),
 

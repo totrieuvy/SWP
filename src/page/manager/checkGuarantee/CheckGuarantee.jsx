@@ -1,10 +1,15 @@
 import { Button, Input, Table } from "antd";
 import api from "../../../config/axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function CheckGuarantee() {
-  const [inputValue, setInputValue] = useState("");
-  const [dataSource, setdataSource] = useState([]);
+  const [inputValue, setInputValue] = useState(" ");
+  const [dataSource, setDataSource] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  React.useEffect(() => {
+    document.title = "Kiểm tra chính sách";
+  }, []);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -12,100 +17,89 @@ function CheckGuarantee() {
 
   const handleButtonClick = () => {
     if (inputValue !== "") {
+      setLoading(true);
       api
-        .get(`/api/productSell/by-guarantee-id?guaranteeId=${inputValue}`)
+        .get(`/api/productSell/search-product-by-guarantee?search=${inputValue}`)
         .then((response) => {
-          console.log(inputValue);
           const data = Array.isArray(response.data) ? response.data : [response.data];
           console.log(data);
-          setdataSource(data);
+          const responseWithStatusTrue = data.filter((item) => item.status === true);
+          setDataSource(responseWithStatusTrue);
         })
         .catch((error) => {
-          console.error(error);
+          console.error("Error fetching data:", error);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
   };
 
+  useEffect(() => {
+    handleButtonClick();
+  }, []);
+
   const columns = [
     {
       title: "Tên sản phẩm",
-      dataIndex: "pname",
-      key: "pname",
-      render: (pname) => (pname ? pname : "Không có dữ liệu"),
+      dataIndex: ["productSell", "pname"],
+      key: "productSell.pname",
     },
     {
-      title: "Mã sản phẩm",
-      dataIndex: "productCode",
-      key: "productCode",
-      render: (productCode) => (productCode ? productCode : "Không có dữ liệu"),
+      title: "Bảo hiểm",
+      dataIndex: "coverage",
+      key: "coverage",
     },
     {
-      title: "Mô tả",
-      dataIndex: "pdescription",
-      key: "pdescription",
-      render: (pdescription) => (pdescription ? pdescription : "Không có dữ liệu"),
-    },
-    {
-      title: "Nhà sản xuất",
-      dataIndex: "manufacturer",
-      key: "manufacturer",
-      render: (manufacturer) => (manufacturer ? manufacturer : "Không có dữ liệu"),
-    },
-    {
-      title: "Giá nhà sản xuất",
-      dataIndex: "manufactureCost",
-      key: "manufactureCost",
-      render: (manufactureCost) => (manufactureCost ? manufactureCost : "Không có dữ liệu"),
-    },
-    {
-      title: "Tên thể loại",
-      dataIndex: "category_name",
-      key: "category_name",
-      render: (category_name) => (category_name ? category_name : "Không có dữ liệu"),
-    },
-    {
-      title: "Loại thể loại",
-      dataIndex: "metalType",
-      key: "metalType",
-      render: (metalType) => (metalType ? metalType : "Không có dữ liệu"),
+      title: "Loại chính sách",
+      dataIndex: "policyType",
+      key: "policyType",
     },
     {
       title: "Carat",
-      dataIndex: "carat",
-      key: "carat",
-      render: (carat) => (carat ? carat : "Không có dữ liệu"),
+      dataIndex: ["productSell", "carat"],
+      key: "productSell.carat",
     },
     {
       title: "Chỉ",
-      dataIndex: "chi",
-      key: "chi",
-      render: (chi) => (chi ? chi : "Không có dữ liệu"),
+      dataIndex: ["productSell", "chi"],
+      key: "productSell.chi",
     },
     {
       title: "Giá sản phẩm",
-      dataIndex: "cost",
-      key: "cost",
-      render: (cost) => (cost ? cost : "Không có dữ liệu"),
+      dataIndex: ["productSell", "cost"],
+      key: "productSell.cost",
     },
     {
-      title: "Ảnh",
-      dataIndex: "image",
-      key: "image",
-      render: (image) => <img src={image} alt="product" style={{ width: 100 }} />,
+      title: "Loại đá",
+      dataIndex: ["productSell", "gemstoneType"],
+      key: "productSell.gemstoneType",
+    },
+    {
+      title: "Loại thể loại",
+      dataIndex: ["productSell", "metalType"],
+      key: "productSell.metalType",
+    },
+    {
+      title: "Hình ảnh",
+      dataIndex: ["productSell", "image"],
+      key: "productSell.image",
+      render: (image) => <img src={image} alt="Product" style={{ width: 50 }} />,
     },
   ];
+
   return (
     <div>
       <Input
-        placeholder="Nhập mã bảo hành"
+        placeholder="Nhập từ khóa tìm kiếm"
         value={inputValue}
         onChange={handleInputChange}
         style={{ width: 200, marginRight: 10 }}
       />
-      <Button type="primary" onClick={handleButtonClick}>
-        Xem
+      <Button type="primary" onClick={handleButtonClick} loading={loading}>
+        Tìm kiếm
       </Button>
-      {dataSource != null ? <Table dataSource={dataSource} columns={columns} /> : "Không có sản phẩm"}
+      <Table dataSource={dataSource} columns={columns} rowKey="guaranteeID" />
     </div>
   );
 }

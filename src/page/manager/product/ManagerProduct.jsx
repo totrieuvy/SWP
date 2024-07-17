@@ -296,10 +296,10 @@ function ManagerProduct() {
         Thêm sản phẩm
       </Button>
       <Button type="primary" style={{ marginLeft: "20px" }} onClick={() => setIsPromoCreateFormVisible(true)}>
-        Add Promotion
+        Thêm phiếu giảm giá
       </Button>
       <Button type="primary" style={{ marginLeft: "20px" }} onClick={() => setIsAdjustRatioFormVisible(true)}>
-        Adjust Pricing Ratio
+        Điều chỉnh tỷ lệ định giá
       </Button>
       <Table dataSource={data} columns={columns} rowKey={(record) => record.productID} />
       <Modal
