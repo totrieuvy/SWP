@@ -87,13 +87,21 @@ function AdminAccountStaff() {
   ];
 
   const handleDeleteStaff = async (staffID) => {
-    await api.delete(`/api/staff-accounts/${staffID}`);
-    const listAfterDelete = dataSource.filter((staff) => staff.staffID !== staffID);
-    setDataSource(listAfterDelete);
-    notification.success({
-      message: "Thành công",
-      description: "Xóa nhân viên thành công",
-    });
+    try {
+      await api.delete(`/api/staff-accounts/${staffID}`);
+      const listAfterDelete = dataSource.filter((staff) => staff.staffID !== staffID);
+      setDataSource(listAfterDelete);
+      notification.success({
+        message: "Thành công",
+        description: "Xóa nhân viên thành công",
+      });
+    } catch (error) {
+      console.error("Lỗi khi xóa nhân viên:", error);
+      notification.error({
+        message: "Lỗi",
+        description: "Đã xảy ra lỗi khi xóa nhân viên",
+      });
+    }
   };
 
   const fetchListStaff = async () => {

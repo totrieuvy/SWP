@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
-import { Button, Input } from "antd";
+import { Button, Input, message } from "antd";
 import api from "../../../config/axios";
 
 function SaleComparision() {
   const chartRef = useRef(null);
-  const chartInstance = useRef(null); // Ref to hold the Chart instance
+  const chartInstance = useRef(null);
   const [years, setYears] = useState({ year1: "", year2: "" });
   const [dataRevenue, setDataRevenue] = useState([]);
   const [dataQuantity, setDataQuantity] = useState([]);
@@ -26,13 +26,25 @@ function SaleComparision() {
   };
 
   const fetchData = async () => {
+    if (isNaN(years.year1) || isNaN(years.year2)) {
+      message.error("Vui lòng nhập số hợp lệ cho cả hai năm!");
+      return;
+    }
+    if (parseInt(years.year1) >= parseInt(years.year2)) {
+      message.error("Năm thứ nhất phải nhỏ hơn năm thứ hai!");
+      return;
+    }
+
     try {
-      const response = await api.get("/api/Dashboard/compare-sale-year", {
-        params: {
-          year1: years.year1,
-          year2: years.year2,
-        },
-      });
+      const response = await api.get(
+        `/api/Dashboard/compare-sale-year?startYear=${years.year1}&endYear=${years.year2}`,
+        {
+          params: {
+            year1: years.year1,
+            year2: years.year2,
+          },
+        }
+      );
       handleConvertYearToArray(years);
       setDataRevenue(Object.values(response.data.revenue));
       setDataQuantity(Object.values(response.data.quantity));
@@ -114,7 +126,7 @@ function SaleComparision() {
   return (
     <div>
       <Input
-        type="text"
+        type="number"
         name="year1"
         value={years.year1}
         onChange={handleChange}
@@ -122,7 +134,7 @@ function SaleComparision() {
         style={{ width: 200, marginRight: 10 }}
       />
       <Input
-        type="text"
+        type="number"
         name="year2"
         value={years.year2}
         onChange={handleChange}
