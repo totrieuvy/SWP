@@ -1,17 +1,27 @@
 import React, { useEffect, useState } from "react";
-import { List, Input, Button, message, Select } from "antd";
+import {
+  List,
+  Input,
+  Button,
+  message,
+  Select,
+  Card,
+  Row,
+  Col,
+  Tag,
+  Spin,
+} from "antd";
 import WebSocketService from "../../../config/WebSocket";
 
 const { Option } = Select;
 
 function AppraisalPage() {
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleNewProduct = (newProductMessage) => {
       try {
-        console.log("Parsed productData:", newProductMessage);
-
         const productData = newProductMessage;
         const formattedProduct = {
           id: productData.pk_ProductBuyID,
@@ -26,7 +36,7 @@ function AppraisalPage() {
           gemstoneType: productData.gemstoneType || "Không",
           price: "",
           status: productData.pbStatus || "Không có",
-          cost: null, // Initialize cost as null
+          cost: null,
         };
 
         setProducts((prevProducts) => {
@@ -35,6 +45,7 @@ function AppraisalPage() {
           }
           return prevProducts;
         });
+        setLoading(false);
       } catch (error) {
         console.error("Error processing new product message:", error);
       }
@@ -113,105 +124,144 @@ function AppraisalPage() {
   };
 
   return (
-    <div className="AppraisalPage">
+    <div className="AppraisalPage" style={{ padding: "20px" }}>
       <h1>Định Giá Sản Phẩm</h1>
-      {products.length === 0 ? (
+      {loading ? (
+        <Spin size="large" />
+      ) : products.length === 0 ? (
         <p>Không có sản phẩm chờ định giá.</p>
       ) : (
         <List
-          itemLayout="horizontal"
+          grid={{ gutter: 16, column: 1 }}
           dataSource={products}
           renderItem={(item) => (
             <List.Item>
-              <List.Item.Meta
-                avatar={
-                  <img src={item.image} alt={item.name} style={{ width: 50 }} />
-                }
-                title={item.name}
-                description={`Danh mục: ${item.category}`}
-              />
-              <Select
-                placeholder="Chọn Loại Kim Loại"
-                value={item.metalType}
-                onChange={(value) => {
-                  handleInputChange(item.id, "metalType", value);
-                  handleInputChange(
-                    item.id,
-                    "metalWeight",
-                    value === "Không" ? 0 : item.metalWeight
-                  );
-                }}
-                style={{ width: 150, marginRight: 16 }}
-              >
-                <Option value="Vàng">Vàng</Option>
-                <Option value="Không">Không có kim loại</Option>
-              </Select>
-              <Select
-                placeholder="Chọn Loại Đá Quý"
-                value={item.gemstoneType}
-                onChange={(value) => {
-                  handleInputChange(item.id, "gemstoneType", value);
-                  handleInputChange(
-                    item.id,
-                    "gemstoneWeight",
-                    value === "Không" ? 0 : item.gemstoneWeight
-                  );
-                }}
-                style={{ width: 150, marginRight: 16 }}
-              >
-                <Option value="Kim cương">Kim cương</Option>
-                <Option value="Không">Không có đá quý</Option>
-              </Select>
-              <Input
-                type="number"
-                placeholder="Trọng lượng Kim Loại (Chỉ)"
-                value={item.metalWeight}
-                min={0}
-                max={20}
-                disabled={item.metalType === "Không"}
-                onChange={(e) =>
-                  handleInputChange(item.id, "metalWeight", e.target.value)
-                }
-                style={{ width: 150, marginRight: 16 }}
-              />
-              <Input
-                type="number"
-                placeholder="Trọng lượng Đá Quý (Carat)"
-                value={item.gemstoneWeight}
-                min={0}
-                max={20}
-                disabled={item.gemstoneType === "Không"}
-                onChange={(e) =>
-                  handleInputChange(item.id, "gemstoneWeight", e.target.value)
-                }
-                style={{ width: 150, marginRight: 16 }}
-              />
-
-              <Input
-                type="number"
-                placeholder="Chi phí"
-                value={item.cost}
-                min={0}
-                onChange={(e) =>
-                  handleInputChange(item.id, "cost", e.target.value)
-                }
-                style={{ width: 150, marginRight: 16 }}
-              />
-              <Button
-                type="primary"
-                onClick={() =>
-                  handleAppraisal(
-                    item.id,
-                    item.metalWeight,
-                    item.gemstoneWeight,
-                    item.gemstoneType,
-                    item.metalType,
-                    item.cost
-                  )
-                }
-              >
-                Gửi Định Giá
-              </Button>
+              <Card>
+                <Row gutter={16} align="middle">
+                  <Col span={8}>
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      style={{ width: "100%" }}
+                    />
+                  </Col>
+                  <Col span={16}>
+                    <h2>{item.name}</h2>
+                    <p>{item.category}</p>
+                    <Tag color={item.status === "Không có" ? "red" : "green"}>
+                      {item.status}
+                    </Tag>
+                    <Row gutter={16} style={{ marginTop: 16 }}>
+                      <Col span={12}>
+                        <Select
+                          placeholder="Chọn Loại Kim Loại"
+                          value={item.metalType}
+                          onChange={(value) => {
+                            handleInputChange(item.id, "metalType", value);
+                            handleInputChange(
+                              item.id,
+                              "metalWeight",
+                              value === "Không" ? 0 : item.metalWeight
+                            );
+                          }}
+                          style={{ width: "100%" }}
+                        >
+                          <Option value="Vàng">Vàng</Option>
+                          <Option value="Không">Không có kim loại</Option>
+                        </Select>
+                      </Col>
+                      <Col span={12}>
+                        <Select
+                          placeholder="Chọn Loại Đá Quý"
+                          value={item.gemstoneType}
+                          onChange={(value) => {
+                            handleInputChange(item.id, "gemstoneType", value);
+                            handleInputChange(
+                              item.id,
+                              "gemstoneWeight",
+                              value === "Không" ? 0 : item.gemstoneWeight
+                            );
+                          }}
+                          style={{ width: "100%" }}
+                        >
+                          <Option value="Kim cương">Kim cương</Option>
+                          <Option value="Không">Không có đá quý</Option>
+                        </Select>
+                      </Col>
+                    </Row>
+                    <Row gutter={16} style={{ marginTop: 16 }}>
+                      <Col span={12}>
+                        <Input
+                          type="number"
+                          placeholder="Trọng lượng Kim Loại (Chỉ)"
+                          value={item.metalWeight}
+                          min={0}
+                          max={20}
+                          disabled={item.metalType === "Không"}
+                          onChange={(e) =>
+                            handleInputChange(
+                              item.id,
+                              "metalWeight",
+                              e.target.value
+                            )
+                          }
+                          style={{ width: "100%" }}
+                        />
+                      </Col>
+                      <Col span={12}>
+                        <Input
+                          type="number"
+                          placeholder="Trọng lượng Đá Quý (Carat)"
+                          value={item.gemstoneWeight}
+                          min={0}
+                          max={20}
+                          disabled={item.gemstoneType === "Không"}
+                          onChange={(e) =>
+                            handleInputChange(
+                              item.id,
+                              "gemstoneWeight",
+                              e.target.value
+                            )
+                          }
+                          style={{ width: "100%" }}
+                        />
+                      </Col>
+                    </Row>
+                    <Row gutter={16} style={{ marginTop: 16 }}>
+                      <Col span={12}>
+                        <Input
+                          type="number"
+                          placeholder="Chi phí"
+                          value={item.cost}
+                          min={0}
+                          onChange={(e) =>
+                            handleInputChange(item.id, "cost", e.target.value)
+                          }
+                          style={{ width: "100%" }}
+                        />
+                      </Col>
+                      <Col span={12}>
+                        <Button
+                          type="primary"
+                          onClick={() =>
+                            handleAppraisal(
+                              item.id,
+                              item.metalWeight,
+                              item.gemstoneWeight,
+                              item.gemstoneType,
+                              item.metalType,
+                              item.cost
+                            )
+                          }
+                          style={{ width: "100%" }}
+                        >
+                          Gửi Định Giá
+                        </Button>
+                      </Col>
+                    </Row>
+                  </Col>
+                </Row>
+              </Card>
             </List.Item>
           )}
         />
