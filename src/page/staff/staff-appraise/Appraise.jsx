@@ -10,7 +10,7 @@ function AppraisalPage() {
   useEffect(() => {
     const handleNewProduct = (newProductMessage) => {
       try {
-        console.log("Parsed productData:", newProductMessage); // Log the parsed data
+        console.log("Parsed productData:", newProductMessage);
 
         const productData = newProductMessage;
         const formattedProduct = {
@@ -20,8 +20,10 @@ function AppraisalPage() {
             productData.gemstoneType || "Không có đá quý"
           }`,
           image: productData.image || "Không có",
-          metalWeight: productData.chi || "Không có",
-          gemstoneWeight: productData.carat || "Không có",
+          metalWeight: productData.chi || 0,
+          gemstoneWeight: productData.carat || 0,
+          metalType: productData.metalType || "Không",
+          gemstoneType: productData.gemstoneType || "Không",
           price: "",
           status: productData.pbStatus || "Không có",
           cost: null, // Initialize cost as null
@@ -68,18 +70,20 @@ function AppraisalPage() {
     cost
   ) => {
     if (
-      !metalWeight ||
+      (!metalWeight && metalWeight !== 0) ||
       isNaN(metalWeight) ||
-      metalWeight <= 0 ||
-      !gemstoneWeight ||
+      metalWeight < 0 ||
+      metalWeight > 20 ||
+      (!gemstoneWeight && gemstoneWeight !== 0) ||
       isNaN(gemstoneWeight) ||
-      gemstoneWeight <= 0 ||
+      gemstoneWeight < 0 ||
+      gemstoneWeight > 20 ||
       !cost ||
       isNaN(cost) ||
       cost <= 0
     ) {
       message.error(
-        "Please enter valid metal weight, gemstone weight, and cost"
+        "Vui lòng nhập trọng lượng kim loại, trọng lượng đá quý (0-20) và chi phí hợp lệ"
       );
       return;
     }
@@ -97,7 +101,7 @@ function AppraisalPage() {
     setProducts((prevProducts) =>
       prevProducts.filter((p) => p.id !== productId)
     );
-    message.success("Appraisal submitted successfully");
+    message.success("Định giá đã được gửi thành công");
   };
 
   const handleInputChange = (productId, field, value) => {
@@ -110,9 +114,9 @@ function AppraisalPage() {
 
   return (
     <div className="AppraisalPage">
-      <h1>Product Appraisal</h1>
+      <h1>Định Giá Sản Phẩm</h1>
       {products.length === 0 ? (
-        <p>No products awaiting appraisal.</p>
+        <p>Không có sản phẩm chờ định giá.</p>
       ) : (
         <List
           itemLayout="horizontal"
@@ -124,25 +128,35 @@ function AppraisalPage() {
                   <img src={item.image} alt={item.name} style={{ width: 50 }} />
                 }
                 title={item.name}
-                description={`Category: ${item.category}`}
+                description={`Danh mục: ${item.category}`}
               />
               <Select
-                placeholder="Select Metal Type"
-                value={item.metalType || "Không"}
-                onChange={(value) =>
-                  handleInputChange(item.id, "metalType", value)
-                }
+                placeholder="Chọn Loại Kim Loại"
+                value={item.metalType}
+                onChange={(value) => {
+                  handleInputChange(item.id, "metalType", value);
+                  handleInputChange(
+                    item.id,
+                    "metalWeight",
+                    value === "Không" ? 0 : item.metalWeight
+                  );
+                }}
                 style={{ width: 150, marginRight: 16 }}
               >
                 <Option value="Vàng">Vàng</Option>
                 <Option value="Không">Không có kim loại</Option>
               </Select>
               <Select
-                placeholder="Select Gemstone Type"
-                value={item.gemstoneType || "Không"}
-                onChange={(value) =>
-                  handleInputChange(item.id, "gemstoneType", value)
-                }
+                placeholder="Chọn Loại Đá Quý"
+                value={item.gemstoneType}
+                onChange={(value) => {
+                  handleInputChange(item.id, "gemstoneType", value);
+                  handleInputChange(
+                    item.id,
+                    "gemstoneWeight",
+                    value === "Không" ? 0 : item.gemstoneWeight
+                  );
+                }}
                 style={{ width: 150, marginRight: 16 }}
               >
                 <Option value="Kim cương">Kim cương</Option>
@@ -150,8 +164,11 @@ function AppraisalPage() {
               </Select>
               <Input
                 type="number"
-                placeholder="Metal Weight (Chi)"
+                placeholder="Trọng lượng Kim Loại (Chỉ)"
                 value={item.metalWeight}
+                min={0}
+                max={20}
+                disabled={item.metalType === "Không"}
                 onChange={(e) =>
                   handleInputChange(item.id, "metalWeight", e.target.value)
                 }
@@ -159,8 +176,11 @@ function AppraisalPage() {
               />
               <Input
                 type="number"
-                placeholder="Gemstone Weight (Carat)"
+                placeholder="Trọng lượng Đá Quý (Carat)"
                 value={item.gemstoneWeight}
+                min={0}
+                max={20}
+                disabled={item.gemstoneType === "Không"}
                 onChange={(e) =>
                   handleInputChange(item.id, "gemstoneWeight", e.target.value)
                 }
@@ -169,8 +189,9 @@ function AppraisalPage() {
 
               <Input
                 type="number"
-                placeholder="Cost"
+                placeholder="Chi phí"
                 value={item.cost}
+                min={0}
                 onChange={(e) =>
                   handleInputChange(item.id, "cost", e.target.value)
                 }
@@ -189,7 +210,7 @@ function AppraisalPage() {
                   )
                 }
               >
-                Submit Appraisal
+                Gửi Định Giá
               </Button>
             </List.Item>
           )}

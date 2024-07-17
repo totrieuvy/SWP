@@ -102,10 +102,7 @@ function AdminAccountStaff() {
 
   const handleDeleteStaff = async (staffID) => {
     await api.delete(`/api/staff-accounts/${staffID}`);
-    const listAfterDelete = dataSource.filter(
-      (staff) => staff.staffID !== staffID
-    );
-    setDataSource(listAfterDelete);
+    fetchListStaff();
     notification.success({
       message: "Thành công",
       description: "Xóa nhân viên thành công",

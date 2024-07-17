@@ -3,7 +3,7 @@ import api from "../../../../config/axios";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function ViewProductBuyOrder({ data }) {
+function ViewProductBuyOrder({ data, setData }) {
   const navigate = useNavigate();
 
   const transformData = (data) => {

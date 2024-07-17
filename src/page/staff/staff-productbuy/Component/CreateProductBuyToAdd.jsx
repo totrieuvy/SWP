@@ -1,31 +1,16 @@
 import React, { useEffect, useState } from "react";
-import {
-  Form,
-  Input,
-  InputNumber,
-  Checkbox,
-  Button,
-  Select,
-  Modal,
-  message,
-} from "antd";
+import { Form, Input, Button, Select, Modal, message } from "antd";
 import CustomWebcam from "./CustomWebcam";
 import api from "../../../../config/axios";
-import { Option } from "antd/es/mentions";
 import WebSocket from "../../../../config/WebSocket";
+
+const { Option } = Select;
 
 function CreateProductBuyToAdd({ appendOrder }) {
   const [form] = Form.useForm();
-  const [noMetal, setNoMetal] = useState(false);
-  const [noGemstone, setNoGemstone] = useState(false);
   const [image, setImage] = useState("");
   const [category, setCategory] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState({
-    id: null,
-    name: "",
-  });
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const [formValues, setFormValues] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,14 +25,24 @@ function CreateProductBuyToAdd({ appendOrder }) {
     fetchData();
   }, []);
 
-  const onFinish = (values) => {
+  const turnImageToUrl = async (imageData) => {
+    const response = await api.post("/images/uploadByPath", {
+      image: imageData,
+    });
+    return response.data;
+  };
+
+  const onFinish = async (values) => {
+    const imageUrl = await turnImageToUrl(image);
+
     const productData = {
       ...values,
-      image,
+      image: imageUrl,
       metalWeight: 0,
       gemstoneWeight: 0,
       price: 0,
     };
+    console.log(productData);
     WebSocket.initializeProduct(productData);
     message.success("Product initialized for appraisal");
     form.resetFields();
@@ -59,37 +54,16 @@ function CreateProductBuyToAdd({ appendOrder }) {
   };
 
   const showConfirmModal = (values) => {
-    setFormValues(values);
     setIsModalVisible(true);
+    onFinish(values);
   };
 
-  const handleOk = async () => {
+  const handleOk = () => {
     setIsModalVisible(false);
-    await onFinish(formValues);
   };
 
   const handleCancel = () => {
     setIsModalVisible(false);
-  };
-
-  const handleNoMetalChange = (e) => {
-    setNoMetal(e.target.checked);
-    if (e.target.checked) {
-      form.setFieldsValue({
-        metalType: "Không",
-        metalWeight: 0,
-      });
-    }
-  };
-
-  const handleNoGemstoneChange = (e) => {
-    setNoGemstone(e.target.checked);
-    if (e.target.checked) {
-      form.setFieldsValue({
-        gemstoneType: "Không",
-        gemstoneWeight: 0,
-      });
-    }
   };
 
   return (
@@ -109,11 +83,7 @@ function CreateProductBuyToAdd({ appendOrder }) {
           name="category_id"
           rules={[{ required: true, message: "Vui lòng chọn danh mục" }]}
         >
-          <Select
-            onChange={(value, option) =>
-              setSelectedCategory({ id: value, name: option.children })
-            }
-          >
+          <Select>
             {category.map((option) => (
               <Option key={option.id} value={option.id}>
                 {option.name}
