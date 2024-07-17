@@ -79,7 +79,7 @@ const TopProductSells = () => {
         <>
           <div className="top-product-sell-stats">
             <div>
-              <h3>Tổng tiền</h3>
+              <h3>Tổng tiền thu được</h3>
               <p>{totalRevenue.toLocaleString()} VND</p>
             </div>
             <div>
