@@ -64,6 +64,7 @@ import StaffPerformanceRange from "./page/manager/staffPerformanceRange/StaffPer
 import InactiveProductSell from "./page/manager/inactiveProductSell/InactiveProductSell";
 import InactiveProductSellAdmin from "./page/manager/inactiveProductSell/InactiveProductSell";
 import ProductBuyManager from "./page/manager/productbuy/ProductBuyManager";
+import AppraisalPage from "./page/staff/staff-appraise/Appraise";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -120,8 +121,14 @@ function App() {
           {/* <Route path="transaction/detail/:orderID/:orderType" element={<TransactionDetail />} /> */}
           salecomparision
           <Route path="salecomparision" element={<SaleComparision />} />
-          <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
-          <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
+          <Route
+            path="transaction/detail/:orderID/OUTGOING"
+            element={<Transaction_ProductBuy />}
+          />
+          <Route
+            path="transaction/detail/:orderID/INGOING"
+            element={<Transaction_ProductSell />}
+          />
           <Route path="check/guarantee" element={<CheckGuarantee />} />
           <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
           <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
@@ -160,6 +167,7 @@ function App() {
           <Route path="trace/by-customer" element={<ViewGuarantee />} />
           <Route path="trace/by-date" element={<ViewGuaranteeByDate />} />
           <Route path="chat" element={<ChatBox />} />
+          <Route path="appraise" element={<AppraisalPage />} />
 
           <Route path="product" element={<StaffProduct />} />
           <Route path="changepassword" element={<StaffChangePassword />} />

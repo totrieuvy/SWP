@@ -59,6 +59,8 @@ const Dashboard = () => {
         ]),
         getItem("Thể loại", "staff/category", <ProfileOutlined />),
         getItem("Sản phẩm", "staff/product", <ProfileOutlined />),
+        getItem("Kiểm định", "staff/appraise", <ProfileOutlined />),
+
         getItem("Tạo đơn hàng", "staff/create", <ProfileOutlined />),
         getItem("Xem lại hóa đơn", "profile", <ProfileOutlined />, [
           getItem("Khách hàng", `staff/trace/by-customer`),
@@ -94,6 +96,7 @@ const Dashboard = () => {
           getItem("Sản phẩm mua vào", "manager/productbuy"),
         ]),
         getItem("Kiểm tra bảo hành", "manager/check/guarantee", <HeartOutlined />),
+
         getItem("Khách hàng", "manager/customer/view", <UserOutlined />),
         getItem("Chat", "manager/chat", <ProfileOutlined />),
       ]);
