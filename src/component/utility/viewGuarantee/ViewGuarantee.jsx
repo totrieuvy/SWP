@@ -41,10 +41,10 @@ const ViewGuarantee = () => {
   // Orders Table Component
   const OrdersTable = ({ orders }) => {
     const columns = [
-      { title: "Order ID", dataIndex: "orderID", key: "orderID" },
-      { title: "Date", dataIndex: "purchaseDate", key: "purchaseDate" },
+      { title: "Mã đơn hàng", dataIndex: "orderID", key: "orderID" },
+      { title: "Ngày mua", dataIndex: "purchaseDate", key: "purchaseDate" },
       {
-        title: "Total",
+        title: "Tổng",
         dataIndex: "totalAmount",
         key: "totalAmount",
         render: (text) => `${text.toLocaleString()} VND`,
@@ -118,7 +118,7 @@ const ViewGuarantee = () => {
   // Customers Table Component
   const CustomersTable = ({ customers }) => {
     const columns = [
-      { title: "ID", dataIndex: "customerID", key: "customerID" },
+      { title: "ID khách hàng", dataIndex: "customerID", key: "customerID" },
       {
         title: "Tên khách hàng",
         dataIndex: "customerName",
