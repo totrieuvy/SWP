@@ -82,10 +82,7 @@ function AdminAccountManager() {
     try {
       const response = await api.delete(`/api/manager/${pk_userID}`);
       console.log(response);
-      const filterAccountAfterDelete = dataSource.filter(
-        (data) => data.pk_userID !== pk_userID
-      );
-      setDataSource(filterAccountAfterDelete);
+      fetchListOfManager();
       notification.success({
         message: "Thành công",
         description: "Xóa quản lí thành công",
@@ -99,10 +96,8 @@ function AdminAccountManager() {
     try {
       const response = await api.get("/api/manager");
       console.log(response.data);
-      const responseWithStatusTrue = response.data.filter(
-        (item) => item.status === 1
-      );
-      setDataSource(responseWithStatusTrue);
+
+      setDataSource(response.data);
       setLoading(false);
     } catch (error) {
       console.log("Fetch error", error);
@@ -156,6 +151,16 @@ function AdminAccountManager() {
       }
     } catch (error) {
       console.log("Error", error);
+      if (
+        error.response &&
+        error.response.status === 400 &&
+        error.response.data === "Username đã được sử dụng."
+      ) {
+        notification.error({
+          message: "Lỗi",
+          description: "Tên đăng nhập đã được sử dụng.",
+        });
+      }
     }
     formVariable.resetFields();
     handleCloseModal();

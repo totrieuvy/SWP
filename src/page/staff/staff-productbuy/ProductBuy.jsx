@@ -16,12 +16,14 @@ function ProductBuy() {
     const handleAppraisedProduct = (appraisedProduct) => {
       setOrder((prevData) => {
         const existingProduct = prevData.find(
-          (product) => product.id === appraisedProduct.id
+          (product) => product.productBuyID === appraisedProduct.productBuyID
         );
         if (existingProduct) {
           // Update existing product
           return prevData.map((product) =>
-            product.id === appraisedProduct.id ? appraisedProduct : product
+            product.productBuyID === appraisedProduct.productBuyID
+              ? appraisedProduct
+              : product
           );
         } else {
           // Add new product
