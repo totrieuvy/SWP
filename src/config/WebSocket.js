@@ -3,7 +3,7 @@ import SockJS from "sockjs-client/dist/sockjs"
 
 class WebSocketService {
   constructor() {
-    this.url = 'http://174.138.72.129:8080/ws'; // Set your WebSocket URL
+    this.url = 'http://159.89.49.13:8080/ws'; // Set your WebSocket URL
     //this.url = 'http://localhost:8080/ws'; // Set your WebSocket URL
 
     this.client = null;

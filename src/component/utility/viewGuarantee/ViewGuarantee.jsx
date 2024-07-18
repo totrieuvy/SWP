@@ -1,5 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Card, Table, Input } from "antd";
+import {
+  Layout,
+  Card,
+  Table,
+  Input,
+  Button,
+  message,
+  Modal,
+  Form,
+  InputNumber,
+} from "antd";
 import api from "../../../config/axios";
 
 const { Sider, Content } = Layout;
@@ -10,6 +20,7 @@ const ViewGuarantee = () => {
   const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm(); // Move useForm hook to the top level
 
   useEffect(() => {
     loadData(" ");
@@ -18,7 +29,9 @@ const ViewGuarantee = () => {
   const loadData = async (searchTerm) => {
     setLoading(true);
     try {
-      const response = await api.get(`/api/order/search-customer-guarantee?search=${searchTerm}`);
+      const response = await api.get(
+        `/api/order/search-customer-guarantee?search=${searchTerm}`
+      );
       setCustomers(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -32,9 +45,9 @@ const ViewGuarantee = () => {
 
   // Customer Details Component
   const CustomerDetails = ({ customer }) => (
-    <Card title="Customer Details">
+    <Card title="Chi tiết khách hàng">
       <p>ID: {customer.customerID}</p>
-      <p>Name: {customer.customerName}</p>
+      <p>Tên: {customer.customerName}</p>
     </Card>
   );
 
@@ -62,6 +75,70 @@ const ViewGuarantee = () => {
     );
   };
 
+  const handleRefund = (orderDetail) => {
+    Modal.confirm({
+      title: "Xác nhận hoàn tiền",
+      content: (
+        <Form form={form}>
+          <Form.Item
+            label="Lý do hoàn tiền"
+            name="refundReason"
+            rules={[
+              { required: true, message: "Vui lòng nhập lý do hoàn tiền" },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            label="Số lượng hoàn tiền"
+            name="quantityToRefund"
+            rules={[
+              { required: true, message: "Vui lòng nhập số lượng hoàn tiền" },
+            ]}
+          >
+            <InputNumber min={1} max={orderDetail.quantity} />
+          </Form.Item>
+        </Form>
+      ),
+      onOk: async () => {
+        try {
+          const values = await form.validateFields();
+          const response = await api.post("/api/order/refund", {
+            orderDetailId: orderDetail.orderDetailID,
+            refundReason: values.refundReason,
+            quantityToRefund: parseInt(values.quantityToRefund, 10),
+          });
+
+          if (response.data.includes("successfully")) {
+            message.success("Hoàn tiền thành công");
+            loadData(""); // Reload data after successful refund
+          } else {
+            message.error("Hoàn tiền thất bại");
+          }
+        } catch (error) {
+          if (error.response && error.response.data) {
+            switch (error.response.data) {
+              case "OrderDetail not found":
+                message.error("Không tìm thấy chi tiết đơn hàng");
+                break;
+              case "Refund quantity exceeds available quantity":
+                message.error("Số lượng hoàn tiền vượt quá số lượng có sẵn");
+                break;
+              case "This order is not eligible for refund":
+                message.error("Đơn hàng này không đủ điều kiện hoàn tiền");
+                break;
+              default:
+                message.error("Đã xảy ra lỗi khi xử lý hoàn tiền");
+            }
+          } else {
+            console.error("Error processing refund:", error);
+            message.error("Đã xảy ra lỗi khi xử lý hoàn tiền");
+          }
+        }
+      },
+    });
+  };
+
   // Order Details and Guarantee Table Component
   const OrderDetailsAndGuaranteeTable = ({ orderDetails }) => {
     const columns = [
@@ -70,7 +147,13 @@ const ViewGuarantee = () => {
         title: "Ảnh",
         dataIndex: "image",
         key: "image",
-        render: (text) => <img src={text} alt="Product" style={{ width: "50px", height: "50px" }} />,
+        render: (text) => (
+          <img
+            src={text}
+            alt="Product"
+            style={{ width: "50px", height: "50px" }}
+          />
+        ),
       },
       {
         title: "Giá",
@@ -86,6 +169,13 @@ const ViewGuarantee = () => {
         render: (text) => new Date(text).toLocaleDateString(),
       },
       { title: "Loại bảo hiểm", dataIndex: "coverage", key: "coverage" },
+      {
+        title: "Thao tác",
+        key: "actions",
+        render: (_, record) => (
+          <Button onClick={() => handleRefund(record)}>Hoàn tiền</Button>
+        ),
+      },
     ];
 
     return (
@@ -103,11 +193,21 @@ const ViewGuarantee = () => {
               <p>Loại kim loại: {record.metalType}</p>
               <p>Chỉ: {record.chi}</p>
               <p>Carat: {record.carat}</p>
-              <p>THời hạn bảo hành (tháng): {record.warrantyPeriodMonth}</p>
+              <p>Thời hạn bảo hành (tháng): {record.warrantyPeriodMonth}</p>
               <p>Mô tả: {record.pdescription}</p>
-              <p>Tình trạng sản phẩm: {record.pstatus ? "Còn hoạt động" : "Không còn hoạt động"}</p>
-              <p>Tình trạng bảo hành: {record.guaranteeStatus ? "Còn hoạt động" : "Không còn hoạt động"}</p>
-              <p>Giá nhà sản xuất: {record.manufactureCost.toLocaleString()} VND</p>
+              <p>
+                Tình trạng sản phẩm:{" "}
+                {record.pstatus ? "Còn hoạt động" : "Không còn hoạt động"}
+              </p>
+              <p>
+                Tình trạng bảo hành:{" "}
+                {record.guaranteeStatus
+                  ? "Còn hoạt động"
+                  : "Không còn hoạt động"}
+              </p>
+              <p>
+                Giá nhà sản xuất: {record.manufactureCost.toLocaleString()} VND
+              </p>
             </>
           ),
         }}
@@ -140,7 +240,11 @@ const ViewGuarantee = () => {
   return (
     <Layout>
       <Sider width={400} style={{ background: "#fff" }}>
-        <Search placeholder="Tìm kiếm khách hàng" onSearch={handleSearch} style={{ padding: "16px" }} />
+        <Search
+          placeholder="Tìm kiếm khách hàng"
+          onSearch={handleSearch}
+          style={{ padding: "16px" }}
+        />
         <CustomersTable customers={customers} />
       </Sider>
       <Content style={{ padding: "20px" }}>
@@ -150,7 +254,11 @@ const ViewGuarantee = () => {
             <OrdersTable orders={selectedCustomer.orders} />
           </>
         )}
-        {selectedOrder && <OrderDetailsAndGuaranteeTable orderDetails={selectedOrder.orderDetails} />}
+        {selectedOrder && (
+          <OrderDetailsAndGuaranteeTable
+            orderDetails={selectedOrder.orderDetails}
+          />
+        )}
       </Content>
     </Layout>
   );
