@@ -2,7 +2,7 @@ import { Button, Modal, notification, Popconfirm, Table, Form, Input } from "ant
 import api from "../../../config/axios";
 import React, { useEffect, useState } from "react";
 
-function ProductBuyManager() {
+function AdminProductBuy() {
   const [data, setData] = useState([]);
   const [visible, setVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -131,7 +131,6 @@ function ProductBuyManager() {
     setVisible(false);
     form.resetFields();
   };
-
   return (
     <div>
       <Table dataSource={data} columns={columns} rowKey="productBuyID" />
@@ -181,4 +180,4 @@ function ProductBuyManager() {
   );
 }
 
-export default ProductBuyManager;
+export default AdminProductBuy;
