@@ -43,7 +43,7 @@ function AdminProfile() {
       await api.put(`/api/admins/${user.id}`, {
         email: updatedProfile.email,
         username: updatedProfile.username,
-        accountname: updatedProfile.accountname,
+        accountName: updatedProfile.accountName,
       });
       setAdminProfile(updatedProfile);
       notification.success({
@@ -114,7 +114,11 @@ function AdminProfile() {
                     <div style={{ marginTop: 20 }}>
                       {isEditing ? (
                         <div>
-                          <Button type="primary" onClick={handleSaveProfile} style={{ marginRight: 10 }}>
+                          <Button
+                            type="primary"
+                            onClick={handleSaveProfile}
+                            style={{ marginRight: 10 }}
+                          >
                             Lưu
                           </Button>
                           <Button onClick={handleCancelEdit}>Hủy</Button>

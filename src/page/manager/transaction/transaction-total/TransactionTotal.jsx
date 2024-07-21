@@ -1,4 +1,4 @@
-import { Button, Spin, Table, Tag } from "antd";
+import { Button, Spin, Table, Tag, Statistic, Row, Col } from "antd";
 import api from "../../../../config/axios";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
@@ -20,7 +20,12 @@ function TransactionTotal() {
       title: "Tổng tiền đã thanh toán",
       dataIndex: "totalAmount",
       key: "totalAmount",
-      sorter: (a, b) => a.totalAmount - b.totalAmount,
+      sorter: (a, b) => (a.totalAmount || 0) - (b.totalAmount || 0),
+      render: (totalAmount) =>
+        Math.abs(totalAmount || 0).toLocaleString("vi-VN", {
+          style: "currency",
+          currency: "VND",
+        }),
     },
     {
       title: "Ngày, giờ giao dịch",
@@ -49,8 +54,8 @@ function TransactionTotal() {
       dataIndex: "orderStatus",
       key: "orderStatus",
       render: (orderStatus) => (
-        <Tag color={orderStatus == 3 ? "green" : "red"}>
-          {orderStatus == 3 ? "Đã được thanh toán" : "Chưa được thanh toán"}
+        <Tag color={orderStatus === 3 ? "green" : "red"}>
+          {orderStatus === 3 ? "Đã được thanh toán" : "Chưa được thanh toán"}
         </Tag>
       ),
       sorter: (a, b) => a.orderStatus - b.orderStatus,
@@ -89,6 +94,15 @@ function TransactionTotal() {
 
   const productSell = data.filter((item) => item.orderType === "INGOING");
   const productBuy = data.filter((item) => item.orderType === "OUTGOING");
+  console.log("Product Buy:", productBuy); // Debugging output
+
+  const totalSellAmount = productSell
+    .filter((item) => item.orderStatus == 3)
+    .reduce((acc, item) => acc + Math.abs(item.totalAmount || 0), 0);
+
+  const totalBuyAmount = productBuy
+    .filter((item) => item.orderStatus == 3)
+    .reduce((acc, item) => acc + Math.abs(item.totalAmount || 0), 0);
 
   return (
     <div className="TransactionTotal">
@@ -97,9 +111,33 @@ function TransactionTotal() {
       ) : (
         <>
           <h2>ĐƠN HÀNG BÁN RA</h2>
+          <Row gutter={16} className="total-amount">
+            <Col span={12}>
+              <Statistic
+                title="Tổng tiền đã thanh toán"
+                value={totalSellAmount}
+                precision={2}
+                valueStyle={{ color: "#3f8600" }}
+                prefix="₫"
+                suffix="VND"
+              />
+            </Col>
+          </Row>
           <Table dataSource={productSell} columns={columns} rowKey="orderID" />
 
           <h2>ĐƠN HÀNG MUA VÀO</h2>
+          <Row gutter={16} className="total-amount">
+            <Col span={12}>
+              <Statistic
+                title="Tổng tiền đã thanh toán"
+                value={totalBuyAmount}
+                precision={2}
+                valueStyle={{ color: "#3f8600" }}
+                prefix="₫"
+                suffix="VND"
+              />
+            </Col>
+          </Row>
           <Table dataSource={productBuy} columns={columns} rowKey="orderID" />
         </>
       )}

@@ -60,6 +60,7 @@ function DisplayOrder() {
   };
 
   const claimOrder = (orderId) => {
+    setCurrentOrderID(orderId);
     WebSocket.claimOrder(orderId);
     setProcessingOrder(true);
   };

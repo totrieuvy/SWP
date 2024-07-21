@@ -27,9 +27,9 @@ function Total({
   const [cash, setCash] = useState("0");
   const [total, setTotal] = useState("0");
   const [orderInfo, setOrderInfo] = useState("Thanh toan");
-
+  const [lockedOrderId, setLockedOrderId] = useState(null);
   const [alertApi, contextHolder] = notification.useNotification();
-
+  const [isProcessed, setIsProcessed] = useState(false);
   const onChange = ({ target: { value } }) => {
     setPayMethod(value);
   };
@@ -81,7 +81,13 @@ function Total({
       console.error(error);
     }
   };
+  useEffect(() => {
+    if (currentOrderID) {
+      console.log("Locked Order ID set to:", currentOrderID);
 
+      setLockedOrderId(currentOrderID);
+    }
+  }, [currentOrderID]);
   useEffect(() => {
     const fetchData = async () => {
       const result = await fetchTotal();
@@ -92,7 +98,7 @@ function Total({
         if (currentOrderID) {
           setOrderInfo(`Thanh toan ${currentOrderID}`);
         }
-        console.log(availableOrders);
+        console.log(currentOrderID);
       }
     };
     fetchData();
@@ -103,7 +109,7 @@ function Total({
   const handlePayment = async (e) => {
     e.preventDefault();
     const amount = parseInt(total);
-    console.log(currentOrderID);
+    console.log("current" + lockedOrderId);
 
     const updateOrderData = {
       order_ID: currentOrderID,
@@ -163,6 +169,8 @@ function Total({
               <CheckCircleOutlined style={{ color: "green" }} />
             );
             clear();
+            setLockedOrderId(null); // Clear the locked order ID
+
             onFinishProcessing(); // Call onFinishProcessing here
           } else {
             openNotification(
