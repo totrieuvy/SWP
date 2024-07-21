@@ -43,6 +43,11 @@ const CustomerSignupChart = ({ startDate, endDate }) => {
     scales: {
       y: {
         beginAtZero: true,
+        ticks: {
+          callback: function (value) {
+            return Number.isInteger(value) ? value : null;
+          },
+        },
       },
     },
   };
@@ -52,7 +57,7 @@ const CustomerSignupChart = ({ startDate, endDate }) => {
       {loading ? (
         <Spin size="large" />
       ) : (
-        <div className="CustomerSignupsChart">
+        <div className="CustomerSignupsChart" style={{ height: "300px" }}>
           <Bar data={chartData} options={options} />
         </div>
       )}

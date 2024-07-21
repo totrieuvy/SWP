@@ -29,12 +29,13 @@ const LoyaltyMemberBarChart = ({ startDate, endDate }) => {
     };
 
     fetchData();
-  }, [startDate, endDate]); // Fetch data when startDate or endDate changes
+  }, [startDate, endDate]);
 
   const handleDateChange = (dates) => {
     if (dates) {
-      startDate = moment(dates[0]);
-      endDate = moment(dates[1]);
+      startDate = moment(dates[0]).format("YYYY-MM-DD");
+      endDate = moment(dates[1]).format("YYYY-MM-DD");
+      // Optionally, trigger a new data fetch here if needed
     }
   };
 
@@ -75,7 +76,7 @@ const LoyaltyMemberBarChart = ({ startDate, endDate }) => {
   return loading ? (
     <Spin size="large" />
   ) : (
-    <div className="LoyaltyMember">
+    <div className="LoyaltyMember" style={{ height: "400px" }}>
       <Bar data={chartData} options={options} />
     </div>
   );

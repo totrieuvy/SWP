@@ -1,49 +1,80 @@
 .Policy {
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #153448;
   margin: 0;
-  padding: 0;
+  padding: 0 20px;
+  overflow: hidden; /* Prevent scrolling */
 }
 
 .Policy .header__policy {
   display: flex;
   align-items: center;
-  padding: 5px 10px;
+  padding: 10px 0;
   gap: 10px;
 }
 
 .Policy .header__policy img {
-  width: 3%;
+  width: 50px;
 }
 
 .Policy .header__policy__logo {
   color: #fff;
+  font-size: 32px;
 }
 
 .Policy .title {
   display: flex;
   justify-content: center;
-  padding-bottom: 10px;
+  padding-bottom: 10px; /* Reduced padding */
+  color: #fff;
 }
 
 .Policy .title h2 {
   color: #fff;
+  text-transform: uppercase;
 }
 
-.Policy .content__policy__refund,
-.Policy .content__policy__purchase,
-.Policy .content__policy__guarantee {
-  padding-left: 80px;
-  padding-right: 20px;
-  line-height: 30px;
-  padding-bottom: 18px;
+.Policy .content__policy__section {
+  padding: 10px 20px; /* Reduced padding */
+  line-height: 1.5; /* Adjusted line height */
+  padding-bottom: 10px; /* Reduced padding */
 }
 
-.Policy .content__policy__title {
+.Policy .content__policy__section h3 {
   color: #ffd700;
+  font-size: 20px; /* Reduced font size */
 }
 
-.Policy .content__policy__nd {
+.Policy .content__policy__section .ant-typography {
   color: #fff;
+  font-size: 16px; /* Reduced font size */
+}
+
+.section-title-refund {
+  color: #32cd32 !important;
+  font-size: 20px !important;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.section-title-purchase {
+  color: #32cd32 !important;
+  font-size: 20px !important;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.section-title-guarantee {
+  color: #32cd32 !important;
+  font-size: 20px !important;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.section-title-restock {
+  color: #32cd32 !important;
+  font-size: 20px !important;
+  font-weight: bold;
+  text-transform: uppercase;
 }

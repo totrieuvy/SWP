@@ -24,22 +24,22 @@ const CustomerBuyTrendTable = () => {
 
   const columns = [
     {
-      title: "Customer Name",
+      title: "Tên khách hàng",
       dataIndex: "customerName",
       key: "customerName",
     },
     {
-      title: "Top Product 1",
+      title: "Sản phẩm mua top 1",
       dataIndex: "productTop1",
       key: "productTop1",
     },
     {
-      title: "Top Product 2",
+      title: "Sản phẩm mua top 2",
       dataIndex: "productTop2",
       key: "productTop2",
     },
     {
-      title: "Top Product 3",
+      title: "Sản phẩm mua top 3",
       dataIndex: "productTop3",
       key: "productTop3",
     },
