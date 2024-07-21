@@ -15,6 +15,11 @@ function Header() {
           Giá Vàng
         </Button>
       </Link>
+      <Link to="/policy">
+        <Button type="primary" className="display-gold-button">
+          Chính sách
+        </Button>
+      </Link>
       <Link to={"/"}>
         <h2 className="header__title">JEWELRYMS</h2>
       </Link>
