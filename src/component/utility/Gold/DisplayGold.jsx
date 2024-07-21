@@ -1,40 +1,40 @@
 import React, { useEffect, useState } from "react";
+import { Layout, Spin } from "antd";
 import TopBar from "./Component/topBar";
-import "./Component/style.css";
 import GoldBoard from "./Component/GoldBoard";
+import api from "../../../config/axios";
+
+const { Content } = Layout;
 
 function DisplayGold() {
   const [data, setData] = useState(null);
-  const goldAPI = "http://174.138.72.129:8080/Info/GoldPrice";
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Function to fetch gold price data
-    const fetchGoldData = () => {
-      fetch(goldAPI)
-        .then((response) => response.json())
-        .then((data) => {
-          setData(data.DataList.Data);
-        })
-        .catch((error) => {
-          console.error("Error occurred during get gold API", error);
-        });
+    const fetchGoldData = async () => {
+      try {
+        setLoading(true);
+        const response = await api.get("Info/GoldPrice");
+        setData(response.data.DataList.Data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    // Initial fetch
     fetchGoldData();
-
-    // Set interval to fetch data every 30 minutes (1800000 milliseconds)
     const intervalId = setInterval(fetchGoldData, 1800000);
-
-    // Clear interval on component unmount
     return () => clearInterval(intervalId);
-  }, [goldAPI]);
+  }, []);
 
   return (
-    <>
-      <TopBar date={new Date()} />
-      <GoldBoard data={data} />
-    </>
+    <Layout>
+      <TopBar />
+      <Content style={{ padding: "0 50px", minHeight: "calc(100vh - 64px)" }}>
+        {loading ? <Spin size="large" /> : <GoldBoard data={data} />}
+      </Content>
+    </Layout>
   );
 }
 

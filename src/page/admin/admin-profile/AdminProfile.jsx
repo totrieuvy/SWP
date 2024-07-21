@@ -1,5 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Card, Button, Row, Col, Form, Input, Spin, notification, Upload, Image } from "antd";
+import {
+  Card,
+  Button,
+  Row,
+  Col,
+  Form,
+  Input,
+  Spin,
+  notification,
+  Upload,
+  Image,
+} from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import api from "../../../config/axios";
 import { useSelector } from "react-redux";
@@ -203,7 +214,11 @@ function AdminProfile() {
                     <div style={{ marginTop: 20 }}>
                       {isEditing ? (
                         <div>
-                          <Button type="primary" onClick={handleSaveProfile} style={{ marginRight: 10 }}>
+                          <Button
+                            type="primary"
+                            onClick={handleSaveProfile}
+                            style={{ marginRight: 10 }}
+                          >
                             Lưu
                           </Button>
                           <Button onClick={handleCancelEdit}>Hủy</Button>
@@ -253,8 +268,10 @@ function AdminProfile() {
                         <Image
                           preview={{
                             visible: previewOpen,
-                            onVisibleChange: (visible) => setPreviewOpen(visible),
-                            afterOpenChange: (visible) => !visible && setPreviewImage(""),
+                            onVisibleChange: (visible) =>
+                              setPreviewOpen(visible),
+                            afterOpenChange: (visible) =>
+                              !visible && setPreviewImage(""),
                           }}
                           src={previewImage}
                         />

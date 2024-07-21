@@ -11,6 +11,7 @@ import "swiper/css/navigation";
 import { Navigation } from "swiper/modules";
 import { Button, Modal } from "antd";
 import { Card } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 function Home() {
   const [categories, setCategories] = useState([]);
@@ -27,7 +28,9 @@ function Home() {
   const fetchCategories = async () => {
     try {
       const response = await api.get("/api/category");
-      setCategories(Array.isArray(response.data) ? response.data : [response.data]);
+      setCategories(
+        Array.isArray(response.data) ? response.data : [response.data]
+      );
     } catch (error) {
       console.error("Error fetching categories:", error);
     }
@@ -36,7 +39,9 @@ function Home() {
   const fetchProducts = async () => {
     try {
       const response = await api.get("/api/productSell/active");
-      setProducts(Array.isArray(response.data) ? response.data : [response.data]);
+      setProducts(
+        Array.isArray(response.data) ? response.data : [response.data]
+      );
     } catch (error) {
       console.error("Error fetching active products:", error);
     }
@@ -55,6 +60,7 @@ function Home() {
   return (
     <div className="Home">
       <Header />
+
       <AdvertiseCarousel />
       <AboutUs />
       <h1 className="Home__jewelry">
@@ -64,15 +70,27 @@ function Home() {
       {categories.map((category) => (
         <div key={category.id} className="ProductCategory">
           <h2 className="ProductCategory__title">{category.name}</h2>
-          <Swiper navigation={true} modules={[Navigation]} slidesPerView={5} className="ProductCategory__swiper">
+          <Swiper
+            navigation={true}
+            modules={[Navigation]}
+            slidesPerView={5}
+            className="ProductCategory__swiper"
+          >
             {products
               .filter((product) => product.category_id === category.id)
               .map((product) => (
                 <SwiperSlide key={product.productID}>
                   <Card className="Product__card">
-                    <Card.Img variant="top" src={product.image} className="Product__card__image" alt={product.pname} />
+                    <Card.Img
+                      variant="top"
+                      src={product.image}
+                      className="Product__card__image"
+                      alt={product.pname}
+                    />
                     <Card.Body className="card__body">
-                      <Card.Title className="card__name">{product.pname}</Card.Title>
+                      <Card.Title className="card__name">
+                        {product.pname}
+                      </Card.Title>
                       {product.carat === null ? (
                         ""
                       ) : (
@@ -84,7 +102,11 @@ function Home() {
                         <Card.Title className="card__chi">{`Chỉ: ${product.chi}`}</Card.Title>
                       )}
                       <Card.Title className="card__cost">{`Giá: ${product.cost}`}</Card.Title>
-                      <Button type="primary" ghost onClick={() => handleOpenModal(product)}>
+                      <Button
+                        type="primary"
+                        ghost
+                        onClick={() => handleOpenModal(product)}
+                      >
                         Detail
                       </Button>
                     </Card.Body>
@@ -95,10 +117,20 @@ function Home() {
         </div>
       ))}
 
-      <Modal open={visible} onCancel={handleCloseModal} footer={null} className="product-modal">
+      <Modal
+        open={visible}
+        onCancel={handleCloseModal}
+        footer={null}
+        className="product-modal"
+      >
         {selectedProduct && (
           <div className="product-modal-content">
-            <img src={selectedProduct.image} alt={selectedProduct.pname} className="product-modal-image" width={200} />
+            <img
+              src={selectedProduct.image}
+              alt={selectedProduct.pname}
+              className="product-modal-image"
+              width={200}
+            />
             <h2 className="product-modal-title">{selectedProduct.pname}</h2>
             {selectedProduct.carat === null ? (
               ""

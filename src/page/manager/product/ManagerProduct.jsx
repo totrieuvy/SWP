@@ -32,8 +32,10 @@ function ManagerProduct() {
   const [imageFile, setImageFile] = useState(null);
   const [oldData, setOldData] = useState({});
   const [imgUrl, setImgUrl] = useState("");
-  const [isPromoCreateFormVisible, setIsPromoCreateFormVisible] = useState(false); // State for PromoCreateForm visibility
-  const [isAdjustRatioFormVisible, setIsAdjustRatioFormVisible] = useState(false);
+  const [isPromoCreateFormVisible, setIsPromoCreateFormVisible] =
+    useState(false); // State for PromoCreateForm visibility
+  const [isAdjustRatioFormVisible, setIsAdjustRatioFormVisible] =
+    useState(false);
   const [ratioForm] = useForm();
 
   const fetchData = async () => {
@@ -129,7 +131,9 @@ function ManagerProduct() {
       title: "Ảnh",
       dataIndex: "image",
       key: "image",
-      render: (image) => <img src={image} alt="product" style={{ width: 50 }} />,
+      render: (image) => (
+        <img src={image} alt="product" style={{ width: 50 }} />
+      ),
     },
     {
       title: "Carat",
@@ -180,7 +184,9 @@ function ManagerProduct() {
   const handleDeleteProductSell = async (productID) => {
     await api.delete(`/api/productSell/${productID}`);
 
-    const listAfterDelete = data.filter((product) => product.productID !== productID);
+    const listAfterDelete = data.filter(
+      (product) => product.productID !== productID
+    );
 
     setData(listAfterDelete);
 
@@ -191,7 +197,9 @@ function ManagerProduct() {
   };
   const handleAdjustRatio = async (values) => {
     try {
-      const response = await api.post(`/api/productSell/adjust-ratio/${values.ratio}`);
+      const response = await api.post(
+        `/api/productSell/adjust-ratio/${values.ratio}`
+      );
       message.success("Pricing ratio adjusted successfully");
     } catch (error) {
       message.error("Failed to adjust pricing ratio");
@@ -206,7 +214,17 @@ function ManagerProduct() {
       formVariable.setFieldsValue(oldData);
     }
   }, [visible, oldData, formVariable]);
+  const handleMetalTypeChange = (value) => {
+    if (value === "Không") {
+      formVariable.setFieldsValue({ chi: 0 });
+    }
+  };
 
+  const handleGemstoneTypeChange = (value) => {
+    if (value === "Không") {
+      formVariable.setFieldsValue({ carat: 0 });
+    }
+  };
   const handleOpenModal = () => {
     setVisible(1);
     formVariable.resetFields();
@@ -267,13 +285,19 @@ function ManagerProduct() {
         formData.append("pname", values.pname);
         formData.append("pdescription", values.pdescription);
 
-        const response = await api.put(`/api/productSell/${oldData.productID}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const response = await api.put(
+          `/api/productSell/${oldData.productID}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
 
-        const updatedData = data.map((product) => (product.productID === oldData.productID ? response.data : product));
+        const updatedData = data.map((product) =>
+          product.productID === oldData.productID ? response.data : product
+        );
 
         setData(updatedData);
 
@@ -295,13 +319,25 @@ function ManagerProduct() {
       <Button type="primary" onClick={handleOpenModal}>
         Thêm sản phẩm
       </Button>
-      <Button type="primary" style={{ marginLeft: "20px" }} onClick={() => setIsPromoCreateFormVisible(true)}>
+      <Button
+        type="primary"
+        style={{ marginLeft: "20px" }}
+        onClick={() => setIsPromoCreateFormVisible(true)}
+      >
         Thêm phiếu giảm giá
       </Button>
-      <Button type="primary" style={{ marginLeft: "20px" }} onClick={() => setIsAdjustRatioFormVisible(true)}>
+      <Button
+        type="primary"
+        style={{ marginLeft: "20px" }}
+        onClick={() => setIsAdjustRatioFormVisible(true)}
+      >
         Điều chỉnh tỷ lệ định giá
       </Button>
-      <Table dataSource={data} columns={columns} rowKey={(record) => record.productID} />
+      <Table
+        dataSource={data}
+        columns={columns}
+        rowKey={(record) => record.productID}
+      />
       <Modal
         title={visible === 1 ? "Thêm sản phẩm" : "Cập nhật sản phẩm"}
         open={visible !== 0}
@@ -309,7 +345,11 @@ function ManagerProduct() {
         onCancel={handleCloseModal}
       >
         <Form form={formVariable} onFinish={onFinish} layout="vertical">
-          <Form.Item name="pname" label="Tên sản phẩm" rules={[{ required: true, message: "hãy nhập tên sản phẩm" }]}>
+          <Form.Item
+            name="pname"
+            label="Tên sản phẩm"
+            rules={[{ required: true, message: "hãy nhập tên sản phẩm" }]}
+          >
             <Input />
           </Form.Item>
           <Form.Item
@@ -330,16 +370,22 @@ function ManagerProduct() {
           <Form.Item
             name="metalType"
             label="Loại kim loại"
-            rules={[{ required: true, message: "hãy nhập loại kim loại" }]}
+            rules={[{ required: true, message: "Hãy chọn loại kim loại" }]}
           >
-            <Input />
+            <Select onChange={handleMetalTypeChange}>
+              <Select.Option value="Vàng">Vàng</Select.Option>
+              <Select.Option value="Không">Không</Select.Option>
+            </Select>
           </Form.Item>
           <Form.Item
             name="gemstoneType"
             label="Loại đá quý"
-            rules={[{ required: true, message: "hãy nhập loại đá quý" }]}
+            rules={[{ required: true, message: "Hãy chọn loại đá quý" }]}
           >
-            <Input />
+            <Select onChange={handleGemstoneTypeChange}>
+              <Select.Option value="Kim cương">Kim cương</Select.Option>
+              <Select.Option value="Không">Không</Select.Option>
+            </Select>
           </Form.Item>
           <Form.Item
             name="manufacturer"
@@ -355,13 +401,26 @@ function ManagerProduct() {
           >
             <InputNumber min={0} />
           </Form.Item>
-          <Form.Item name="chi" label="Chỉ" rules={[{ required: true, message: "hãy nhập số chỉ" }]}>
-            <InputNumber min={0} />
+          <Form.Item
+            name="chi"
+            label="Chỉ"
+            rules={[{ required: true, message: "Hãy nhập số chỉ" }]}
+          >
+            <InputNumber
+              min={0}
+              disabled={formVariable.getFieldValue("metalType") === "Không"}
+            />
           </Form.Item>
-          <Form.Item name="carat" label="Carat" rules={[{ required: true, message: "hãy nhập số carat" }]}>
-            <InputNumber min={0} />
+          <Form.Item
+            name="carat"
+            label="Carat"
+            rules={[{ required: true, message: "Hãy nhập số carat" }]}
+          >
+            <InputNumber
+              min={0}
+              disabled={formVariable.getFieldValue("gemstoneType") === "Không"}
+            />
           </Form.Item>
-
           <Form.Item
             name="category_id"
             label="Category"
@@ -375,11 +434,24 @@ function ManagerProduct() {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item label="Ảnh" rules={[{ required: true, message: "hãy nhập ảnh sản phẩm" }]}>
-            <Upload beforeUpload={() => false} showUploadList={false} onChange={handleFileChange}>
+          <Form.Item
+            label="Ảnh"
+            rules={[{ required: true, message: "hãy nhập ảnh sản phẩm" }]}
+          >
+            <Upload
+              beforeUpload={() => false}
+              showUploadList={false}
+              onChange={handleFileChange}
+            >
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
-            {imgUrl && <Image src={imgUrl} alt="product" style={{ width: 100, marginTop: 10 }} />}
+            {imgUrl && (
+              <Image
+                src={imgUrl}
+                alt="product"
+                style={{ width: 100, marginTop: 10 }}
+              />
+            )}
           </Form.Item>
         </Form>
       </Modal>
@@ -399,7 +471,11 @@ function ManagerProduct() {
         onOk={() => ratioForm.submit()}
       >
         <Form form={ratioForm} onFinish={handleAdjustRatio} layout="vertical">
-          <Form.Item label="Ratio" name="ratio" rules={[{ required: true, message: "Xin hãy nhập tỉ lệ!" }]}>
+          <Form.Item
+            label="Ratio"
+            name="ratio"
+            rules={[{ required: true, message: "Xin hãy nhập tỉ lệ!" }]}
+          >
             <InputNumber min={0} />
           </Form.Item>
         </Form>
