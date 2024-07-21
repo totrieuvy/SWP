@@ -127,9 +127,7 @@ function AdminProduct() {
       title: "Ảnh",
       dataIndex: "image",
       key: "image",
-      render: (image) => (
-        <Image src={image} alt="product" style={{ width: 50 }} />
-      ),
+      render: (image) => <Image src={image} alt="product" style={{ width: 50 }} />,
     },
     {
       title: "Carat",
@@ -292,11 +290,7 @@ function AdminProduct() {
         destroyOnClose
       >
         <Form form={form} onFinish={onFinish} layout="vertical">
-          <Form.Item
-            name="pname"
-            label="Tên sản phẩm"
-            rules={[{ required: true, message: "Hãy nhập tên sản phẩm" }]}
-          >
+          <Form.Item name="pname" label="Tên sản phẩm" rules={[{ required: true, message: "Hãy nhập tên sản phẩm" }]}>
             <Input />
           </Form.Item>
           <Form.Item
@@ -325,13 +319,6 @@ function AdminProduct() {
             rules={[{ required: true, message: "Hãy nhập mã sản phẩm" }]}
           >
             <Input />
-          </Form.Item>
-          <Form.Item
-            name="cost"
-            label="Giá sản phẩm"
-            rules={[{ required: true, message: "Hãy nhập giá sản phẩm" }]}
-          >
-            <InputNumber min={0} />
           </Form.Item>
           <Form.Item
             name="metalType"
@@ -414,15 +401,8 @@ function AdminProduct() {
           >
             <InputNumber min={0} />
           </Form.Item>
-          <Form.Item
-            label="Ảnh"
-            rules={[{ required: true, message: "hãy nhập ảnh sản phẩm" }]}
-          >
-            <Upload
-              beforeUpload={() => false}
-              showUploadList={false}
-              onChange={handleFileChange}
-            >
+          <Form.Item label="Ảnh" rules={[{ required: true, message: "hãy nhập ảnh sản phẩm" }]}>
+            <Upload beforeUpload={() => false} showUploadList={false} onChange={handleFileChange}>
               <Button icon={<UploadOutlined />}>Select File</Button>
             </Upload>
             {visible == 2 && !imgUrl ? (
