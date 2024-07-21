@@ -144,17 +144,18 @@ const Dashboard = () => {
 
         getItem("Chat", "admin/chat", <ProfileOutlined />),
         getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
-        getItem(
-          "Thống kê tổng quát",
-          "admin/analytic",
-          <AppstoreAddOutlined />
-        ),
+        // getItem("Thống kê tổng quát", "admin/analytic", <AppstoreAddOutlined />),
+        getItem("Thống kê tổng quát", "admin/analytic", <AppstoreAddOutlined />, [
+          getItem("Sản phẩm bán chạy", "admin/topproduct"),
+          getItem("Bán theo thể loại", "admin/topcategory"),
+          getItem("Lịch sử giao dịch", "admin/transaction"),
+          getItem("Năng suất nhân viên", "admin/statistic/staff"),
+          getItem("Khách hàng đã đăng kí", "admin/statistic/customer"),
+          getItem("Khách hàng chưa đăng kí", "admin/statistic/customerunsigned"),
+        ]),
 
-        getItem(
-          "Sản phẩm bán chạy",
-          "admin/topproductsell",
-          <BarChartOutlined />
-        ),
+        getItem("Sản phẩm bán chạy", "admin/topproductsell", <BarChartOutlined />),
+
       ]);
     }
   }, [user.role]);

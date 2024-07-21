@@ -1,0 +1,10 @@
+/* styles.css */
+.chart-container {
+  margin-bottom: 20px;
+}
+
+.customer-demographic-chart,
+.customer-signup-chart {
+  height: 3000px; /* Set to your desired height */
+  overflow: hidden; /* Ensure no overflow */
+}

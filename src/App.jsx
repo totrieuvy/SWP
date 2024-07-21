@@ -69,6 +69,9 @@ import ProductBuyInactive from "./page/manager/productbuy/ProductBuyInactive";
 import Refund from "./component/Refund/Refund";
 import AssignWorkarea from "./page/manager/workarea/AssignWorkarea";
 import StatisticWorkArea from "./page/manager/statisticWorkarea/StatisticWorkArea";
+import PerformanceStaff from "./page/admin/statistic/PerformanceStaff";
+import CustomerStatistic from "./page/admin/statistic/CustomerStatistic";
+import CustomerStatisticUnsigned from "./page/admin/statistic/CustomerStatisticUnsigned";
 import ManageInventory from "./page/manager/inventory/ManageInventory";
 
 const PrivateProute = ({ role }) => {
@@ -163,7 +166,6 @@ function App() {
           <Route path="analytic" element={<Analytic />} />
           <Route path="statictic/account" element={<Statistic_Account />} />
           <Route path="chat" element={<ChatBox />} />
-
           <Route path="topproductsell" element={<TopProductSells />} />
           <Route path="statictic/account" element={<Statistic_Account />} />
           <Route
@@ -172,6 +174,12 @@ function App() {
           />
           <Route path="productbuy" element={<ProductBuyManager />} />
           <Route path="productbuy/inactive" element={<ProductBuyInactive />} />
+          <Route path="inactive/product" element={<InactiveProductSellAdmin />} />
+          <Route path="topproduct" element={<TopProductSells />} />
+          <Route path="transaction" element={<TransactionTotal />} />
+          <Route path="statistic/staff" element={<PerformanceStaff />} />
+          <Route path="statistic/customer" element={<CustomerStatistic />} />
+          <Route path="statistic/customerunsigned" element={<CustomerStatisticUnsigned />} />
           <Route
             path="inactive/product"
             element={<InactiveProductSellAdmin />}

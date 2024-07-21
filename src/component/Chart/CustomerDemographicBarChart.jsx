@@ -51,19 +51,27 @@ const CustomerDemographicBarChart = ({ startDate, endDate }) => {
     scales: {
       y: {
         beginAtZero: true,
+        ticks: {
+          callback: function (value) {
+            return Number.isInteger(value) ? value : null;
+          },
+        },
       },
     },
   };
 
   const handleDateChange = (dates) => {
     if (dates) {
-      startDate = moment(dates[0]);
-      endDate = moment(dates[1]);
+      startDate = moment(dates[0]).format("YYYY-MM-DD");
+      endDate = moment(dates[1]).format("YYYY-MM-DD");
+      // Optionally, you could trigger a new data fetch here if needed
     }
   };
 
   return (
-    <div className="CustomerDemographic">{loading ? <Spin size="large" /> : <Bar data={data} options={options} />}</div>
+    <div className="CustomerDemographic" style={{ height: "400px" }}>
+      {loading ? <Spin size="large" /> : <Bar data={data} options={options} />}
+    </div>
   );
 };
 

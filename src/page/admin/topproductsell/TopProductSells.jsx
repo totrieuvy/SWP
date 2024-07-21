@@ -1,25 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Bar } from "react-chartjs-2";
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from "chart.js";
 import api from "../../../config/axios";
 import { Spin } from "antd";
+import CategoryTotalPieChart from "../../../component/Chart/CategoryTotalPieChart";
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const TopProductSells = () => {
   const [chartData, setChartData] = useState({ labels: [], datasets: [] });
@@ -33,15 +19,10 @@ const TopProductSells = () => {
       .then((response) => {
         const data = response.data;
 
-        const totalRevenue = data.reduce(
-          (sum, item) => sum + item.revenueSold,
-          0
-        );
+        const totalRevenue = data.reduce((sum, item) => sum + item.revenueSold, 0);
         const totalUnits = data.reduce((sum, item) => sum + item.unitSold, 0);
 
-        const sortedData = data
-          .sort((a, b) => b.unitSold - a.unitSold)
-          .slice(0, 10);
+        const sortedData = data.sort((a, b) => b.unitSold - a.unitSold).slice(0, 10);
 
         const labels = sortedData.map((item) => item.product_Name);
         const unitSoldData = sortedData.map((item) => item.unitSold);
@@ -50,7 +31,7 @@ const TopProductSells = () => {
           labels: labels,
           datasets: [
             {
-              label: "Units Sold",
+              label: "Đơn vị tính",
               data: unitSoldData,
               backgroundColor: "rgba(75, 192, 192, 0.6)",
             },
@@ -91,28 +72,35 @@ const TopProductSells = () => {
     },
   };
 
+  React.useEffect(() => {
+    document.title = "Thống kê tổng quan";
+  }, []);
+
   return (
-    <div className="top-product-sell-container">
-      {loading ? (
-        <Spin size="large" />
-      ) : (
-        <>
-          <div className="top-product-sell-stats">
-            <div>
-              <h3>Total Revenue Sold</h3>
-              <p>{totalRevenue.toLocaleString()} VND</p>
+    <>
+      <div className="top-product-sell-container">
+        {loading ? (
+          <Spin size="large" />
+        ) : (
+          <>
+            <div className="top-product-sell-stats">
+              <div>
+                <h3>Total Revenue Sold</h3>
+                <p>{totalRevenue.toLocaleString()} VND</p>
+              </div>
+              <div>
+                <h3>Total Units Sold</h3>
+                <p>{totalUnits}</p>
+              </div>
             </div>
-            <div>
-              <h3>Total Units Sold</h3>
-              <p>{totalUnits}</p>
+            <div className="bar-chart">
+              <Bar data={chartData} options={options} />
             </div>
-          </div>
-          <div className="bar-chart">
-            <Bar data={chartData} options={options} />
-          </div>
-        </>
-      )}
-    </div>
+          </>
+        )}
+      </div>
+      <CategoryTotalPieChart />
+    </>
   );
 };
 
