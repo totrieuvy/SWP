@@ -65,7 +65,10 @@ import InactiveProductSell from "./page/manager/inactiveProductSell/InactiveProd
 import InactiveProductSellAdmin from "./page/manager/inactiveProductSell/InactiveProductSell";
 import ProductBuyManager from "./page/manager/productbuy/ProductBuyManager";
 import AppraisalPage from "./page/staff/staff-appraise/Appraise";
+import ProductBuyInactive from "./page/manager/productbuy/ProductBuyInactive";
 import Refund from "./component/Refund/Refund";
+import AssignWorkarea from "./page/manager/workarea/AssignWorkarea";
+import StatisticWorkArea from "./page/manager/statisticWorkarea/StatisticWorkArea";
 
 const PrivateProute = ({ role }) => {
   console.log(role);
@@ -122,26 +125,17 @@ function App() {
           {/* <Route path="transaction/detail/:orderID/:orderType" element={<TransactionDetail />} /> */}
           salecomparision
           <Route path="salecomparision" element={<SaleComparision />} />
-          <Route
-            path="transaction/detail/:orderID/OUTGOING"
-            element={<Transaction_ProductBuy />}
-          />
-          <Route
-            path="transaction/detail/:orderID/INGOING"
-            element={<Transaction_ProductSell />}
-          />
+          <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
+          <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
           <Route path="check/guarantee" element={<CheckGuarantee />} />
-          <Route
-            path="transaction/detail/:orderID/OUTGOING"
-            element={<Transaction_ProductBuy />}
-          />
-          <Route
-            path="transaction/detail/:orderID/INGOING"
-            element={<Transaction_ProductSell />}
-          />
+          <Route path="transaction/detail/:orderID/OUTGOING" element={<Transaction_ProductBuy />} />
+          <Route path="transaction/detail/:orderID/INGOING" element={<Transaction_ProductSell />} />
           <Route path="staff/range" element={<StaffPerformanceRange />} />
           <Route path="inactive/product" element={<InactiveProductSell />} />
           <Route path="productbuy" element={<ProductBuyManager />} />
+          <Route path="productbuy/inactive" element={<ProductBuyInactive />} />
+          <Route path="assign/workarea" element={<AssignWorkarea />} />
+          <Route path="statistic/workarea" element={<StatisticWorkArea />} />
         </Route>
       </Route>
       <Route path="admin" element={<PrivateProute role="ROLE_ADMIN" />}>
@@ -158,10 +152,10 @@ function App() {
 
           <Route path="topproductsell" element={<TopProductSells />} />
           <Route path="statictic/account" element={<Statistic_Account />} />
-          <Route
-            path="inactive/product"
-            element={<InactiveProductSellAdmin />}
-          />
+          <Route path="inactive/product" element={<InactiveProductSellAdmin />} />
+          <Route path="productbuy" element={<ProductBuyManager />} />
+          <Route path="productbuy/inactive" element={<ProductBuyInactive />} />
+          <Route path="inactive/product" element={<InactiveProductSellAdmin />} />
         </Route>
       </Route>
       <Route path="staff" element={<PrivateProute role={"ROLE_STAFF"} />}>

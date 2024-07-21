@@ -70,21 +70,13 @@ const Dashboard = () => {
         getItem("Chat", "staff/chat", <ProfileOutlined />),
 
         getItem("Mua lại", "staff/initialize-productbuy", <ProfileOutlined />),
-        getItem(
-          "Xác nhận đơn hàng",
-          "staff/confirm-order",
-          <ProfileOutlined />
-        ),
+        getItem("Xác nhận đơn hàng", "staff/confirm-order", <ProfileOutlined />),
       ]);
     } else if (user.role === "ROLE_MANAGER") {
       setItems([
         getItem("Hồ sơ", "profile", <UserOutlined />, [
           getItem("Thông tin cá nhân", `manager/profile/${user.id}`),
-          getItem(
-            "Đổi mật khẩu",
-            "manager/changepassword",
-            <ProfileOutlined />
-          ),
+          getItem("Đổi mật khẩu", "manager/changepassword", <ProfileOutlined />),
         ]),
         getItem("Quản lí nhân sự", "manager/manage", <UserOutlined />, [
           getItem("Danh sách nhân viên", "manager/staff"),
@@ -103,12 +95,13 @@ const Dashboard = () => {
           getItem("Sản phẩm bán", "manager/product"),
           getItem("Sản phẩm bán được xóa", "manager/inactive/product"),
           getItem("Sản phẩm mua vào", "manager/productbuy"),
+          getItem("Sản phẩm mua vào được xóa", "manager/productbuy/inactive"),
         ]),
-        getItem(
-          "Kiểm tra bảo hành",
-          "manager/check/guarantee",
-          <HeartOutlined />
-        ),
+        getItem("Quầy làm việc", "manager/workarea", <HeartOutlined />, [
+          getItem("Giao quầy làm việc", "manager/assign/workarea"),
+          getItem("Thông kê theo quầy", "manager/statistic/workarea"),
+        ]),
+        getItem("Kiểm tra bảo hành", "manager/check/guarantee", <HeartOutlined />),
 
         getItem("Khách hàng", "manager/customer/view", <UserOutlined />),
         getItem("Chat", "manager/chat", <ProfileOutlined />),
@@ -124,28 +117,18 @@ const Dashboard = () => {
           getItem("Quản lí", "admin/manager"),
           getItem("Nhân viên", "admin/staff"),
         ]),
-        getItem(
-          "Thống kê sản phẩm",
-          "viewproductadmin",
-          <AppstoreAddOutlined />,
-          [
-            getItem("Sản phẩm", "admin/product"),
-            getItem("Sản phẩm được xóa", "admin/inactive/product"),
-          ]
-        ),
+        getItem("Thống kê sản phẩm", "viewproductadmin", <AppstoreAddOutlined />, [
+          getItem("Sản phẩm bán", "admin/product"),
+          getItem("Sản phẩm bán được xóa", "admin/inactive/product"),
+          getItem("Sản phẩm mua", "admin/productbuy"),
+          getItem("Sản phẩm bán được xóa", "admin/productbuy/inactive"),
+        ]),
+
         getItem("Chat", "admin/chat", <ProfileOutlined />),
         getItem("Thể loại", "admin/category", <AppstoreAddOutlined />),
-        getItem(
-          "Thống kê tổng quát",
-          "admin/analytic",
-          <AppstoreAddOutlined />
-        ),
+        getItem("Thống kê tổng quát", "admin/analytic", <AppstoreAddOutlined />),
 
-        getItem(
-          "Sản phẩm bán chạy",
-          "admin/topproductsell",
-          <BarChartOutlined />
-        ),
+        getItem("Sản phẩm bán chạy", "admin/topproductsell", <BarChartOutlined />),
       ]);
     }
   }, [user.role]);
@@ -168,11 +151,7 @@ const Dashboard = () => {
 
   return (
     <Layout style={{ minHeight: "100vh" }} className="dashboard_overall">
-      <Sider
-        collapsible
-        collapsed={collapsed}
-        onCollapse={(value) => setCollapsed(value)}
-      >
+      <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
         <Menu
           theme="dark"
           defaultSelectedKeys={["profile"]}
@@ -185,10 +164,7 @@ const Dashboard = () => {
             item.children ? (
               <Menu.SubMenu key={item.key} icon={item.icon} title={item.label}>
                 {item.children.map((subItem) => (
-                  <Menu.Item
-                    key={subItem.key}
-                    onClick={(e) => handleSelectKey(e.keyPath[1])}
-                  >
+                  <Menu.Item key={subItem.key} onClick={(e) => handleSelectKey(e.keyPath[1])}>
                     <Link to={`/${subItem.key}`}>{subItem.label}</Link>
                   </Menu.Item>
                 ))}
@@ -199,19 +175,14 @@ const Dashboard = () => {
               </Menu.Item>
             )
           )}
-          <LogoutOutlined
-            onClick={handleLogout}
-            className="Dashbroad__Logout"
-          />
+          <LogoutOutlined onClick={handleLogout} className="Dashbroad__Logout" />
         </Menu>
       </Sider>
       <Layout>
         <Header style={{ padding: 0, background: colorBgContainer }}>
           <header></header>
         </Header>
-        <Content
-          style={{ margin: "0 16px", display: "flex", flexDirection: "column" }}
-        >
+        <Content style={{ margin: "0 16px", display: "flex", flexDirection: "column" }}>
           <Breadcrumb>
             {location.pathname.split("/").map((path, index) => (
               <Breadcrumb.Item key={path}>
