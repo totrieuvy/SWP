@@ -53,6 +53,9 @@ function DisplayOrder() {
     setScannedOrderID(childdata);
     setCustomerID(id);
   };
+  const removeFromAvailableOrders = (orderId) => {
+    setAvailableOrders((prev) => prev.filter((id) => id !== orderId));
+  };
 
   const clearOrder = () => {
     setOrder([]);
@@ -90,6 +93,7 @@ function DisplayOrder() {
             availableOrders={availableOrders}
             customerID={customerID}
             onFinishProcessing={finishProcessing}
+            removeFromAvailableOrders={removeFromAvailableOrders}
           />
         </>
       ) : (

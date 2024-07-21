@@ -20,6 +20,7 @@ function Total({
   availableOrders,
   customerID,
   onFinishProcessing,
+  removeFromAvailableOrders,
 }) {
   const [payMethod, setPayMethod] = useState("");
   const [subTotal, setSubTotal] = useState("0");
@@ -170,7 +171,7 @@ function Total({
             );
             clear();
             setLockedOrderId(null); // Clear the locked order ID
-
+            removeFromAvailableOrders(currentOrderID);
             onFinishProcessing(); // Call onFinishProcessing here
           } else {
             openNotification(
