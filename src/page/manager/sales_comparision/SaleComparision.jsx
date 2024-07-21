@@ -1,11 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import Chart from "chart.js/auto";
-import { Button, Input } from "antd";
+import { Button, Input, message } from "antd";
 import api from "../../../config/axios";
 
 function SaleComparision() {
   const chartRef = useRef(null);
-  const chartInstance = useRef(null); // Ref to hold the Chart instance
+  const chartInstance = useRef(null);
   const [years, setYears] = useState({ year1: "", year2: "" });
   const [dataRevenue, setDataRevenue] = useState([]);
   const [dataQuantity, setDataQuantity] = useState([]);
@@ -18,19 +18,41 @@ function SaleComparision() {
   };
 
   const handleConvertYearToArray = (year) => {
-    const yearDataa = [];
+    const yearArray = [];
     for (let i = parseInt(year.year1); i <= parseInt(year.year2); i++) {
-      yearDataa.push(i);
+      yearArray.push(i);
     }
-    setYearData(yearDataa);
+    setYearData(yearArray);
   };
 
   const fetchData = async () => {
+    const year1 = parseInt(years.year1);
+    const year2 = parseInt(years.year2);
+
+    if (!years.year1) {
+      message.error("Bắt buộc nhập năm bắt đầu");
+      return;
+    }
+
+    if (!years.year2) {
+      message.error("Bắt buộc nhập năm kết thúc");
+      return;
+    }
+
+    if (isNaN(year1) || isNaN(year2)) {
+      message.error("Năm phải là một số");
+      return;
+    }
+    if (year1 >= year2) {
+      message.error("Năm bắt đầu phải nhỏ hơn năm kết thúc");
+      return;
+    }
+
     try {
       const response = await api.get("/api/Dashboard/compare-sale-year", {
         params: {
-          year1: years.year1,
-          year2: years.year2,
+          startYear: years.year1,
+          endYear: years.year2,
         },
       });
       handleConvertYearToArray(years);
@@ -118,7 +140,7 @@ function SaleComparision() {
         name="year1"
         value={years.year1}
         onChange={handleChange}
-        placeholder="Enter first year"
+        placeholder="Nhập năm bắt đầu"
         style={{ width: 200, marginRight: 10 }}
       />
       <Input
@@ -126,7 +148,7 @@ function SaleComparision() {
         name="year2"
         value={years.year2}
         onChange={handleChange}
-        placeholder="Enter second year"
+        placeholder="Nhập năm kết thúc"
         style={{ width: 200, marginRight: 10 }}
       />
       <Button type="primary" onClick={fetchData}>
