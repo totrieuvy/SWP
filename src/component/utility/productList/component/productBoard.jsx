@@ -12,7 +12,7 @@ function ProductBoard() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await api.get(`/api/productSell`);
+        const response = await api.get(`/api/inventory`);
         setData(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -27,7 +27,6 @@ function ProductBoard() {
       title: "Tên",
       dataIndex: "pname",
       key: "pname",
-
       sorter: (a, b) => a.pname.localeCompare(b.pname),
     },
     {
@@ -38,18 +37,38 @@ function ProductBoard() {
     },
     {
       title: "Trạng thái",
-      dataIndex: "status",
+      dataIndex: "quantity",
       key: "status",
-      render: (status) => {
-        let color = status ? "geekblue" : "volcano";
-        let text = status ? "IN STOCK" : "OUT OF STOCK";
+      render: (quantity) => {
+        let color =
+          quantity === 0 ? "volcano" : quantity < 20 ? "orange" : "geekblue";
+        let text =
+          quantity === 0
+            ? "Hết hàng"
+            : quantity < 20
+            ? "Sắp hết hàng"
+            : "Còn hàng";
         return (
           <Tag color={color} key={text}>
             {text}
           </Tag>
         );
       },
-      sorter: (a, b) => (a.status === b.status ? 0 : a.status ? -1 : 1),
+      sorter: (a, b) => a.quantity - b.quantity,
+    },
+    {
+      title: "Số lượng",
+      dataIndex: "quantity",
+      key: "quantity",
+      sorter: (a, b) => a.quantity - b.quantity,
+      render: (quantity) => (
+        <Space>
+          {quantity}
+          {quantity < 20 && quantity > 0 && (
+            <Tag color="orange">Sắp hết hàng</Tag>
+          )}
+        </Space>
+      ),
     },
     {
       title: "Loại",
